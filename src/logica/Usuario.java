@@ -10,7 +10,7 @@ public class Usuario {
 	private String mail;
 	private LocalDate fechaNacimiento;
 	private String contrasena;
-	private boolean esAmbos;
+	private boolean tipo;
 	
 	public Usuario(String nickname, String nombre, String apellido, String mail, LocalDate fechaNacimiento, String contrasena, boolean esAmbos) {
 		this.nickname = nickname;
@@ -19,7 +19,7 @@ public class Usuario {
 		this.mail = mail;
 		this.fechaNacimiento = fechaNacimiento;
 		this.contrasena = contrasena;
-		this.esAmbos = esAmbos;
+		this.tipo = esAmbos;
 	}
 
 	public String getNickname() {
@@ -71,11 +71,11 @@ public class Usuario {
 	}
 
 	public boolean isEsAmbos() {
-		return esAmbos;
+		return tipo;
 	}
 
 	public void setEsAmbos(boolean esAmbos) {
-		this.esAmbos = esAmbos;
+		this.tipo = esAmbos;
 	}
 	
 }

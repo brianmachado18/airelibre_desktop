@@ -25,6 +25,7 @@ import javax.swing.JLabel;
 import javax.swing.JToggleButton;
 import javax.swing.JComboBox;
 import javax.swing.JRadioButton;
+import javax.swing.JButton;
 
 public class principal {
 
@@ -67,7 +68,6 @@ public class principal {
 		JInternalFrame IfAlta_Usuario = new JInternalFrame("Alta Usuario");
 		IfAlta_Usuario.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		IfAlta_Usuario.setBounds(133, 64, 516, 352);
-		IfAlta_Usuario.setClosable(true);
 		IfAlta_Usuario.setIconifiable(true);
 		IfAlta_Usuario.setMaximizable(true);
 		frmAirelibre.getContentPane().add(IfAlta_Usuario);
@@ -101,6 +101,14 @@ public class principal {
 		textField.setBounds(147, 55, 96, 19);
 		IfAlta_Usuario.getContentPane().add(textField);
 		textField.setColumns(10);
+		
+		JButton btnNewButton = new JButton("New button");
+		btnNewButton.setBounds(87, 275, 85, 21);
+		IfAlta_Usuario.getContentPane().add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("New button");
+		btnNewButton_1.setBounds(259, 275, 85, 21);
+		IfAlta_Usuario.getContentPane().add(btnNewButton_1);
 		
 		JMenuBar menuBar = new JMenuBar();
 		frmAirelibre.setJMenuBar(menuBar);

@@ -26,10 +26,21 @@ import javax.swing.JToggleButton;
 import javax.swing.JComboBox;
 import javax.swing.JRadioButton;
 import javax.swing.JButton;
+import javax.swing.JPasswordField;
+import java.awt.FlowLayout;
+import javax.swing.SwingConstants;
+import javax.swing.JCheckBox;
 
 public class principal {
 
 	private JFrame frmAirelibre;
+	private JTextField textNickname;
+	private JTextField textNombre;
+	private JTextField textApellido;
+	private JTextField textEmail;
+	private JTextField textFecha;
+	private JPasswordField passwordContrasena;
+	private JTextField textDisciplina;
 	private JTextField textField;
 
 	/**
@@ -67,48 +78,115 @@ public class principal {
 		
 		JInternalFrame IfAlta_Usuario = new JInternalFrame("Alta Usuario");
 		IfAlta_Usuario.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		IfAlta_Usuario.setBounds(133, 64, 516, 352);
+		IfAlta_Usuario.setBounds(167, 59, 526, 281);
 		IfAlta_Usuario.setIconifiable(true);
 		IfAlta_Usuario.setMaximizable(true);
 		frmAirelibre.getContentPane().add(IfAlta_Usuario);
 		IfAlta_Usuario.getContentPane().setLayout(null);
 		
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("");
-		rdbtnNewRadioButton.setBounds(151, 178, 21, 21);
-		IfAlta_Usuario.getContentPane().add(rdbtnNewRadioButton);
+		JLabel lblNickname = new JLabel("Nickname");
+		lblNickname.setBounds(10, 14, 63, 13);
+		IfAlta_Usuario.getContentPane().add(lblNickname);
 		
-		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("");
-		rdbtnNewRadioButton_1.setBounds(151, 204, 21, 21);
-		IfAlta_Usuario.getContentPane().add(rdbtnNewRadioButton_1);
+		JLabel lblNombre = new JLabel("Nombre");
+		lblNombre.setBounds(10, 75, 63, 13);
+		IfAlta_Usuario.getContentPane().add(lblNombre);
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setBounds(60, 58, 45, 13);
-		IfAlta_Usuario.getContentPane().add(lblNewLabel);
+		JLabel lblApellido = new JLabel("Apellido");
+		lblApellido.setBounds(10, 109, 63, 13);
+		IfAlta_Usuario.getContentPane().add(lblApellido);
 		
-		JLabel lblNewLabel_1 = new JLabel("New label");
-		lblNewLabel_1.setBounds(60, 89, 45, 13);
-		IfAlta_Usuario.getContentPane().add(lblNewLabel_1);
+		JLabel lblEmail = new JLabel("Email");
+		lblEmail.setBounds(10, 143, 63, 13);
+		IfAlta_Usuario.getContentPane().add(lblEmail);
 		
-		JLabel lblNewLabel_2 = new JLabel("New label");
-		lblNewLabel_2.setBounds(60, 123, 45, 13);
-		IfAlta_Usuario.getContentPane().add(lblNewLabel_2);
+		textNickname = new JTextField();
+		textNickname.setBounds(125, 14, 96, 19);
+		IfAlta_Usuario.getContentPane().add(textNickname);
+		textNickname.setColumns(10);
 		
-		JLabel lblNewLabel_2_1 = new JLabel("New label");
-		lblNewLabel_2_1.setBounds(60, 157, 45, 13);
-		IfAlta_Usuario.getContentPane().add(lblNewLabel_2_1);
+		JButton btnConfirmar = new JButton("Confirmar");
+		btnConfirmar.setBounds(270, 219, 105, 21);
+		IfAlta_Usuario.getContentPane().add(btnConfirmar);
+		
+		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setBounds(395, 219, 105, 21);
+		IfAlta_Usuario.getContentPane().add(btnCancelar);
+		
+		textNombre = new JTextField();
+		textNombre.setColumns(10);
+		textNombre.setBounds(125, 74, 96, 19);
+		IfAlta_Usuario.getContentPane().add(textNombre);
+		
+		textApellido = new JTextField();
+		textApellido.setColumns(10);
+		textApellido.setBounds(125, 108, 96, 19);
+		IfAlta_Usuario.getContentPane().add(textApellido);
+		
+		textEmail = new JTextField();
+		textEmail.setColumns(10);
+		textEmail.setBounds(125, 139, 96, 19);
+		IfAlta_Usuario.getContentPane().add(textEmail);
+		
+		JLabel lblFecha = new JLabel("Fecha de Nacimiento");
+		lblFecha.setBounds(10, 173, 105, 13);
+		IfAlta_Usuario.getContentPane().add(lblFecha);
+		
+		textFecha = new JTextField();
+		textFecha.setColumns(10);
+		textFecha.setBounds(125, 169, 96, 19);
+		IfAlta_Usuario.getContentPane().add(textFecha);
+		
+		JLabel lblContrasena = new JLabel("Contraseña");
+		lblContrasena.setBounds(10, 47, 63, 13);
+		IfAlta_Usuario.getContentPane().add(lblContrasena);
+		
+		passwordContrasena = new JPasswordField();
+		passwordContrasena.setBounds(125, 43, 96, 20);
+		IfAlta_Usuario.getContentPane().add(passwordContrasena);
+		
+		JPanel panelDeposrtista = new JPanel();
+		FlowLayout fl_panelDeposrtista = (FlowLayout) panelDeposrtista.getLayout();
+		fl_panelDeposrtista.setAlignment(FlowLayout.LEFT);
+		fl_panelDeposrtista.setAlignOnBaseline(true);
+		panelDeposrtista.setBounds(259, 55, 233, 33);
+		IfAlta_Usuario.getContentPane().add(panelDeposrtista);
+		
+		JCheckBox chckbxEsProfesioanl = new JCheckBox("Profesional");
+		panelDeposrtista.add(chckbxEsProfesioanl);
+		
+		JRadioButton rdbtnDeportista = new JRadioButton("Deportista");
+		rdbtnDeportista.setHorizontalAlignment(SwingConstants.LEFT);
+		rdbtnDeportista.setBounds(259, 37, 85, 21);
+		IfAlta_Usuario.getContentPane().add(rdbtnDeportista);
+		
+		JRadioButton rdbtnEntrenador = new JRadioButton("Entrenador");
+		rdbtnEntrenador.setHorizontalAlignment(SwingConstants.LEFT);
+		rdbtnEntrenador.setBounds(259, 105, 85, 21);
+		IfAlta_Usuario.getContentPane().add(rdbtnEntrenador);
+		
+		JPanel panelEntrenador = new JPanel();
+		panelEntrenador.setBounds(259, 125, 233, 55);
+		IfAlta_Usuario.getContentPane().add(panelEntrenador);
+		panelEntrenador.setLayout(null);
+		
+		JLabel lblDisciplina = new JLabel("Disciplina");
+		lblDisciplina.setBounds(10, 5, 68, 14);
+		panelEntrenador.add(lblDisciplina);
+		
+		textDisciplina = new JTextField();
+		textDisciplina.setColumns(10);
+		textDisciplina.setBounds(88, 2, 135, 19);
+		panelEntrenador.add(textDisciplina);
 		
 		textField = new JTextField();
-		textField.setBounds(147, 55, 96, 19);
-		IfAlta_Usuario.getContentPane().add(textField);
 		textField.setColumns(10);
+		textField.setBounds(88, 32, 135, 19);
+		panelEntrenador.add(textField);
 		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.setBounds(87, 275, 85, 21);
-		IfAlta_Usuario.getContentPane().add(btnNewButton);
-		
-		JButton btnNewButton_1 = new JButton("New button");
-		btnNewButton_1.setBounds(259, 275, 85, 21);
-		IfAlta_Usuario.getContentPane().add(btnNewButton_1);
+		JLabel lblWeb = new JLabel("Pagina Web");
+		lblWeb.setBounds(10, 35, 68, 14);
+		panelEntrenador.add(lblWeb);
 		
 		JMenuBar menuBar = new JMenuBar();
 		frmAirelibre.setJMenuBar(menuBar);

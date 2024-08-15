@@ -1,1 +1,4 @@
 /presentacion/
+/.gitignore
+/logica/
+/module-info.class

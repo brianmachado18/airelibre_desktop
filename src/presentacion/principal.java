@@ -78,7 +78,7 @@ public class principal {
 		
 		JInternalFrame IfAlta_Usuario = new JInternalFrame("Alta Usuario");
 		IfAlta_Usuario.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		IfAlta_Usuario.setBounds(167, 59, 526, 281);
+		IfAlta_Usuario.setBounds(167, 59, 524, 257);
 		IfAlta_Usuario.setIconifiable(true);
 		IfAlta_Usuario.setMaximizable(true);
 		frmAirelibre.getContentPane().add(IfAlta_Usuario);
@@ -106,11 +106,11 @@ public class principal {
 		textNickname.setColumns(10);
 		
 		JButton btnConfirmar = new JButton("Confirmar");
-		btnConfirmar.setBounds(270, 219, 105, 21);
+		btnConfirmar.setBounds(278, 195, 105, 21);
 		IfAlta_Usuario.getContentPane().add(btnConfirmar);
 		
 		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(395, 219, 105, 21);
+		btnCancelar.setBounds(393, 195, 105, 21);
 		IfAlta_Usuario.getContentPane().add(btnCancelar);
 		
 		textNombre = new JTextField();
@@ -149,7 +149,7 @@ public class principal {
 		FlowLayout fl_panelDeposrtista = (FlowLayout) panelDeposrtista.getLayout();
 		fl_panelDeposrtista.setAlignment(FlowLayout.LEFT);
 		fl_panelDeposrtista.setAlignOnBaseline(true);
-		panelDeposrtista.setBounds(259, 55, 233, 33);
+		panelDeposrtista.setBounds(253, 32, 233, 33);
 		IfAlta_Usuario.getContentPane().add(panelDeposrtista);
 		
 		JCheckBox chckbxEsProfesioanl = new JCheckBox("Profesional");
@@ -157,16 +157,16 @@ public class principal {
 		
 		JRadioButton rdbtnDeportista = new JRadioButton("Deportista");
 		rdbtnDeportista.setHorizontalAlignment(SwingConstants.LEFT);
-		rdbtnDeportista.setBounds(259, 37, 85, 21);
+		rdbtnDeportista.setBounds(253, 14, 85, 21);
 		IfAlta_Usuario.getContentPane().add(rdbtnDeportista);
 		
 		JRadioButton rdbtnEntrenador = new JRadioButton("Entrenador");
 		rdbtnEntrenador.setHorizontalAlignment(SwingConstants.LEFT);
-		rdbtnEntrenador.setBounds(259, 105, 85, 21);
+		rdbtnEntrenador.setBounds(253, 82, 85, 21);
 		IfAlta_Usuario.getContentPane().add(rdbtnEntrenador);
 		
 		JPanel panelEntrenador = new JPanel();
-		panelEntrenador.setBounds(259, 125, 233, 55);
+		panelEntrenador.setBounds(253, 102, 233, 55);
 		IfAlta_Usuario.getContentPane().add(panelEntrenador);
 		panelEntrenador.setLayout(null);
 		

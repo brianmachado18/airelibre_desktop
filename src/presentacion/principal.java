@@ -33,6 +33,13 @@ import javax.swing.SwingConstants;
 import javax.swing.JCheckBox;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
+import javax.swing.JTable;
+import javax.swing.JList;
+import java.awt.Choice;
+import java.awt.List;
+import java.awt.Label;
+import java.awt.TextField;
+import java.awt.Button;
 
 public class principal {
 
@@ -45,6 +52,12 @@ public class principal {
 	private JPasswordField passwordContrasena;
 	private JTextField textDisciplina;
 	private JTextField textWeb;
+	private JTextField textNombreConsulta;
+	private JTextField textApellidoConsulta;
+	private JTextField textEmailConsulta;
+	private JTextField textFechaConsulta;
+	private JTextField textDisciplinaConsulta;
+	private JTextField textWebConsulta;
 
 	/**
 	 * Launch the application.
@@ -80,13 +93,21 @@ public class principal {
 		frmAirelibre.setTitle("AireLibre");
 		frmAirelibre.getContentPane().setLayout(null);
 		
-		JInternalFrame IfAlta_Usuario = new JInternalFrame("Alta Usuario");
-		IfAlta_Usuario.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		IfAlta_Usuario.setBounds(10, 11, 524, 257);
-		IfAlta_Usuario.setIconifiable(true);
-		IfAlta_Usuario.setMaximizable(true);
-		frmAirelibre.getContentPane().add(IfAlta_Usuario);
-		IfAlta_Usuario.getContentPane().setLayout(null);
+		JInternalFrame IFAltaUsuario = new JInternalFrame("Alta Usuario");
+		IFAltaUsuario.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		IFAltaUsuario.setBounds(10, 11, 524, 257);
+		IFAltaUsuario.setIconifiable(true);
+		IFAltaUsuario.setMaximizable(true);
+		frmAirelibre.getContentPane().add(IFAltaUsuario);
+		IFAltaUsuario.getContentPane().setLayout(null);	
+
+		JInternalFrame IFConsultaUsuario = new JInternalFrame("Consulta Usuario");
+		IFConsultaUsuario.setMaximizable(true);
+		IFConsultaUsuario.setIconifiable(true);
+		IFConsultaUsuario.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		IFConsultaUsuario.setBounds(191, 122, 658, 362);
+		frmAirelibre.getContentPane().add(IFConsultaUsuario);
+		IFConsultaUsuario.getContentPane().setLayout(null);
 		
 		//=== MENU BAR =====================================================================================
 		JMenuBar menuBar = new JMenuBar();
@@ -99,13 +120,19 @@ public class principal {
 		 mntmAltaUsuario.addActionListener(new ActionListener() {
 	            public void actionPerformed(ActionEvent e) {
 	                // Muestro el InternalFrame para registrar un usuario
-	            	IfAlta_Usuario.setVisible(true);
+	            	IFAltaUsuario.setVisible(true);
 	            }
 	        });
 		mnNewMenu.add(mntmAltaUsuario);
 		
 		
 		JMenuItem mntmConsultaUsuario = new JMenuItem("Consulta Usuario");
+		mntmConsultaUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Muestro el InternalFrame para registrar un usuario
+				IFConsultaUsuario.setVisible(true);
+			}
+		});
 		mnNewMenu.add(mntmConsultaUsuario);
 		
 		JMenuItem mntmModificarUsuario = new JMenuItem("Modificar Usuario");
@@ -140,68 +167,69 @@ public class principal {
 		
 		JMenuItem mntmConsultaInscripcion = new JMenuItem("Consulta Inscripcion");
 		mnNewMenu_2.add(mntmConsultaInscripcion);
-		IfAlta_Usuario.setVisible(false);
+		IFAltaUsuario.setVisible(false);
+		IFConsultaUsuario.setVisible(false);
 		
 		//=== FRAME ALTA USUARIO ===========================================================================
 		JLabel lblNickname = new JLabel("Nickname");
 		lblNickname.setBounds(10, 14, 63, 13);
-		IfAlta_Usuario.getContentPane().add(lblNickname);
+		IFAltaUsuario.getContentPane().add(lblNickname);
 		
 		JLabel lblContrasena = new JLabel("Contraseña");
 		lblContrasena.setBounds(10, 47, 63, 13);
-		IfAlta_Usuario.getContentPane().add(lblContrasena);
+		IFAltaUsuario.getContentPane().add(lblContrasena);
 		
 		JLabel lblNombre = new JLabel("Nombre");
-		lblNombre.setBounds(10, 75, 63, 13);
-		IfAlta_Usuario.getContentPane().add(lblNombre);
+		lblNombre.setBounds(10, 72, 63, 13);
+		IFAltaUsuario.getContentPane().add(lblNombre);
 		
 		JLabel lblApellido = new JLabel("Apellido");
-		lblApellido.setBounds(10, 109, 63, 13);
-		IfAlta_Usuario.getContentPane().add(lblApellido);
+		lblApellido.setBounds(10, 106, 63, 13);
+		IFAltaUsuario.getContentPane().add(lblApellido);
 		
 		JLabel lblEmail = new JLabel("Email");
-		lblEmail.setBounds(10, 143, 63, 13);
-		IfAlta_Usuario.getContentPane().add(lblEmail);
+		lblEmail.setBounds(10, 140, 63, 13);
+		IFAltaUsuario.getContentPane().add(lblEmail);
 		
 		JLabel lblFecha = new JLabel("Fecha de Nacimiento");
-		lblFecha.setBounds(10, 173, 105, 13);
-		IfAlta_Usuario.getContentPane().add(lblFecha);
+		lblFecha.setBounds(10, 170, 105, 13);
+		IFAltaUsuario.getContentPane().add(lblFecha);
 		
 		textNickname = new JTextField();
 		textNickname.setBounds(125, 14, 96, 19);
-		IfAlta_Usuario.getContentPane().add(textNickname);
+		IFAltaUsuario.getContentPane().add(textNickname);
 		
 		passwordContrasena = new JPasswordField();
 		passwordContrasena.setBounds(125, 43, 96, 20);
-		IfAlta_Usuario.getContentPane().add(passwordContrasena);
+		IFAltaUsuario.getContentPane().add(passwordContrasena);
 		textNickname.setColumns(10);
 		
 		textNombre = new JTextField();
 		textNombre.setColumns(10);
-		textNombre.setBounds(125, 74, 96, 19);
-		IfAlta_Usuario.getContentPane().add(textNombre);
+		textNombre.setBounds(125, 71, 96, 19);
+		IFAltaUsuario.getContentPane().add(textNombre);
 		
 		textApellido = new JTextField();
 		textApellido.setColumns(10);
-		textApellido.setBounds(125, 108, 96, 19);
-		IfAlta_Usuario.getContentPane().add(textApellido);
+		textApellido.setBounds(125, 105, 96, 19);
+		IFAltaUsuario.getContentPane().add(textApellido);
 		
 		textEmail = new JTextField();
 		textEmail.setColumns(10);
-		textEmail.setBounds(125, 139, 96, 19);
-		IfAlta_Usuario.getContentPane().add(textEmail);
+		textEmail.setBounds(125, 136, 96, 19);
+		IFAltaUsuario.getContentPane().add(textEmail);
 		
 		textFecha = new JTextField();
 		textFecha.setColumns(10);
 		textFecha.setBounds(125, 169, 96, 19);
-		IfAlta_Usuario.getContentPane().add(textFecha);
+		IFAltaUsuario.getContentPane().add(textFecha);
 		
 		JPanel panelDeposrtista = new JPanel();
 		FlowLayout fl_panelDeposrtista = (FlowLayout) panelDeposrtista.getLayout();
 		fl_panelDeposrtista.setAlignment(FlowLayout.LEFT);
 		fl_panelDeposrtista.setAlignOnBaseline(true);
 		panelDeposrtista.setBounds(253, 32, 233, 33);
-		IfAlta_Usuario.getContentPane().add(panelDeposrtista);
+		IFAltaUsuario.getContentPane().add(panelDeposrtista);
 		
 		JCheckBox chckbxEsProfesioanl = new JCheckBox("Profesional");
 		chckbxEsProfesioanl.setEnabled(false);
@@ -209,7 +237,7 @@ public class principal {
 		
 		JPanel panelEntrenador = new JPanel();
 		panelEntrenador.setBounds(253, 102, 233, 55);
-		IfAlta_Usuario.getContentPane().add(panelEntrenador);
+		IFAltaUsuario.getContentPane().add(panelEntrenador);
 		panelEntrenador.setLayout(null);
 		
 		JLabel lblDisciplina = new JLabel("Disciplina");
@@ -246,7 +274,7 @@ public class principal {
 		});
 		rdbtnDeportista.setHorizontalAlignment(SwingConstants.LEFT);
 		rdbtnDeportista.setBounds(253, 14, 233, 21);
-		IfAlta_Usuario.getContentPane().add(rdbtnDeportista);
+		IFAltaUsuario.getContentPane().add(rdbtnDeportista);
 		
 		JRadioButton rdbtnEntrenador = new JRadioButton("Entrenador");
 		rdbtnEntrenador.addItemListener(new ItemListener() {
@@ -267,7 +295,7 @@ public class principal {
 		});
 		rdbtnEntrenador.setHorizontalAlignment(SwingConstants.LEFT);
 		rdbtnEntrenador.setBounds(253, 82, 233, 21);
-		IfAlta_Usuario.getContentPane().add(rdbtnEntrenador);
+		IFAltaUsuario.getContentPane().add(rdbtnEntrenador);
 		
 		//Grupo de botones para que solo se seleccione uno
 		ButtonGroup rdbtnGroup = new ButtonGroup();
@@ -276,7 +304,7 @@ public class principal {
 		
 		JButton btnConfirmar = new JButton("Confirmar");
 		btnConfirmar.setBounds(278, 195, 105, 21);
-		IfAlta_Usuario.getContentPane().add(btnConfirmar);
+		IFAltaUsuario.getContentPane().add(btnConfirmar);
 		
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
@@ -291,15 +319,132 @@ public class principal {
 				textWeb.setText(null);
 				chckbxEsProfesioanl.setSelected(false);
 				rdbtnGroup.clearSelection();
-				IfAlta_Usuario.setVisible(false);
+				IFAltaUsuario.setVisible(false);
 			}
 		});
 		btnCancelar.setBounds(393, 195, 105, 21);
-		IfAlta_Usuario.getContentPane().add(btnCancelar);
+		IFAltaUsuario.getContentPane().add(btnCancelar);
+		
+		//=== FRAME CONSULTA USUARIO ===========================================================================
+		
+		
+		Label lblNicknameConsulta = new Label("Nickname");
+		lblNicknameConsulta.setBounds(157, 21, 62, 22);
+		IFConsultaUsuario.getContentPane().add(lblNicknameConsulta);
+		
+		TextField textNicknameConsulta = new TextField();
+		textNicknameConsulta.setBounds(225, 21, 95, 22);
+		IFConsultaUsuario.getContentPane().add(textNicknameConsulta);
+		
+		Button btmBuscarConsulta = new Button("Buscar");
+		btmBuscarConsulta.setBounds(352, 21, 70, 22);
+		IFConsultaUsuario.getContentPane().add(btmBuscarConsulta);
+		
+		textNombreConsulta = new JTextField();
+		textNombreConsulta.setEditable(false);
+		textNombreConsulta.setColumns(10);
+		textNombreConsulta.setBounds(275, 114, 96, 19);
+		IFConsultaUsuario.getContentPane().add(textNombreConsulta);
+		
+		JLabel lblNombre_1 = new JLabel("Nombre");
+		lblNombre_1.setBounds(157, 120, 63, 13);
+		IFConsultaUsuario.getContentPane().add(lblNombre_1);
+		
+		JLabel lblApellido_1 = new JLabel("Apellido");
+		lblApellido_1.setBounds(157, 148, 63, 13);
+		IFConsultaUsuario.getContentPane().add(lblApellido_1);
+		
+		textApellidoConsulta = new JTextField();
+		textApellidoConsulta.setEditable(false);
+		textApellidoConsulta.setColumns(10);
+		textApellidoConsulta.setBounds(275, 144, 96, 19);
+		IFConsultaUsuario.getContentPane().add(textApellidoConsulta);
+		
+		textEmailConsulta = new JTextField();
+		textEmailConsulta.setEditable(false);
+		textEmailConsulta.setColumns(10);
+		textEmailConsulta.setBounds(275, 174, 96, 19);
+		IFConsultaUsuario.getContentPane().add(textEmailConsulta);
+		
+		JLabel lblEmail_1 = new JLabel("Email");
+		lblEmail_1.setBounds(157, 178, 63, 13);
+		IFConsultaUsuario.getContentPane().add(lblEmail_1);
+		
+		JLabel lblFecha_1 = new JLabel("Fecha de Nacimiento");
+		lblFecha_1.setBounds(160, 208, 105, 13);
+		IFConsultaUsuario.getContentPane().add(lblFecha_1);
+		
+		textFechaConsulta = new JTextField();
+		textFechaConsulta.setEditable(false);
+		textFechaConsulta.setColumns(10);
+		textFechaConsulta.setBounds(275, 204, 96, 19);
+		IFConsultaUsuario.getContentPane().add(textFechaConsulta);
+		
+		JRadioButton rdbtnEntrenadorConsulta = new JRadioButton("Entrenador");
+		rdbtnEntrenadorConsulta.setEnabled(false);
+		rdbtnEntrenadorConsulta.setHorizontalAlignment(SwingConstants.LEFT);
+		rdbtnEntrenadorConsulta.setBounds(403, 143, 233, 21);
+		IFConsultaUsuario.getContentPane().add(rdbtnEntrenadorConsulta);
+		
+		JRadioButton rdbtnDeportistaConsulta = new JRadioButton("Deportista");
+		rdbtnDeportistaConsulta.setEnabled(false);
+		rdbtnDeportistaConsulta.setHorizontalAlignment(SwingConstants.LEFT);
+		rdbtnDeportistaConsulta.setBounds(403, 80, 233, 21);
+		IFConsultaUsuario.getContentPane().add(rdbtnDeportistaConsulta);
+		
+		JPanel panelDeposrtista_1 = new JPanel();
+		panelDeposrtista_1.setBounds(403, 100, 233, 33);
+		IFConsultaUsuario.getContentPane().add(panelDeposrtista_1);
+		
+		JCheckBox chckbxEsProfesioanlConsulta = new JCheckBox("Profesional");
+		chckbxEsProfesioanlConsulta.setEnabled(false);
+		panelDeposrtista_1.add(chckbxEsProfesioanlConsulta);
+		
+		JPanel panelEntrenador_1 = new JPanel();
+		panelEntrenador_1.setLayout(null);
+		panelEntrenador_1.setBounds(403, 169, 233, 55);
+		IFConsultaUsuario.getContentPane().add(panelEntrenador_1);
+		
+		JLabel lblDisciplina_1 = new JLabel("Disciplina");
+		lblDisciplina_1.setEnabled(false);
+		lblDisciplina_1.setBounds(10, 5, 68, 14);
+		panelEntrenador_1.add(lblDisciplina_1);
+		
+		JLabel lblWeb_1 = new JLabel("Pagina Web");
+		lblWeb_1.setEnabled(false);
+		lblWeb_1.setBounds(10, 35, 68, 14);
+		panelEntrenador_1.add(lblWeb_1);
+		
+		textDisciplinaConsulta = new JTextField();
+		textDisciplinaConsulta.setEnabled(false);
+		textDisciplinaConsulta.setColumns(10);
+		textDisciplinaConsulta.setBounds(88, 2, 135, 19);
+		panelEntrenador_1.add(textDisciplinaConsulta);
+		
+		textWebConsulta = new JTextField();
+		textWebConsulta.setEnabled(false);
+		textWebConsulta.setColumns(10);
+		textWebConsulta.setBounds(88, 32, 135, 19);
+		panelEntrenador_1.add(textWebConsulta);
+		
+		JButton btnCancelarConsulta = new JButton("Cancelar");
+		btnCancelarConsulta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textNicknameConsulta.setText(null);
+				IFConsultaUsuario.setVisible(false);
+			}
+		});
+		btnCancelarConsulta.setBounds(527, 301, 105, 21);
+		IFConsultaUsuario.getContentPane().add(btnCancelarConsulta);
+
+		//=== LISTA CON USUARIOS ===========================================================================
+		
+		List listConsultaUsuario = new List();
+		listConsultaUsuario.setBounds(10, 10, 110, 312);
+		IFConsultaUsuario.getContentPane().add(listConsultaUsuario);
 		
 		
 		//=== FRAME X ==============================================================================
 		
 	}
-	
 }

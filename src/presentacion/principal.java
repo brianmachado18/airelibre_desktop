@@ -113,8 +113,8 @@ public class principal {
 		JMenuBar menuBar = new JMenuBar();
 		frmAirelibre.setJMenuBar(menuBar);
 		
-		JMenu mnNewMenu = new JMenu("Usuario");
-		menuBar.add(mnNewMenu);
+		JMenu mnUsuario = new JMenu("Usuario");
+		menuBar.add(mnUsuario);
 		
 		JMenuItem mntmAltaUsuario = new JMenuItem("Alta Usuario");
 		 mntmAltaUsuario.addActionListener(new ActionListener() {
@@ -123,7 +123,7 @@ public class principal {
 	            	IFAltaUsuario.setVisible(true);
 	            }
 	        });
-		mnNewMenu.add(mntmAltaUsuario);
+		mnUsuario.add(mntmAltaUsuario);
 		
 		
 		JMenuItem mntmConsultaUsuario = new JMenuItem("Consulta Usuario");
@@ -133,40 +133,40 @@ public class principal {
 				IFConsultaUsuario.setVisible(true);
 			}
 		});
-		mnNewMenu.add(mntmConsultaUsuario);
+		mnUsuario.add(mntmConsultaUsuario);
 		
 		JMenuItem mntmModificarUsuario = new JMenuItem("Modificar Usuario");
-		mnNewMenu.add(mntmModificarUsuario);
+		mnUsuario.add(mntmModificarUsuario);
 		
-		JMenu mnNewMenu_1 = new JMenu("Actividad");
-		menuBar.add(mnNewMenu_1);
+		JMenu mnActividad = new JMenu("Actividad");
+		menuBar.add(mnActividad);
 		
 		JMenuItem mntmAltaActividad = new JMenuItem("Alta Actividad");
-		mnNewMenu_1.add(mntmAltaActividad);
+		mnActividad.add(mntmAltaActividad);
 		
 		JMenuItem mntmConsultaActividad = new JMenuItem("Consulta Actividad");
-		mnNewMenu_1.add(mntmConsultaActividad);
+		mnActividad.add(mntmConsultaActividad);
 		
 		JMenuItem mntmModificarActividad = new JMenuItem("Modificar Actividad");
-		mnNewMenu_1.add(mntmModificarActividad);
+		mnActividad.add(mntmModificarActividad);
 		
 		JMenuItem mntmRankingActividad = new JMenuItem("Ranking Actividad");
-		mnNewMenu_1.add(mntmRankingActividad);
+		mnActividad.add(mntmRankingActividad);
 		
-		JMenu mnNewMenu_2 = new JMenu("Clase e Inscrip");
-		menuBar.add(mnNewMenu_2);
+		JMenu mnClasesInscrip = new JMenu("Clase e Inscrip");
+		menuBar.add(mnClasesInscrip);
 		
 		JMenuItem mntmAltaClase = new JMenuItem("Alta Clase");
-		mnNewMenu_2.add(mntmAltaClase);
+		mnClasesInscrip.add(mntmAltaClase);
 		
 		JMenuItem mntmConsultaClase = new JMenuItem("Consulta Clase");
-		mnNewMenu_2.add(mntmConsultaClase);
+		mnClasesInscrip.add(mntmConsultaClase);
 		
 		JMenuItem mntmAltaInscripcion = new JMenuItem("Alta Inscripcion");
-		mnNewMenu_2.add(mntmAltaInscripcion);
+		mnClasesInscrip.add(mntmAltaInscripcion);
 		
 		JMenuItem mntmConsultaInscripcion = new JMenuItem("Consulta Inscripcion");
-		mnNewMenu_2.add(mntmConsultaInscripcion);
+		mnClasesInscrip.add(mntmConsultaInscripcion);
 		IFAltaUsuario.setVisible(false);
 		IFConsultaUsuario.setVisible(false);
 		
@@ -446,15 +446,14 @@ public class principal {
 		
 		//=== FRAME X ==============================================================================
 		
-<<<<<<< Updated upstream
-=======
+
 		
 		//=== EVENTOS MENU =========================================================================
 		mntmAltaUsuario.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	// Posible solucion para reutilizar el frame
-            	IfAlta_Usuario.setTitle("Alta Usuario");
-            	IfAlta_Usuario.setClosable(false);
+            	IFAltaUsuario.setTitle("Alta Usuario");
+            	IFAltaUsuario.setClosable(false);
             	btnConfirmar.setVisible(true);
             	btnCancelar.setVisible(true);
             	// Bloquear MenuBar
@@ -462,15 +461,15 @@ public class principal {
             	mnActividad.setEnabled(false);
             	mnClasesInscrip.setEnabled(false);
                 // Muestro el InternalFrame para registrar un usuario
-            	IfAlta_Usuario.setVisible(true);
+            	IFAltaUsuario.setVisible(true);
             }
 		});
 		
 		mntmModificarUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Posible solucion para reutilizar el frame
-            	IfAlta_Usuario.setTitle("Modificar Usuario: [NICKNAME]");
-            	IfAlta_Usuario.setClosable(false);
+				IFAltaUsuario.setTitle("Modificar Usuario: [NICKNAME]");
+				IFAltaUsuario.setClosable(false);
             	btnConfirmar.setVisible(true);
             	btnCancelar.setVisible(true);
             	// Bloquear MenuBar
@@ -478,11 +477,10 @@ public class principal {
             	mnActividad.setEnabled(false);
             	mnClasesInscrip.setEnabled(false);
                 // Muestro el InternalFrame para modificar un usuario
-            	IfAlta_Usuario.setVisible(true);
+            	IFAltaUsuario.setVisible(true);
 			}
 		});
 		
 		//==========================================================================================
->>>>>>> Stashed changes
 	}
 }

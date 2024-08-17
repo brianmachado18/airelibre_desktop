@@ -1,9 +1,9 @@
 package logica;
 
-import java.time.*;
+import java.time.LocalDate;
 
 public class Deportista extends Usuario{
-	
+
 	boolean esProfesional;
 
 	public Deportista(String nickname, String nombre, String apellido, String mail, LocalDate fechaNacimiento,
@@ -19,5 +19,5 @@ public class Deportista extends Usuario{
 	public void setEsProfesional(boolean esProfesional) {
 		this.esProfesional = esProfesional;
 	}
-	
+
 }

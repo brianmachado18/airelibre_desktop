@@ -1,8 +1,8 @@
 package excepciones;
 
 @SuppressWarnings("serial")
-/*La advertencia "serial" se genera por el compilador cuando una clase implementa Serializable 
- * pero no tiene el campo serialVersionUID. La anotaci�n @SuppressWarnings("serial") se coloca en la clase 
+/*La advertencia "serial" se genera por el compilador cuando una clase implementa Serializable
+ * pero no tiene el campo serialVersionUID. La anotaci�n @SuppressWarnings("serial") se coloca en la clase
  * para indicar al compilador que ignore esta advertencia espec�fica.*/
 
 public class UsuarioRepetidoException extends Exception {

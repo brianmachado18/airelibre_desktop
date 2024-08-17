@@ -89,6 +89,7 @@ public class principal {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
 		//=== FRAME AIRELIBRE ==============================================================================
 		frmAirelibre = new JFrame();
 		frmAirelibre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -126,7 +127,6 @@ public class principal {
 	            }
 	        });
 		mnUsuario.add(mntmAltaUsuario);
-		
 		
 		JMenuItem mntmConsultaUsuario = new JMenuItem("Consulta Usuario");
 		mntmConsultaUsuario.addActionListener(new ActionListener() {
@@ -172,7 +172,7 @@ public class principal {
 		IFAltaUsuario.setVisible(false);
 		IFConsultaUsuario.setVisible(false);
 		
-		//=== FRAME ALTA USUARIO ===========================================================================
+		//=== FRAME ALTA Y MODIFICACION USUARIO ============================================================
 		JLabel lblNickname = new JLabel("Nickname");
 		lblNickname.setBounds(10, 14, 63, 13);
 		IFAltaUsuario.getContentPane().add(lblNickname);
@@ -328,8 +328,6 @@ public class principal {
 		IFAltaUsuario.getContentPane().add(btnCancelar);
 		
 		//=== FRAME CONSULTA USUARIO ===========================================================================
-		
-		
 		Label lblNicknameConsulta = new Label("Nickname");
 		lblNicknameConsulta.setBounds(157, 21, 62, 22);
 		IFConsultaUsuario.getContentPane().add(lblNicknameConsulta);
@@ -439,8 +437,7 @@ public class principal {
 		btnCancelarConsulta.setBounds(527, 301, 105, 21);
 		IFConsultaUsuario.getContentPane().add(btnCancelarConsulta);
 
-		//=== LISTA CON USUARIOS ===========================================================================
-		
+		//=== LISTA CON USUARIOS ===================================================================
 		List listConsultaUsuario = new List();
 		listConsultaUsuario.setBounds(10, 10, 110, 312);
 		IFConsultaUsuario.getContentPane().add(listConsultaUsuario);

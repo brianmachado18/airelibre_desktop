@@ -1,6 +1,7 @@
 package logica;
 
 import java.time.*;
+import datatype.DtActividad;
 import excepciones.ActividadRepetidaException;
 import excepciones.ActividadNoExisteException;
 

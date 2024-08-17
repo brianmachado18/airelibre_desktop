@@ -25,8 +25,8 @@ public interface IControladorUsuario {
      * Retorna la informacion del usuario especificado con el nick.
      * @throws UsuarioNoExisteException Si el nickname del usuario no está registrada en el sistema.
      */
-    public abstract DTDeportista verInfoDeportista(String nickname)throws UsuarioNoExisteException;
-    public abstract DTEntrenador verInfoEntrenador(String nickname)throws UsuarioNoExisteException;
+    public abstract DtDeportista verInfoDeportista(String nickname)throws UsuarioNoExisteException;
+    public abstract DtEntrenador verInfoEntrenador(String nickname)throws UsuarioNoExisteException;
     
     /**
      * Retorna la informacion del usuario especificado con el nick y permite modificar los datos.

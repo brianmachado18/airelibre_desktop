@@ -1,21 +1,28 @@
-package logica;
+package datatype;
 
-import java.time.*;
+import java.time.LocalDate;
 
-public class Inscripcion {
+public class DtInscripcion {
 
 	private LocalDate fechaInscripcion;
 	private int cantidadDesportistas;
 	private int costo;
 	private String nicknameDeportista;
 	
-	public Inscripcion(LocalDate fechaInscripcion, int cantidadDesportistas, int costo, String nicknameDeportista) {
+	public DtInscripcion() {
+		this.fechaInscripcion = null;
+		this.cantidadDesportistas = 0;
+		this.costo = 0;
+		this.nicknameDeportista = new String();
+	}
+	
+	public DtInscripcion(LocalDate fechaInscripcion, int cantidadDesportistas, int costo, String nicknameDeportista) {
 		this.fechaInscripcion = fechaInscripcion;
 		this.cantidadDesportistas = cantidadDesportistas;
 		this.costo = costo;
 		this.nicknameDeportista = nicknameDeportista;
 	}
-	
+
 	public LocalDate getFechaInscripcion() {
 		return fechaInscripcion;
 	}

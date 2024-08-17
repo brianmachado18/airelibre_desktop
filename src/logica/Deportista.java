@@ -20,6 +20,4 @@ public class Deportista extends Usuario{
 		this.esProfesional = esProfesional;
 	}
 	
-	
-
 }

@@ -96,21 +96,29 @@ public class principal {
 		frmAirelibre.setTitle("AireLibre");
 		frmAirelibre.getContentPane().setLayout(null);
 		
-		JInternalFrame IFAltaUsuario = new JInternalFrame("Alta Usuario");
+		JInternalFrame IFAltaUsuario = new JInternalFrame("");
 		IFAltaUsuario.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		IFAltaUsuario.setBounds(10, 11, 524, 257);
-		IFAltaUsuario.setIconifiable(true);
-		IFAltaUsuario.setMaximizable(true);
 		frmAirelibre.getContentPane().add(IFAltaUsuario);
 		IFAltaUsuario.getContentPane().setLayout(null);	
+		IFAltaUsuario.setVisible(false);
 
 		JInternalFrame IFConsultaUsuario = new JInternalFrame("Consulta Usuario");
-		IFConsultaUsuario.setMaximizable(true);
-		IFConsultaUsuario.setIconifiable(true);
 		IFConsultaUsuario.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		IFConsultaUsuario.setBounds(191, 122, 658, 362);
+		IFConsultaUsuario.setBounds(47, 40, 658, 362);
 		frmAirelibre.getContentPane().add(IFConsultaUsuario);
 		IFConsultaUsuario.getContentPane().setLayout(null);
+		IFConsultaUsuario.setVisible(false);
+		
+		JInternalFrame IFAltaActividad = new JInternalFrame("Alta Actividad");
+		IFAltaActividad.setClosable(true);
+		IFAltaActividad.setBounds(758, 76, 249, 214);
+		frmAirelibre.getContentPane().add(IFAltaActividad);
+		
+		JLabel lblNewLabel = new JLabel("Hola");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		IFAltaActividad.getContentPane().add(lblNewLabel, BorderLayout.CENTER);
+		IFAltaActividad.setVisible(false);
 		
 		//=== MENU BAR =====================================================================================
 		JMenuBar menuBar = new JMenuBar();
@@ -120,21 +128,9 @@ public class principal {
 		menuBar.add(mnUsuario);
 		
 		JMenuItem mntmAltaUsuario = new JMenuItem("Alta Usuario");
-		 mntmAltaUsuario.addActionListener(new ActionListener() {
-	            public void actionPerformed(ActionEvent e) {
-	                // Muestro el InternalFrame para registrar un usuario
-	            	IFAltaUsuario.setVisible(true);
-	            }
-	        });
 		mnUsuario.add(mntmAltaUsuario);
 		
 		JMenuItem mntmConsultaUsuario = new JMenuItem("Consulta Usuario");
-		mntmConsultaUsuario.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// Muestro el InternalFrame para registrar un usuario
-				IFConsultaUsuario.setVisible(true);
-			}
-		});
 		mnUsuario.add(mntmConsultaUsuario);
 		
 		JMenuItem mntmModificarUsuario = new JMenuItem("Modificar Usuario");
@@ -169,8 +165,6 @@ public class principal {
 		
 		JMenuItem mntmConsultaInscripcion = new JMenuItem("Consulta Inscripcion");
 		mnClasesInscrip.add(mntmConsultaInscripcion);
-		IFAltaUsuario.setVisible(false);
-		IFConsultaUsuario.setVisible(false);
 		
 		//=== FRAME ALTA Y MODIFICACION USUARIO ============================================================
 		JLabel lblNickname = new JLabel("Nickname");
@@ -228,7 +222,6 @@ public class principal {
 		
 		JPanel panelDeposrtista = new JPanel();
 		FlowLayout fl_panelDeposrtista = (FlowLayout) panelDeposrtista.getLayout();
-		fl_panelDeposrtista.setAlignment(FlowLayout.LEFT);
 		fl_panelDeposrtista.setAlignOnBaseline(true);
 		panelDeposrtista.setBounds(253, 32, 233, 33);
 		IFAltaUsuario.getContentPane().add(panelDeposrtista);
@@ -442,7 +435,6 @@ public class principal {
 		listConsultaUsuario.setBounds(10, 10, 110, 312);
 		IFConsultaUsuario.getContentPane().add(listConsultaUsuario);
 		
-		
 		//=== FRAME X ==============================================================================
 		
 
@@ -469,6 +461,21 @@ public class principal {
             	btnCancelar.setVisible(true);
                 // Muestro el InternalFrame para modificar un usuario
             	IFAltaUsuario.setVisible(true);
+			}
+		});
+
+		mntmConsultaUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Muestro el InternalFrame para registrar una actividad
+				IFConsultaUsuario.setVisible(true);
+			}
+		});
+		
+
+		mntmAltaActividad.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Muestro el InternalFrame para registrar un usuario
+				IFAltaActividad.setVisible(true);
 			}
 		});
 		

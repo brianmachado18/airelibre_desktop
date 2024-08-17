@@ -1,10 +1,12 @@
 package logica;
 
-import java.time.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 public class ClaseDeportiva {
-  
+
+	private String nombre;
 	private LocalDate fecha;
 	private LocalTime hora;
 	private String lugar;
@@ -13,8 +15,8 @@ public class ClaseDeportiva {
 	private int cupo;
 	private Actividad actividad;
 	private List<Inscripcion> inscripciones;
-	
-	public ClaseDeportiva(LocalDate fecha, LocalTime hora, String lugar, String imagen, LocalTime fechaAlta, int cupo, Actividad actividad, List<Inscripcion> inscripciones) {
+
+	public ClaseDeportiva(LocalDate fecha, LocalTime hora, String lugar, String imagen, LocalTime fechaAlta, int cupo, Actividad actividad, List<Inscripcion> inscripciones, String nombre) {
 		this.fecha = fecha;
 		this.hora = hora;
 		this.lugar = lugar;
@@ -23,6 +25,7 @@ public class ClaseDeportiva {
 		this.cupo = cupo;
 		this.actividad = actividad;
 		this.inscripciones = inscripciones;
+		this.nombre = nombre;
 	}
 
 	public LocalDate getFecha() {
@@ -87,6 +90,14 @@ public class ClaseDeportiva {
 
 	public void setInscripciones(List<Inscripcion> inscripciones) {
 		this.inscripciones = inscripciones;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 	
 }

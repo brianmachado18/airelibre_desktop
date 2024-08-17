@@ -1,14 +1,15 @@
 package logica;
 
-import java.time.*;
-import datatype.DtEntrenador;
+import java.time.LocalDate;
+
 import datatype.DtDeportista;
+import datatype.DtEntrenador;
 import excepciones.UsuarioNoExisteException;
 import excepciones.UsuarioRepetidoException;
 
 
 public interface IControladorUsuario {
-    
+
     /**
      * Registra al usuario en el sistema.
      * @throws UsuarioRepetidoException Si el nickname del usuario se encuentra registrada en el sistema.
@@ -20,14 +21,14 @@ public interface IControladorUsuario {
      * @throws UsuarioNoExisteException Si el nickname del usuario no está registrada en el sistema.
      */
     public abstract boolean buscarNick(String nickname)throws UsuarioNoExisteException;
-    
+
     /**
      * Retorna la informacion del usuario especificado con el nick.
      * @throws UsuarioNoExisteException Si el nickname del usuario no está registrada en el sistema.
      */
     public abstract DtDeportista verInfoDeportista(String nickname)throws UsuarioNoExisteException;
     public abstract DtEntrenador verInfoEntrenador(String nickname)throws UsuarioNoExisteException;
-    
+
     /**
      * Retorna la informacion del usuario especificado con el nick y permite modificar los datos.
      * @throws UsuarioNoExisteException Si el nickname del usuario no está registrada en el sistema.

@@ -1,9 +1,9 @@
 package logica;
 
-import java.time.*;
+import java.time.LocalDate;
 
 public class Usuario {
-	
+
 	private String nickname;
 	private String nombre;
 	private String apellido;
@@ -11,7 +11,7 @@ public class Usuario {
 	private LocalDate fechaNacimiento;
 	private String contrasena;
 	private boolean tipo;
-	
+
 	public Usuario(String nickname, String nombre, String apellido, String mail, LocalDate fechaNacimiento, String contrasena, boolean esAmbos) {
 		this.nickname = nickname;
 		this.nombre = nombre;
@@ -77,6 +77,6 @@ public class Usuario {
 	public void setEsAmbos(boolean esAmbos) {
 		this.tipo = esAmbos;
 	}
-	
+
 }
 

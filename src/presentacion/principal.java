@@ -446,5 +446,43 @@ public class principal {
 		
 		//=== FRAME X ==============================================================================
 		
+<<<<<<< Updated upstream
+=======
+		
+		//=== EVENTOS MENU =========================================================================
+		mntmAltaUsuario.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	// Posible solucion para reutilizar el frame
+            	IfAlta_Usuario.setTitle("Alta Usuario");
+            	IfAlta_Usuario.setClosable(false);
+            	btnConfirmar.setVisible(true);
+            	btnCancelar.setVisible(true);
+            	// Bloquear MenuBar
+            	mnUsuario.setEnabled(false);
+            	mnActividad.setEnabled(false);
+            	mnClasesInscrip.setEnabled(false);
+                // Muestro el InternalFrame para registrar un usuario
+            	IfAlta_Usuario.setVisible(true);
+            }
+		});
+		
+		mntmModificarUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Posible solucion para reutilizar el frame
+            	IfAlta_Usuario.setTitle("Modificar Usuario: [NICKNAME]");
+            	IfAlta_Usuario.setClosable(false);
+            	btnConfirmar.setVisible(true);
+            	btnCancelar.setVisible(true);
+            	// Bloquear MenuBar
+            	mnUsuario.setEnabled(false);
+            	mnActividad.setEnabled(false);
+            	mnClasesInscrip.setEnabled(false);
+                // Muestro el InternalFrame para modificar un usuario
+            	IfAlta_Usuario.setVisible(true);
+			}
+		});
+		
+		//==========================================================================================
+>>>>>>> Stashed changes
 	}
 }

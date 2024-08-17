@@ -456,10 +456,6 @@ public class principal {
             	IFAltaUsuario.setClosable(false);
             	btnConfirmar.setVisible(true);
             	btnCancelar.setVisible(true);
-            	// Bloquear MenuBar
-            	mnUsuario.setEnabled(false);
-            	mnActividad.setEnabled(false);
-            	mnClasesInscrip.setEnabled(false);
                 // Muestro el InternalFrame para registrar un usuario
             	IFAltaUsuario.setVisible(true);
             }
@@ -472,10 +468,6 @@ public class principal {
 				IFAltaUsuario.setClosable(false);
             	btnConfirmar.setVisible(true);
             	btnCancelar.setVisible(true);
-            	// Bloquear MenuBar
-            	mnUsuario.setEnabled(false);
-            	mnActividad.setEnabled(false);
-            	mnClasesInscrip.setEnabled(false);
                 // Muestro el InternalFrame para modificar un usuario
             	IFAltaUsuario.setVisible(true);
 			}

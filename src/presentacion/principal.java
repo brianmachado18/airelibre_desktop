@@ -114,10 +114,6 @@ public class principal {
 		IFAltaActividad.setClosable(true);
 		IFAltaActividad.setBounds(758, 76, 249, 214);
 		frmAirelibre.getContentPane().add(IFAltaActividad);
-		
-		JLabel lblNewLabel = new JLabel("Hola");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		IFAltaActividad.getContentPane().add(lblNewLabel, BorderLayout.CENTER);
 		IFAltaActividad.setVisible(false);
 		
 		//=== MENU BAR =====================================================================================
@@ -470,7 +466,6 @@ public class principal {
 				IFConsultaUsuario.setVisible(true);
 			}
 		});
-		
 
 		mntmAltaActividad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

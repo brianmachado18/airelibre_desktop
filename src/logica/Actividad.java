@@ -1,10 +1,10 @@
 package logica;
 
-import java.time.*;
+import java.time.LocalDate;
 import java.util.List;
 
 public class Actividad {
-	
+
 	private String nombre;
 	private String descripcion;
 	private int duracionHoras;
@@ -15,7 +15,7 @@ public class Actividad {
 	private String imagen;
 	private Entrenador entrenador;
 	private List<ClaseDeportiva> clasesDeportivas;
-	
+
 	public Actividad(String nombre, String descripcion, int duracionHoras, int costo, String lugar, LocalDate fechaAlta,
 			String estado, String imagen, Entrenador entrenador, List<ClaseDeportiva> clasesDeportivas) {
 		this.nombre = nombre;
@@ -109,5 +109,5 @@ public class Actividad {
 	public void setClasesDeportivas(List<ClaseDeportiva> clasesDeportivas) {
 		this.clasesDeportivas = clasesDeportivas;
 	}
-	
+
 }

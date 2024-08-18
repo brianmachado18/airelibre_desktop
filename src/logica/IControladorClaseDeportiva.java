@@ -14,7 +14,7 @@ public interface IControladorClaseDeportiva {
      * Registra la Clase Deportiva en el sistema.
      * @throws ClaseRepetidoException Si el nombre de la CalseDeportiva ya se encuentra registrada en el sistema.
      */
-	public abstract void AltaClaseDeportiva(LocalDate fecha, LocalTime hora, String lugar, int cupo, LocalDate fAlta) throws ClaseRepetidoException;
+	public abstract void AltaClaseDeportiva(String nombreClaseDeportiva, LocalDate fecha, LocalTime hora, String lugar, int cupo, LocalDate fAlta) throws ClaseRepetidoException;
 	
 	/**
      * Lista las Clases Deportivas asociadas a una Actividad en el sistema.

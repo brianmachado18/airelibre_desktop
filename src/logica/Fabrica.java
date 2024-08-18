@@ -17,12 +17,12 @@ public class Fabrica {
         return new ControladorUsuario();
     }
     
-    public IControladorUsuario getIControladorActividad() {
-        return new ControladorUsuario();
+    public IControladorActividad getIControladorActividad() {
+        return new ControladorActividad();
     }
     
-    public IControladorUsuario getIControladorClaseDeportiva() {
-        return new ControladorUsuario();
+    public IControladorClaseDeportiva getIControladorClaseDeportiva() {
+        return new ControladorClaseDeportiva();
     }
 
 }

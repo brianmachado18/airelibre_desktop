@@ -6,5 +6,11 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Brian/Documents/eclipselink-4.0.4.v20240715-059428cdd2/eclipselink/jlib/eclipselink.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Brian/Documents/eclipselink-4.0.4.v20240715-059428cdd2/eclipselink/jlib/jpa/jakarta.annotation-api.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Brian/Documents/eclipselink-4.0.4.v20240715-059428cdd2/eclipselink/jlib/jpa/jakarta.persistence-api.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Brian/Documents/eclipselink-4.0.4.v20240715-059428cdd2/eclipselink/jlib/jpa/org.eclipse.persistence.jpa.modelgen.processor.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Brian/Documents/eclipselink-4.0.4.v20240715-059428cdd2/eclipselink/jlib/jpa/org.eclipse.persistence.jpars.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Brian/Documents/lombok.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,21 +1,27 @@
-package datatype;
+package modelo;
 
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import modelo.ClaseDeportiva;
-import modelo.Entrenador;
 
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DtActividad {
-
+public class Actividad {
+	
+	@Id
 	private int id;
+	@Column(unique = true)
 	private String nombre;
 	private String descripcion;
 	private int duracionHoras;
@@ -24,6 +30,10 @@ public class DtActividad {
 	private LocalDate fechaAlta;
 	private String estado;
 	private String imagen;
+	@ManyToOne
+	@JoinColumn(name = "id")
 	private Entrenador entrenador;
+	@OneToMany(mappedBy = "actividad")
 	private List<ClaseDeportiva> clasesDeportivas;
+
 }

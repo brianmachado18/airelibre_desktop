@@ -17,11 +17,11 @@ public class Usuario {
 
 	@Id
 	private int id;
-	@Column(unique = true)
+    @Column(nullable = false, unique = true)
 	private String nickname;
 	private String nombre;
 	private String apellido;
-	@Column(unique = true)
+    @Column(nullable = false, unique = true)
 	private String mail;
 	private LocalDate fechaNacimiento;
 	private String contrasena;

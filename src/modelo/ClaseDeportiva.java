@@ -22,7 +22,7 @@ public class ClaseDeportiva {
 	
 	@Id
 	private int id;
-	@Column(unique = true)
+    @Column(nullable = false, unique = true)
 	private String nombre;
 	private LocalDate fecha;
 	private LocalTime hora;

@@ -2,14 +2,15 @@ package modelo;
 
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Data
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Deportista extends Usuario{

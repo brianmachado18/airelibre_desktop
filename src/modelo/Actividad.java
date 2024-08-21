@@ -3,12 +3,7 @@ package modelo;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +15,7 @@ import lombok.NoArgsConstructor;
 public class Actividad {
 	
 	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
     @Column(nullable = false, unique = true)
 	private String nombre;
@@ -31,7 +27,7 @@ public class Actividad {
 	private String estado;
 	private String imagen;
 	@ManyToOne
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "id_entrenador")
 	private Entrenador entrenador;
 	@OneToMany(mappedBy = "actividad")
 	private List<ClaseDeportiva> clasesDeportivas;

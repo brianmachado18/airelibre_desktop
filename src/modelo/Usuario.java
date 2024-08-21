@@ -2,9 +2,7 @@ package modelo;
 
 import java.time.LocalDate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +14,7 @@ import lombok.NoArgsConstructor;
 public class Usuario {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
     @Column(nullable = false, unique = true)
 	private String nickname;
@@ -25,6 +24,5 @@ public class Usuario {
 	private String mail;
 	private LocalDate fechaNacimiento;
 	private String contrasena;
-	private boolean tipo;
 }
 

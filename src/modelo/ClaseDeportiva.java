@@ -4,12 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,6 +16,7 @@ import lombok.NoArgsConstructor;
 public class ClaseDeportiva {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
     @Column(nullable = false, unique = true)
 	private String nombre;
@@ -31,7 +27,7 @@ public class ClaseDeportiva {
 	private LocalTime fechaAlta;
 	private int cupo;
 	@ManyToOne
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "id_actividad")
 	private Actividad actividad;
 	@OneToMany(mappedBy = "claseDeportiva")
 	private List<Inscripcion> inscripciones;

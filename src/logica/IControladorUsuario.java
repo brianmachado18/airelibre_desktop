@@ -14,7 +14,7 @@ public interface IControladorUsuario {
      * Registra al usuario en el sistema.
      * @throws UsuarioRepetidoException Si el nickname del usuario se encuentra registrada en el sistema.
      */
-    public abstract void AltaUsuario(String nick, String nombre, String ap, String mail, LocalDate fNac, String pass, boolean tipo) throws UsuarioRepetidoException;
+    public abstract void AltaUsuario(String nick, String nombre, String ap, String mail, LocalDate fNac, String pass) throws UsuarioRepetidoException;
 
     /**
      * Retorna true o false dependiendo del tiupo de usuario con el nickname indicado.

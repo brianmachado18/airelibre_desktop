@@ -40,7 +40,7 @@ public class VtAltaUsuario extends JInternalFrame{
 
 		//============JLABELS ALTA============================
 		JLabel lblNickname = new JLabel("Nickname");
-		lblNickname.setBounds(10, 14, 63, 13);
+		lblNickname.setBounds(10, 18, 63, 13);
 		this.getContentPane().add(lblNickname);
 		
 		JLabel lblContrasena = new JLabel("Contraseña");
@@ -48,11 +48,11 @@ public class VtAltaUsuario extends JInternalFrame{
 		this.getContentPane().add(lblContrasena);
 		
 		JLabel lblNombre = new JLabel("Nombre");
-		lblNombre.setBounds(10, 72, 63, 13);
+		lblNombre.setBounds(10, 75, 63, 13);
 		this.getContentPane().add(lblNombre);
 		
 		JLabel lblApellido = new JLabel("Apellido");
-		lblApellido.setBounds(10, 106, 63, 13);
+		lblApellido.setBounds(10, 109, 63, 13);
 		this.getContentPane().add(lblApellido);
 		
 		JLabel lblEmail = new JLabel("Email");

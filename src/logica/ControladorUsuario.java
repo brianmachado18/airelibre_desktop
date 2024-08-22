@@ -13,7 +13,7 @@ public class ControladorUsuario implements IControladorUsuario {
     }
     
     //AltaUsuario
-    public void AltaUsuario(String nick, String nombre, String ap, String mail, LocalDate fNac, String pass, boolean tipo) throws UsuarioRepetidoException{
+    public void AltaUsuario(String nick, String nombre, String ap, String mail, LocalDate fNac, String pass) throws UsuarioRepetidoException{
     	//Agrego throw para que no rompa
     	throw new UsuarioRepetidoException("El usuario " + nick + " ya esta registrado");
     	//...

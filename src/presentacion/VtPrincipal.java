@@ -78,7 +78,7 @@ public class VtPrincipal extends JFrame{
 		//=== EVENTOS MENU =========================================================================
 		mntmAltaUsuario.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-				IFAltaUsuario.setVisible(false);
+				IFAltaUsuario.setVisible(true);
 		    }
 		});
 				

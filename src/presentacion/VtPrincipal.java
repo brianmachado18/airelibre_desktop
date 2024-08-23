@@ -73,7 +73,9 @@ public class VtPrincipal extends JFrame{
 		this.getContentPane().add(IFConsUsuario);
 		
 		VtAltaActDep IFAltaActividad = new VtAltaActDep();
-		this.getContentPane().add(IFAltaActividad);
+		IFAltaActividad.setLocation(20, 11);
+		//IFAltaActividad.setBounds(26, 24, 249, 214);
+		getContentPane().add(IFAltaActividad);
 		
 		//=== EVENTOS MENU =========================================================================
 		mntmAltaUsuario.addActionListener(new ActionListener() {

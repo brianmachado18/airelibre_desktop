@@ -8,6 +8,7 @@ import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 /*VENTANAS PENDIENTES
  * Modificar usuario(OPCIONAL)
@@ -73,34 +74,29 @@ public class VtPrincipal extends JFrame{
 		this.getContentPane().add(IFConsUsuario);
 		
 		VtAltaActDep IFAltaActividad = new VtAltaActDep();
-		IFAltaActividad.setLocation(20, 11);
-		//IFAltaActividad.setBounds(26, 24, 249, 214);
-		getContentPane().add(IFAltaActividad);
+		this.getContentPane().add(IFAltaActividad);
+		
+		VtConsActDep IFConsultaActividad = new VtConsActDep();
+		this.getContentPane().add(IFConsultaActividad);
 		
 		//=== EVENTOS MENU =========================================================================
 		mntmAltaUsuario.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
+		    	// Muestra el InternalFrame para el alta usuario
 				IFAltaUsuario.setVisible(true);
 		    }
 		});
-				
-		/*mntmModificarUsuario.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// Posible solucion para reutilizar el frame
-				IFAltaUsuario.setTitle("Modificar Usuario: [NICKNAME]");
-				IFAltaUsuario.setClosable(false);
-				btnConfirmar.setVisible(true);
-				btnCancelar.setVisible(true);
-				// Muestro el InternalFrame para modificar un usuario
-				IFAltaUsuario.setVisible(true);
-			}
-		});
-		OPCIONAL*/
 
 		mntmConsultaUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//Muestro el InternalFrame para consultar un usuario
+				// Muestro el InternalFrame para consultar un usuario
 				IFConsUsuario.setVisible(true);
+			}
+		});
+		
+		mntmModificarUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(new JFrame(), "Sin Implementar (OPCIONAL)");
 			}
 		});
 
@@ -108,6 +104,19 @@ public class VtPrincipal extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				// Muestro el InternalFrame para dar de alta una actividad
 				IFAltaActividad.setVisible(true);
+			}
+		});
+		
+		mntmConsultaActividad.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Muestro el InternalFrame para consultfar una actividad
+				IFConsultaActividad.setVisible(true);
+			}
+		});
+
+		mntmModificarActividad.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(new JFrame(), "Sin Implementar (OPCIONAL)");
 			}
 		});
 		

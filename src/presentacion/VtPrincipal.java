@@ -79,6 +79,21 @@ public class VtPrincipal extends JFrame{
 		VtConsActDep IFConsultaActividad = new VtConsActDep();
 		this.getContentPane().add(IFConsultaActividad);
 		
+		VtRankActDep IFRankActDep = new VtRankActDep();
+		this.getContentPane().add(IFRankActDep);
+		
+		VtAltaClaseDep IFAltaClaseDep = new VtAltaClaseDep();
+		this.getContentPane().add(IFAltaClaseDep);
+		
+		VtConsClaseDep IFConsClaseDep = new VtConsClaseDep();
+		this.getContentPane().add(IFConsClaseDep);
+		
+		VtInscClaseDep IFInscClaseDep = new VtInscClaseDep();
+		this.getContentPane().add(IFInscClaseDep);
+		
+		VtConsInsc IFConsInsc = new VtConsInsc();
+		this.getContentPane().add(IFConsInsc);
+		
 		//=== EVENTOS MENU =========================================================================
 		mntmAltaUsuario.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
@@ -117,6 +132,42 @@ public class VtPrincipal extends JFrame{
 		mntmModificarActividad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(new JFrame(), "Sin Implementar (OPCIONAL)");
+			}
+		});
+		
+		mntmRankingActividad.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Muestro el InternalFrame para consultfar el ranking de actividades
+				IFRankActDep.setVisible(true);
+			}
+		});
+
+		mntmAltaClase.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Muestro el InternalFrame de alta clase
+				IFAltaClaseDep.setVisible(true);
+			}
+		});
+
+		mntmConsultaClase.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Muestro el InternalFrame de consulta clase
+				IFConsClaseDep.setVisible(true);
+			}
+		});
+
+		mntmAltaInscripcion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Muestro el InternalFrame de alta inscripcion
+				IFInscClaseDep.setVisible(true);
+			}
+		});
+		
+
+		mntmConsultaInscripcion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Muestro el InternalFrame de consulta inscripcion
+				IFConsInsc.setVisible(true);
 			}
 		});
 		

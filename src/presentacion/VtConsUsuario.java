@@ -149,5 +149,5 @@ public class VtConsUsuario extends JInternalFrame{
 		List listConsultaUsuario = new List();
 		listConsultaUsuario.setBounds(10, 10, 110, 312);
 		this.getContentPane().add(listConsultaUsuario);
-	}	
+	}
 }

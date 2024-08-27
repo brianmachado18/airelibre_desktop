@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import datatype.DtActividad;
 import excepciones.ActividadNoExisteException;
 import excepciones.ActividadRepetidaException;
+import modelo.Entrenador;
 
 public interface IControladorActividad {
 
@@ -12,7 +13,10 @@ public interface IControladorActividad {
      * Registra la actividad en el sistema.
      * @throws ActividadRepetidoException Si el nombre de la Actividad ya se encuentra registrada en el sistema.
      */
-    public abstract void AltaActividad(String nombre, String desc, int dHoras, int costo, String lugar, LocalDate fAlta, String img) throws ActividadRepetidaException;
+    
+	public abstract boolean actividadExiste(String nombre);
+	
+	public abstract void AltaActividad(String nombre, String desc, int dHoras, int costo, String lugar, LocalDate fAlta, String img,  Entrenador ent);
 
     /**
      * Retorna la informacion de todas las Actividades.

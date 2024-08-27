@@ -3,11 +3,18 @@ package presentacion;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+<<<<<<< Updated upstream
+=======
+import javax.swing.JOptionPane;
+import java.awt.*;
+>>>>>>> Stashed changes
 
 /*VENTANAS PENDIENTES
  * Modificar usuario(OPCIONAL)
@@ -17,9 +24,19 @@ public class VtPrincipal extends JFrame{
 	public VtPrincipal() {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setTitle("AireLibre");
-		this.getContentPane().setLayout(null);
+		//this.getContentPane().setLayout(null);
+		this.setSize(1200, 600);
+		this.setLocationRelativeTo(null);
 		this.setVisible(true);
-		this.setBounds(200, 100, 1200, 600);
+
+		/*=======================COMO INGRESAR IMAGENES=====================================0
+		 * ImageIcon img = new ImageIcon("C:\\Users\\PC\\Desktop\\PAP\\airelibre_desktop\\imagenes\\hogar.png");
+		 * Image imagenEscalada = img.getImage().getScaledInstance(200, 100, Image.SCALE_SMOOTH); // Cambia el tamaño deseado
+		 * JLabel img2 = new JLabel(new ImageIcon(imagenEscalada));
+		 * img2.setBounds(10,10,200,100);
+		 * this.add(img2);
+		*/
+		
 		
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar(menuBar);

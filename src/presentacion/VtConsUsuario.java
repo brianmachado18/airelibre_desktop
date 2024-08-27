@@ -20,22 +20,23 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-public class VtConsUsuario extends JInternalFrame{
+public class VtConsUsuario extends JFrame{
 	private JTextField textNombreConsulta;
 	private JTextField textApellidoConsulta;
 	private JTextField textEmailConsulta;
 	private JTextField textFechaConsulta;
 	private JTextField textDisciplinaConsulta;
 	private JTextField textWebConsulta;
-	JInternalFrame yo = this;
+	JFrame yo = this;
+	private VtPrincipal VtPrincipal;
 
-	public VtConsUsuario() {
+	public VtConsUsuario(VtPrincipal principal) {
+		VtPrincipal = principal;
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		this.setBounds(47, 40, 658, 362);
 		this.getContentPane().setLayout(null);
 		this.setTitle("Consulta Usuario");
 		this.setVisible(false);
-		this.setClosable(false);
 		
 		Label lblNicknameConsulta = new Label("Nickname");
 		lblNicknameConsulta.setBounds(157, 21, 62, 22);
@@ -140,7 +141,8 @@ public class VtConsUsuario extends JInternalFrame{
 		btnCancelarConsulta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textNicknameConsulta.setText(null);
-				yo.setVisible(false);
+				VtPrincipal.setVisible(true);
+				yo.dispose();
 			}
 		});
 		btnCancelarConsulta.setBounds(527, 301, 105, 21);

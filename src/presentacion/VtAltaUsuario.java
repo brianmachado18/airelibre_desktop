@@ -1,5 +1,6 @@
 package presentacion;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,7 +22,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-public class VtAltaUsuario extends JInternalFrame{
+public class VtAltaUsuario extends JFrame{
 	private JTextField textNickname;
 	private JTextField textNombre;
 	private JTextField textApellido;
@@ -30,13 +31,16 @@ public class VtAltaUsuario extends JInternalFrame{
 	private JPasswordField passwordContrasena;
 	private JTextField textDisciplina;
 	private JTextField textWeb;
-	JInternalFrame yo = this;
-	public VtAltaUsuario() {
-		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		this.setBounds(10, 11, 524, 257);
-		this.getContentPane().setLayout(null);	
-		this.setTitle("Alta Usuario");
-		this.setClosable(false);
+	JFrame yo = this;
+	private VtPrincipal VtPrincipal;
+	
+	public VtAltaUsuario(VtPrincipal principal) {
+		VtPrincipal = principal;
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		setBounds(10, 11, 524, 257);
+		getContentPane().setLayout(null);	
+		setTitle("Alta Usuario");
+		getContentPane().setBackground(Color.decode("#cbdad5"));
 
 		//============JLABELS ALTA============================
 		JLabel lblNickname = new JLabel("Nickname");
@@ -180,17 +184,7 @@ public class VtAltaUsuario extends JInternalFrame{
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textNickname.setText(null);
-				passwordContrasena.setText(null);
-				textNombre.setText(null);
-				textApellido.setText(null);
-				textEmail.setText(null);
-				textFecha.setText(null);
-				textDisciplina.setText(null);
-				textWeb.setText(null);
-				chckbxEsProfesioanl.setSelected(false);
-				rdbtnGroup.clearSelection();
-				yo.setVisible(false);
+				cerrar();
 			}
 		});
 		btnCancelar.setBounds(393, 195, 105, 21);
@@ -198,4 +192,8 @@ public class VtAltaUsuario extends JInternalFrame{
 		btnConfirmar.setVisible(true);
 		btnCancelar.setVisible(true);
 	}	
+	private void cerrar() {
+		VtPrincipal.setVisible(true);
+		yo.dispose();	
+	}
 }

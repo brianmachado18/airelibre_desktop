@@ -11,7 +11,7 @@ public class VtAltaActDep extends JInternalFrame{
 	public VtAltaActDep(VtPrincipal principal) {
 		VtPrincipal = principal;
 		this.setClosable(true);
-		this.setBounds(758, 76, 249, 214);
-		this.setVisible(false);
+		this.setSize( 650, 370);
+		this.setVisible(true);
 	}	
 }

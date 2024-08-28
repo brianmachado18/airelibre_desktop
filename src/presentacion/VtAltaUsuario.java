@@ -22,7 +22,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-public class VtAltaUsuario extends JFrame{
+public class VtAltaUsuario extends JInternalFrame{
 	private JTextField textNickname;
 	private JTextField textNombre;
 	private JTextField textApellido;
@@ -31,16 +31,18 @@ public class VtAltaUsuario extends JFrame{
 	private JPasswordField passwordContrasena;
 	private JTextField textDisciplina;
 	private JTextField textWeb;
-	JFrame yo = this;
-	private VtPrincipal VtPrincipal;
-	
-	public VtAltaUsuario(VtPrincipal principal) {
-		VtPrincipal = principal;
-		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		setBounds(10, 11, 524, 257);
+	private JInternalFrame yo = this;
+	private VtPrincipal principal;
+
+	public VtAltaUsuario(VtPrincipal VtPrincipal) {
+		principal = VtPrincipal;
+		principal.bajarFrameActual();
+		setDefaultCloseOperation(HIDE_ON_CLOSE);
+		setSize( 650, 370);
 		getContentPane().setLayout(null);	
 		setTitle("Alta Usuario");
 		getContentPane().setBackground(Color.decode("#cbdad5"));
+		principal.setFrameActual(yo);
 
 		//============JLABELS ALTA============================
 		JLabel lblNickname = new JLabel("Nickname");
@@ -184,7 +186,7 @@ public class VtAltaUsuario extends JFrame{
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cerrar();
+				yo.dispose();	
 			}
 		});
 		btnCancelar.setBounds(393, 195, 105, 21);
@@ -192,8 +194,4 @@ public class VtAltaUsuario extends JFrame{
 		btnConfirmar.setVisible(true);
 		btnCancelar.setVisible(true);
 	}	
-	private void cerrar() {
-		VtPrincipal.setVisible(true);
-		yo.dispose();	
-	}
 }

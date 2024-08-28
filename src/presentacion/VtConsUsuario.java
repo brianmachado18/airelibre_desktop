@@ -1,6 +1,7 @@
 package presentacion;
 
 import java.awt.Button;
+import java.awt.Color;
 import java.awt.Label;
 import java.awt.List;
 import java.awt.TextField;
@@ -20,23 +21,27 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-public class VtConsUsuario extends JFrame{
+public class VtConsUsuario extends JInternalFrame{
 	private JTextField textNombreConsulta;
 	private JTextField textApellidoConsulta;
 	private JTextField textEmailConsulta;
 	private JTextField textFechaConsulta;
 	private JTextField textDisciplinaConsulta;
 	private JTextField textWebConsulta;
-	JFrame yo = this;
-	private VtPrincipal VtPrincipal;
+	private JInternalFrame yo = this;
+	private VtPrincipal principal;
+	
 
-	public VtConsUsuario(VtPrincipal principal) {
-		VtPrincipal = principal;
-		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		this.setBounds(47, 40, 658, 362);
-		this.getContentPane().setLayout(null);
-		this.setTitle("Consulta Usuario");
-		this.setVisible(false);
+	public VtConsUsuario(VtPrincipal VtPrincipal) {
+		principal = VtPrincipal;
+		principal.bajarFrameActual();
+		setDefaultCloseOperation(HIDE_ON_CLOSE);
+		setSize(650, 370);
+		getContentPane().setLayout(null);
+		setTitle("Consulta Usuario");
+		setVisible(false);
+		setBackground(Color.decode("#cbdad5"));
+		principal.setFrameActual(yo);
 		
 		Label lblNicknameConsulta = new Label("Nickname");
 		lblNicknameConsulta.setBounds(157, 21, 62, 22);
@@ -141,7 +146,6 @@ public class VtConsUsuario extends JFrame{
 		btnCancelarConsulta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textNicknameConsulta.setText(null);
-				VtPrincipal.setVisible(true);
 				yo.dispose();
 			}
 		});

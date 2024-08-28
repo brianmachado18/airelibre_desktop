@@ -18,7 +18,7 @@ public class DtEntrenador {
 	private String nombre;
 	private String apellido;
 	private String mail;
-	private LocalDate fechaNacimineto;
+	private LocalDate fechaNacimiento;
 	private String contrasena;
 	private boolean tipo;
 	private String disciplina;

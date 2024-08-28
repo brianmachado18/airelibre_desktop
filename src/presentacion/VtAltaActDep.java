@@ -176,5 +176,7 @@ public class VtAltaActDep extends JInternalFrame {
 				}
 			}
 		});
+		
+		
 	}
 }

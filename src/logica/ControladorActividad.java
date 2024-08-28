@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import datatype.DtActividad;
 import excepciones.ActividadNoExisteException;
 import excepciones.ActividadRepetidaException;
+import excepciones.UsuarioNoExisteException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -25,20 +26,16 @@ public class ControladorActividad implements IControladorActividad {
 
 		try {
 
-	        // Consulto si existe
+	        // Consulto si existe la Actividad
 	        Query buscarNombre = em.createNativeQuery("SELECT COUNT(*) FROM ACTIVIDAD WHERE NOMBRE = ?");
 	        buscarNombre.setParameter(1, nombre);
 	        Number countNick = (Number) buscarNombre.getSingleResult();
 	        
-	        return countNick.intValue() > 0 ;
+	        return countNick.intValue() > 0;
 	        
-		} finally {
-			if (em != null) {
-				em.close();
-			}
-			if (emf != null) {
-				emf.close();
-			}
+		}finally{
+			em.close();
+			emf.close();
 		}
 	}
 
@@ -49,8 +46,7 @@ public class ControladorActividad implements IControladorActividad {
 		//Defino conectores db
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
 		EntityManager em = emf.createEntityManager();
-
-		try {
+		
 			Actividad nuevaActividad = new Actividad();
 			
 			nuevaActividad.setNombre(nombre);
@@ -63,22 +59,20 @@ public class ControladorActividad implements IControladorActividad {
 			nuevaActividad.setEntrenador(ent);
 			
 			
-				//Guardo en db
-				em.getTransaction().begin();
-				em.persist(nuevaActividad);
-				em.getTransaction().commit();
+			//Guardo en db
+			em.getTransaction().begin();
+			em.persist(nuevaActividad);
+			em.getTransaction().commit();
 
 
-		} catch (Exception e) {
-			throw new RuntimeException("Error al guardar la actividad: " + e.getMessage(), e);
-		} finally {
-			if (em != null) {
+			boolean a = actividadExiste(nombre);
+			if(a == true){
+				//throw new ActividadRepetidaException("La actividad " + ci + " no existe");
+			}	
+		
 				em.close();
-			}
-			if (emf != null) {
 				emf.close();
-			}
-		}
+		
 	}
     
     //ListarActividades

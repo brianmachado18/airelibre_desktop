@@ -8,7 +8,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.*;
+
+import excepciones.PersistenciaException;
 import logica.ControladorUsuario;
+import logica.Fabrica;
+import logica.IControladorUsuario;
+import persistencia.ManejarPersistenia;
 
 
 public class VtAltaUsuario extends JInternalFrame{
@@ -24,10 +29,16 @@ public class VtAltaUsuario extends JInternalFrame{
 	private JTextField textWeb;
 	private JRadioButton rdbtnDeportista;
 	private JRadioButton rdbtnEntrenador;
-	private ControladorUsuario controladorUsuario;
+	private IControladorUsuario iControladorUsuario;
+	private ManejarPersistenia manejarPersistencia = new ManejarPersistenia();
+
 
 	JInternalFrame yo = this;
-	public VtAltaUsuario() {
+	public VtAltaUsuario(IControladorUsuario i) {
+		
+		//Inicio el controlador usuario
+		iControladorUsuario = i;
+		
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		this.setBounds(10, 11, 524, 257);
 		this.getContentPane().setLayout(null);	
@@ -172,7 +183,12 @@ public class VtAltaUsuario extends JInternalFrame{
 		JButton btnConfirmar = new JButton("Confirmar");
 		btnConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				confirmarAltaUsuario();
+				try {
+					confirmarAltaUsuario();
+				} catch (PersistenciaException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnConfirmar.setBounds(278, 195, 105, 21);
@@ -193,7 +209,7 @@ public class VtAltaUsuario extends JInternalFrame{
 
 
 
-	private void confirmarAltaUsuario(){
+	private void confirmarAltaUsuario() throws PersistenciaException{
 		
 		//Guardo los datos en variables
 		String nickname = textNickname.getText();
@@ -207,8 +223,6 @@ public class VtAltaUsuario extends JInternalFrame{
 		String disciplina = "";
 		String web = "";
 		
-		//Inicio el controlador usuario
-		controladorUsuario = new ControladorUsuario();
 
 		//Verifico campos obligatorios 
 		if (nickname.isEmpty() || contrasena.isEmpty() || nombre.isEmpty() || apellido.isEmpty() || email.isEmpty() || fechaNacimiento.isEmpty()) {
@@ -248,13 +262,14 @@ public class VtAltaUsuario extends JInternalFrame{
 		LocalDate fecha = LocalDate.parse(fechaNacimiento, formatoFecha);
 		
 		//Verifico si existe usuario con mismo nick/email
-		if (controladorUsuario.usuarioExiste(nickname, email)) {
+		if (manejarPersistencia.usuarioExiste(nickname, email)) {
 			JOptionPane.showMessageDialog(this, "El nickname o el correo electrónico ya están en uso", "Error", JOptionPane.ERROR_MESSAGE);
 			return;
+			
 		}
 		
 		//Ingreso los datos a la db
-		controladorUsuario.AltaUsuario(nickname, contrasena, nombre, apellido, email, fecha, tipoUsuario, esProfesional, disciplina, web);
+		iControladorUsuario.AltaUsuario(nickname, contrasena, nombre, apellido, email, fecha, tipoUsuario, esProfesional, disciplina, web);
 		
 		//Limmpio los campos y oculto el panel
 		limpiarCampos();

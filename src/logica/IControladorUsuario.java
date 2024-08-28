@@ -4,15 +4,15 @@ import java.time.LocalDate;
 
 import datatype.DtDeportista;
 import datatype.DtEntrenador;
+import excepciones.PersistenciaException;
 import excepciones.UsuarioNoExisteException;
 import excepciones.UsuarioRepetidoException;
 
 
 public interface IControladorUsuario {
 
-	public abstract boolean usuarioExiste(String nick, String mail);
 
-	public abstract void AltaUsuario(String nickname, String contrasena, String nombre, String apellido, String email, LocalDate fechaNacimiento, String tipoUsuario, boolean esProfesional, String disciplina, String web);
+	public abstract void AltaUsuario(String nickname, String contrasena, String nombre, String apellido, String email, LocalDate fechaNacimiento, String tipoUsuario, boolean esProfesional, String disciplina, String web)throws PersistenciaException;
 
 	public abstract DtDeportista verInfoDeportista(String nickname)throws UsuarioNoExisteException;
 

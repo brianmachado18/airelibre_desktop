@@ -4,57 +4,24 @@ import java.time.*;
 import datatype.*;
 import excepciones.*;
 import jakarta.persistence.*;
+import persistencia.*;
 import modelo.Deportista;
 import modelo.Entrenador;
 
 
 public class ControladorUsuario implements IControladorUsuario {
 
+	ManejarPersistenia m = new ManejarPersistenia();
+	
 	public ControladorUsuario(){
 
 	}
 
-	public boolean usuarioExiste(String nick, String mail){
-
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
-		EntityManager em = emf.createEntityManager();
-
-		try {
-
-	        // Consulto si existe el ususario
-	        Query buscarNombre = em.createNativeQuery("SELECT COUNT(*) FROM USUARIO WHERE NICKNAME = ?");
-	        buscarNombre.setParameter(1, nick);
-	        Number countNick = (Number) buscarNombre.getSingleResult();
-	        
-	        Query buscarMail = em.createNativeQuery("SELECT COUNT(*) FROM USUARIO WHERE MAIL = ?");
-	        buscarMail.setParameter(1, mail);
-	        Number countMail = (Number) buscarMail.getSingleResult();
-
-	        return countNick.intValue() > 0 || countMail.intValue() > 0;
-	        
-		} finally {
-			if (em != null) {
-				em.close();
-			}
-			if (emf != null) {
-				emf.close();
-			}
-		}
-	}
-
-
 	//AltaUsuario
-	public void AltaUsuario(String nickname, String contrasena, String nombre, String apellido, String email, LocalDate fechaNacimiento, String tipoUsuario, boolean esProfesional, String disciplina, String web){
+	public void AltaUsuario(String nickname, String contrasena, String nombre, String apellido, String email, LocalDate fechaNacimiento, String tipoUsuario, boolean esProfesional, String disciplina, String web) throws PersistenciaException{
 		
-		//Defino conectores db
-		EntityManagerFactory emf = null;
-		EntityManager em = null;
-
-		try {
-			//Inicio conectores db
-			emf = Persistence.createEntityManagerFactory("airelibre_desk");
-			em = emf.createEntityManager();
-			
+		
+		try {	
 			if (tipoUsuario == "Entrenador") { // Si es entrenador
 				Entrenador nuevoEntrenador = new Entrenador();
 				nuevoEntrenador.setNickname(nickname);
@@ -65,11 +32,8 @@ public class ControladorUsuario implements IControladorUsuario {
 				nuevoEntrenador.setFechaNacimiento(fechaNacimiento);
 				nuevoEntrenador.setDisciplina(disciplina);
 				nuevoEntrenador.setSitioWeb(web);
-				
-				//Guardo en db
-				em.getTransaction().begin();
-				em.persist(nuevoEntrenador);
-				em.getTransaction().commit();
+
+				m.persistirEntrenador(nuevoEntrenador);
 
 			} else { // Si es deportista
 				Deportista nuevoDeportista = new Deportista();
@@ -81,23 +45,13 @@ public class ControladorUsuario implements IControladorUsuario {
 				nuevoDeportista.setFechaNacimiento(fechaNacimiento);
 				nuevoDeportista.setEsProfesional(esProfesional);
 				
-				//Guardo en db
-				em.getTransaction().begin();
-				em.persist(nuevoDeportista);
-				em.getTransaction().commit();
+				m.persistirDeportista(nuevoDeportista);
 			}
-
-
-		} catch (Exception e) {
-			throw new RuntimeException("Error al persistir el usuario: " + e.getMessage(), e);
-		} finally {
-			if (em != null) {
-				em.close();
-			}
-			if (emf != null) {
-				emf.close();
-			}
+		}catch (Exception e) {
+			throw new PersistenciaException("Error al persistir el usuario");
 		}
+			
+		
 	}
 
 

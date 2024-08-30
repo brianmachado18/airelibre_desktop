@@ -3,10 +3,12 @@ package presentacion;
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.Label;
-import java.awt.List;
+import java.util.List;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.*;
 
 import javax.swing.JButton;
@@ -22,15 +24,28 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+import jakarta.persistence.Query;
+import modelo.Deportista;
+import modelo.Entrenador;
+
+import javax.swing.JComboBox;
+
 public class VtConsUsuario extends JInternalFrame{
 	private JTextField textNombreConsulta;
 	private JTextField textApellidoConsulta;
 	private JTextField textEmailConsulta;
 	private JTextField textFechaConsulta;
 	private JTextField textDisciplinaConsulta;
+	private JComboBox listConsultaUsuario;
 	private JTextField textWebConsulta;
 	private JInternalFrame yo = this;
 	private VtPrincipal principal;
+	private JRadioButton rdbtnEntrenadorConsulta;
+	private JRadioButton rdbtnDeportistaConsulta;
+	private JCheckBox chckbxEsProfesioanlConsulta;
 
 	public VtConsUsuario(VtPrincipal VtPrincipal) {
 		principal = VtPrincipal;
@@ -44,14 +59,79 @@ public class VtConsUsuario extends JInternalFrame{
 		principal.setFrameActual(yo);
 		
 		Label lblNicknameConsulta = new Label("Nickname");
-		lblNicknameConsulta.setBounds(157, 21, 62, 22);
+		lblNicknameConsulta.setBounds(158, 21, 62, 22);
 		this.getContentPane().add(lblNicknameConsulta);
 		
-		TextField textNicknameConsulta = new TextField();
-		textNicknameConsulta.setBounds(225, 21, 95, 22);
-		this.getContentPane().add(textNicknameConsulta);
-		
 		Button btmBuscarConsulta = new Button("Buscar");
+		btmBuscarConsulta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+				EntityManager em = emf.createEntityManager();
+				
+				String nick = listConsultaUsuario.getSelectedItem().toString();
+				
+				Query buscarUsuario = em.createNativeQuery("SELECT DTYPE FROM USUARIO WHERE NICKNAME = ?");
+				buscarUsuario.setParameter(1, nick);
+				Query buscarId = em.createNativeQuery("SELECT ID FROM USUARIO WHERE NICKNAME = ?");
+				buscarId.setParameter(1, nick);
+		        int ID = (int) buscarId.getSingleResult();
+
+				
+				if(buscarUsuario.getSingleResult() == "Entrenador") {
+
+					Entrenador traerEntrador = em.find(Entrenador.class, ID);
+					
+					textNombreConsulta.setText(traerEntrador.getNombre());
+					textApellidoConsulta.setText(traerEntrador.getApellido());
+					textEmailConsulta.setText(traerEntrador.getMail());
+					//textFechaConsulta.setText((String)traerEntrador.getFechaNacimiento());
+					textDisciplinaConsulta.setText(traerEntrador.getDisciplina());
+					textWebConsulta.setText(traerEntrador.getSitioWeb());
+					rdbtnEntrenadorConsulta.setSelected(true);
+					
+				}else {
+					Deportista traerDeportista = em.find(Deportista.class, ID);
+					
+					textNombreConsulta.setText(traerDeportista.getNombre());
+					textApellidoConsulta.setText(traerDeportista.getApellido());
+					textEmailConsulta.setText(traerDeportista.getMail());
+					//textFechaConsulta.setText((String)traerEntrador.getFechaNacimiento());
+					rdbtnDeportistaConsulta.setSelected(true);
+					//chckbxEsProfesioanlConsulta.setSelected(traerDeportista.getEsProfesional());
+					
+					
+				}
+
+				em.close();
+				emf.close();
+
+			}
+		});
+		
+		addComponentListener(new ComponentAdapter() {
+			public void componentShown(ComponentEvent e) {
+				EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+				EntityManager em = emf.createEntityManager();
+							
+				
+				try {
+					listConsultaUsuario.removeAllItems();
+					Query buscarUsuario = em.createNativeQuery("SELECT NICKNAME FROM USUARIO");
+					List<String> usuarios = buscarUsuario.getResultList();
+
+					for (String us : usuarios) {
+						listConsultaUsuario.addItem(us);
+					}
+				}finally {
+					em.close();
+					emf.close();
+				}
+			}
+		});
+		
+		
 		btmBuscarConsulta.setBounds(352, 21, 70, 22);
 		this.getContentPane().add(btmBuscarConsulta);
 		
@@ -95,13 +175,13 @@ public class VtConsUsuario extends JInternalFrame{
 		textFechaConsulta.setBounds(275, 204, 96, 19);
 		this.getContentPane().add(textFechaConsulta);
 		
-		JRadioButton rdbtnEntrenadorConsulta = new JRadioButton("Entrenador");
+		rdbtnEntrenadorConsulta = new JRadioButton("Entrenador");
 		rdbtnEntrenadorConsulta.setEnabled(false);
 		rdbtnEntrenadorConsulta.setHorizontalAlignment(SwingConstants.LEFT);
 		rdbtnEntrenadorConsulta.setBounds(403, 143, 233, 21);
 		this.getContentPane().add(rdbtnEntrenadorConsulta);
 		
-		JRadioButton rdbtnDeportistaConsulta = new JRadioButton("Deportista");
+		rdbtnDeportistaConsulta = new JRadioButton("Deportista");
 		rdbtnDeportistaConsulta.setEnabled(false);
 		rdbtnDeportistaConsulta.setHorizontalAlignment(SwingConstants.LEFT);
 		rdbtnDeportistaConsulta.setBounds(403, 80, 233, 21);
@@ -111,7 +191,7 @@ public class VtConsUsuario extends JInternalFrame{
 		panelDeposrtista_1.setBounds(403, 100, 233, 33);
 		this.getContentPane().add(panelDeposrtista_1);
 		
-		JCheckBox chckbxEsProfesioanlConsulta = new JCheckBox("Profesional");
+		chckbxEsProfesioanlConsulta = new JCheckBox("Profesional");
 		chckbxEsProfesioanlConsulta.setEnabled(false);
 		panelDeposrtista_1.add(chckbxEsProfesioanlConsulta);
 		
@@ -151,8 +231,8 @@ public class VtConsUsuario extends JInternalFrame{
 		btnCancelarConsulta.setBounds(527, 301, 105, 21);
 		this.getContentPane().add(btnCancelarConsulta);
 		
-		List listConsultaUsuario = new List();
-		listConsultaUsuario.setBounds(10, 10, 110, 312);
-		this.getContentPane().add(listConsultaUsuario);
+		listConsultaUsuario = new JComboBox();
+		listConsultaUsuario.setBounds(238, 21, 96, 22);
+		getContentPane().add(listConsultaUsuario);
 	}
 }

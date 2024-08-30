@@ -19,7 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
-
+import excepciones.PersistenciaException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -35,11 +35,17 @@ public class VtAltaActDep extends JInternalFrame {
 	private JTextField textLugar;
 	private JTextField textFecha;
 	private JTextField textIMG;
-	private JInternalFrame yo = this;
+	private JComboBox<String> cbEntrenador;
+	private IControladorUsuario iControladorUsuario;
+	private IControladorActividad iControladorActividad;
 	private VtPrincipal principal;
+	private JInternalFrame yo = this;
 
-	public VtAltaActDep(VtPrincipal VtPrincipal) {
+	public VtAltaActDep(IControladorUsuario iu, IControladorActividad ia, VtPrincipal VtPrincipal) {
 		principal = VtPrincipal;
+
+		iControladorUsuario = iu;
+		iControladorActividad = ia;
 		principal.bajarFrameActual();
 		setTitle("Alta Actividad");
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
@@ -56,7 +62,7 @@ public class VtAltaActDep extends JInternalFrame {
 		lblNombre.setBounds(10, 60, 128, 14);
 		getContentPane().add(lblNombre);
 
-		JComboBox cbEntrenador = new JComboBox();
+		cbEntrenador = new JComboBox<String>();
 		cbEntrenador.setBounds(133, 18, 152, 22);
 		getContentPane().add(cbEntrenador);
 		cbEntrenador.setSelectedIndex(-1);
@@ -115,32 +121,12 @@ public class VtAltaActDep extends JInternalFrame {
 		JButton btnConfirmar = new JButton("Confirmar");
 		btnConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
-				EntityManager em = emf.createEntityManager();
-				
-				String nombre =  textNombre.getText();
-				String desc = textDescripcion.getText();
-				String duracionHora =  textDuracion.getText();
-				String costo = textCosto.getText();
-				String lugar = textLugar.getText();
-				String fecha = textFecha.getText();
-				String img = textIMG.getText();
-				String ent = cbEntrenador.getSelectedItem().toString();
-				
-				Query buscarEntrenadores = em.createNativeQuery("SELECT ID FROM USUARIO WHERE NICKNAME = ?");
-				buscarEntrenadores.setParameter(1, ent);
-		        int ID = (int) buscarEntrenadores.getSingleResult();
-				Entrenador traerEntrador = em.find(Entrenador.class, ID);
-
-				em.close();
-				emf.close();
-		        
-				ControladorActividad ac = new ControladorActividad();
-				DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-				LocalDate fechaAux = LocalDate.parse(fecha, formatoFecha);
-				
-				ac.AltaActividad(nombre, desc, Integer.parseInt(duracionHora), Integer.parseInt(costo), lugar, fechaAux,  img, traerEntrador);
+				try {
+					confirmarAltaUsuario();
+				} catch (PersistenciaException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		
@@ -169,13 +155,34 @@ public class VtAltaActDep extends JInternalFrame {
 					for (String ent : entrenadores) {
 						cbEntrenador.addItem(ent);
 					}
-				}finally {
+				} finally {
 					em.close();
 					emf.close();
 				}
 			}
 		});
-		
-		
 	}
+	
+	private void confirmarAltaUsuario() throws PersistenciaException{
+		//Guardo los datos en variables
+		String nombre =  textNombre.getText();
+		String desc = textDescripcion.getText();
+		String duracionHora =  textDuracion.getText();
+		String costo = textCosto.getText();
+		String lugar = textLugar.getText();
+		String fecha = textFecha.getText();
+		String img = textIMG.getText();
+		String ent = cbEntrenador.getSelectedItem().toString();
+		
+		//Obtiene el objeto del entrenador seleccionado
+		Entrenador traerEntrador = iControladorUsuario.obtenerEntrenador(ent);
+		
+		//Ingresa los datos a la bd
+		LocalDate fechaAux = LocalDate.parse(fecha, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		iControladorActividad.AltaActividad(nombre, desc, Integer.parseInt(duracionHora), Integer.parseInt(costo), lugar, fechaAux,  img, traerEntrador);
+		
+		//Limmpio los campos y oculto el panel
+		yo.dispose();
+	}
+	
 }

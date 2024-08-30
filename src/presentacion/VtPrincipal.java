@@ -208,7 +208,7 @@ public class VtPrincipal extends JFrame {
 		panel.add(IFConsUsuario);
     }
     private void mostrarVtAltaActividad(JDesktopPane panel) {
-		VtAltaActDep IFAltaActividad = new VtAltaActDep(yo);
+		VtAltaActDep IFAltaActividad = new VtAltaActDep(ICU, ICA, yo);
 		IFAltaActividad.setVisible(true);
 		panel.add(IFAltaActividad);
     }

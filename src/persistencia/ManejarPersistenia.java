@@ -1,10 +1,12 @@
 package persistencia;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Vector;
 
 import excepciones.*;
 import jakarta.persistence.*;
+import modelo.Actividad;
 import modelo.Deportista;
 import modelo.Entrenador;
 
@@ -194,6 +196,46 @@ public class ManejarPersistenia {
 			emf.close();
 		}
 		return ret;
+	}
+	
+	public boolean actividadExiste(String nombre){
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+
+		try {
+	        Query buscarNombre = em.createNativeQuery("SELECT COUNT(*) FROM ACTIVIDAD WHERE NOMBRE = ?");
+	        buscarNombre.setParameter(1, nombre);
+	        Number countNick = (Number) buscarNombre.getSingleResult();
+	        return countNick.intValue() > 0;
+		} finally {
+			em.close();
+			emf.close();
+		}
+	}
+
+	public void AltaActividad(String nombre, String desc, int dHoras, int costo, String lugar, LocalDate fAlta, String img, Entrenador ent){
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		
+		Actividad nuevaActividad = new Actividad();
+			
+		nuevaActividad.setNombre(nombre);
+		nuevaActividad.setDescripcion(desc);
+		nuevaActividad.setDuracionHoras(dHoras);
+		nuevaActividad.setCosto(costo);
+		nuevaActividad.setLugar(lugar);
+		nuevaActividad.setFechaAlta(fAlta);
+		nuevaActividad.setImagen(img);
+		nuevaActividad.setEntrenador(ent);
+		
+		try {
+			em.getTransaction().begin();
+			em.persist(nuevaActividad);
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+			emf.close();
+		}
 	}
 	
 }

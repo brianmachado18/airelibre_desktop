@@ -1,5 +1,6 @@
 package presentacion;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -34,13 +35,18 @@ public class VtAltaActDep extends JInternalFrame {
 	private JTextField textLugar;
 	private JTextField textFecha;
 	private JTextField textIMG;
-	JInternalFrame yo = this;
+	private JInternalFrame yo = this;
+	private VtPrincipal principal;
 
-	public VtAltaActDep() {
+	public VtAltaActDep(VtPrincipal VtPrincipal) {
+		principal = VtPrincipal;
+		principal.bajarFrameActual();
 		setTitle("Alta Actividad");
-		this.getContentPane().setLayout(null);
-		this.setBounds(26, 24, 311, 291);
-		this.setVisible(false);
+		setDefaultCloseOperation(HIDE_ON_CLOSE);
+		setSize( 650, 370);
+		getContentPane().setLayout(null);	
+		getContentPane().setBackground(Color.decode("#cbdad5"));
+		principal.setFrameActual(yo);
 
 		JLabel lblEntrenador = new JLabel("Entrenador");
 		lblEntrenador.setBounds(10, 22, 128, 14);
@@ -144,14 +150,7 @@ public class VtAltaActDep extends JInternalFrame {
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				yo.setVisible(false);
-				cbEntrenador.setSelectedIndex(-1);
-				textNombre.setText(null);
-				textDescripcion.setText(null);
-				textDuracion.setText(null);
-				textCosto.setText(null);
-				textLugar.setText(null);
-				textFecha.setText(null);
+				yo.dispose();
 			}
 		});
 		btnCancelar.setBounds(158, 223, 105, 21);

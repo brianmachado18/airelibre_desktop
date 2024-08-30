@@ -1,5 +1,6 @@
 package presentacion;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,25 +12,29 @@ import javax.swing.JTextField;
 
 public class VtAltaClaseDep extends JInternalFrame{
 	JButton btnCancelar;
-	JInternalFrame yo = this;
+	private JInternalFrame yo = this;
+	private VtPrincipal principal;
 	private JTextField textNombre;
 	private JTextField textFecha;
 	private JTextField textHora;
 	private JTextField textLugar;
 	private JTextField textCupos;
 	private JTextField textFechaAlta;
-	public VtAltaClaseDep() {
-		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		this.setBounds(47, 40, 298, 270);
-		this.getContentPane().setLayout(null);
-		this.setTitle("Alta Clase");
-		this.setVisible(false);
-		this.setClosable(false);
+	public VtAltaClaseDep(VtPrincipal VtPrincipal) {
+		
+		setTitle("Alta Clase");
+		principal = VtPrincipal;
+		principal.bajarFrameActual();
+		setDefaultCloseOperation(HIDE_ON_CLOSE);
+		setSize( 650, 370);
+		getContentPane().setLayout(null);	
+		getContentPane().setBackground(Color.decode("#cbdad5"));
+		principal.setFrameActual(yo);
 		
 		btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				yo.setVisible(false);
+				yo.dispose();
 			}
 		});
 		btnCancelar.setBounds(167, 208, 105, 21);

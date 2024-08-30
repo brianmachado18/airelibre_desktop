@@ -8,6 +8,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JList;
 import java.awt.List;
+import java.awt.Color;
 import java.awt.Label;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -37,15 +38,18 @@ public class VtConsActDep extends JInternalFrame{
 	private List listInscriptos;
 	private List listActividades;
 	private List listClases;
-	JInternalFrame yo = this;
+	private JInternalFrame yo = this;
+	private VtPrincipal principal;
 	
-	public VtConsActDep() {
-		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+	public VtConsActDep(VtPrincipal VtPrincipal) {
+		principal = VtPrincipal;
+		principal.bajarFrameActual();
+		setDefaultCloseOperation(HIDE_ON_CLOSE);
 		setTitle("Consulta Actividad");
-		this.setBounds(47, 40, 858, 364);
-		this.getContentPane().setLayout(null);
-		this.setVisible(false);
-		this.setClosable(false);
+		setSize( 650, 370);
+		getContentPane().setLayout(null);	
+		getContentPane().setBackground(Color.decode("#cbdad5"));
+		principal.setFrameActual(yo);
 		
 		listActividades = new List();
 		listActividades.setBounds(10, 10, 146, 314);
@@ -193,8 +197,7 @@ public class VtConsActDep extends JInternalFrame{
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				limpiarCampos();
-				yo.setVisible(false);
+				yo.dispose();
 			}
 		});
 		btnCancelar.setBounds(249, 290, 190, 21);
@@ -208,21 +211,7 @@ public class VtConsActDep extends JInternalFrame{
 	        }
 	    });
 	}
-	private void limpiarCampos() {
-		//Limpio todos los campos
-		textDescripcion.setText(null);
-		textCosto.setText(null);
-		textLugar.setText(null);
-		textFechaAlta.setText(null);
-		textEstado.setText(null);
-		textNombreClase.setText(null);
-		textFechaClase.setText(null);
-		textHoraClase.setText(null);
-		textLugarClase.setText(null);
-		textFechaAltaClase.setText(null);
-		listClases.removeAll();
-		listInscriptos.removeAll();
-	}
+
 	private void recargarListaActividades() {
 		//limpia la lista
 		listActividades.removeAll();

@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.*;
-
+import java.awt.*;
 import excepciones.PersistenciaException;
 import logica.ControladorUsuario;
 import logica.Fabrica;
@@ -31,19 +31,20 @@ public class VtAltaUsuario extends JInternalFrame{
 	private JRadioButton rdbtnEntrenador;
 	private IControladorUsuario iControladorUsuario;
 	private ManejarPersistenia manejarPersistencia = new ManejarPersistenia();
-
-
-	JInternalFrame yo = this;
-	public VtAltaUsuario(IControladorUsuario i) {
-		
+	private VtPrincipal principal;
+	private JInternalFrame yo = this;
+	public VtAltaUsuario(IControladorUsuario i, VtPrincipal VtPrincipal) {
+		principal = VtPrincipal;
+		principal.bajarFrameActual();
 		//Inicio el controlador usuario
 		iControladorUsuario = i;
 		
-		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		this.setBounds(10, 11, 524, 257);
-		this.getContentPane().setLayout(null);	
-		this.setTitle("Alta Usuario");
-		this.setClosable(false);
+		setDefaultCloseOperation(HIDE_ON_CLOSE);
+		setSize( 650, 370);
+		getContentPane().setLayout(null);	
+		setTitle("Alta Usuario");
+		getContentPane().setBackground(Color.decode("#cbdad5"));
+		principal.setFrameActual(yo);
 
 		//============JLABELS ALTA============================
 		JLabel lblNickname = new JLabel("Nickname");
@@ -197,8 +198,7 @@ public class VtAltaUsuario extends JInternalFrame{
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				limpiarCampos();
-				yo.setVisible(false);
+				yo.dispose();
 			}
 		});
 		btnCancelar.setBounds(393, 195, 105, 21);
@@ -272,27 +272,9 @@ public class VtAltaUsuario extends JInternalFrame{
 		iControladorUsuario.AltaUsuario(nickname, contrasena, nombre, apellido, email, fecha, tipoUsuario, esProfesional, disciplina, web);
 		
 		//Limmpio los campos y oculto el panel
-		limpiarCampos();
-		yo.setVisible(false);
+		yo.dispose();
 
 	}
-
-	private void limpiarCampos() {
-		
-		//Limpio todos los campos
-		textNickname.setText("");
-		passwordContrasena.setText("");
-		textNombre.setText("");
-		textApellido.setText("");
-		textEmail.setText("");
-		textFecha.setText("");
-		textDisciplina.setText("");
-		textWeb.setText("");
-		chckbxEsProfesioanl.setSelected(false);
-		rdbtnDeportista.setSelected(false);
-		rdbtnEntrenador.setSelected(false);
-	}
-
 
 
 

@@ -1,5 +1,6 @@
 package presentacion;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,24 +12,30 @@ import javax.swing.JTextField;
 
 public class VtConsInsc extends JInternalFrame{
 	JButton btnCerrar;
-	JInternalFrame yo = this;
+	private JInternalFrame yo = this;
+	private VtPrincipal principal;
 	private JTextField textFechaAlta;
 	private JTextField textCupos;
 	private JTextField textLugar;
 	private JTextField textHora;
 	private JTextField textFecha;
-	public VtConsInsc() {
-		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		this.setBounds(47, 40, 675, 343);
-		this.getContentPane().setLayout(null);
-		this.setTitle("Inscripcion");
-		this.setVisible(false);
-		this.setClosable(false);
+	public VtConsInsc(VtPrincipal VtPrincipal) {
+
+		setTitle("Inscripcion");
+		principal = VtPrincipal;
+		principal.bajarFrameActual();
+		setTitle("Alta Actividad");
+		setDefaultCloseOperation(HIDE_ON_CLOSE);
+		setSize( 650, 370);
+		getContentPane().setLayout(null);	
+		getContentPane().setBackground(Color.decode("#cbdad5"));
+		principal.setFrameActual(yo);
+
 
 		btnCerrar = new JButton("Cerrar");
 		btnCerrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				yo.setVisible(false);
+				yo.dispose();
 			}
 		});
 		btnCerrar.setBounds(442, 282, 206, 21);

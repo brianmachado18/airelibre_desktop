@@ -1,11 +1,13 @@
 package presentacion;
 
 import java.awt.Button;
+import java.awt.Color;
 import java.awt.Label;
 import java.awt.List;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.*;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -27,15 +29,19 @@ public class VtConsUsuario extends JInternalFrame{
 	private JTextField textFechaConsulta;
 	private JTextField textDisciplinaConsulta;
 	private JTextField textWebConsulta;
-	JInternalFrame yo = this;
+	private JInternalFrame yo = this;
+	private VtPrincipal principal;
 
-	public VtConsUsuario() {
-		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		this.setBounds(47, 40, 658, 362);
-		this.getContentPane().setLayout(null);
-		this.setTitle("Consulta Usuario");
-		this.setVisible(false);
-		this.setClosable(false);
+	public VtConsUsuario(VtPrincipal VtPrincipal) {
+		principal = VtPrincipal;
+		principal.bajarFrameActual();
+		setDefaultCloseOperation(HIDE_ON_CLOSE);
+		setSize(650, 370);
+		getContentPane().setLayout(null);
+		getContentPane().setBackground(Color.decode("#cbdad5"));
+		setTitle("Consulta Usuario");
+		setVisible(false);
+		principal.setFrameActual(yo);
 		
 		Label lblNicknameConsulta = new Label("Nickname");
 		lblNicknameConsulta.setBounds(157, 21, 62, 22);
@@ -139,8 +145,7 @@ public class VtConsUsuario extends JInternalFrame{
 		JButton btnCancelarConsulta = new JButton("Cancelar");
 		btnCancelarConsulta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textNicknameConsulta.setText(null);
-				yo.setVisible(false);
+				yo.dispose();
 			}
 		});
 		btnCancelarConsulta.setBounds(527, 301, 105, 21);

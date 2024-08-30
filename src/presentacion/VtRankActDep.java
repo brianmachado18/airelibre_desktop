@@ -1,5 +1,6 @@
 package presentacion;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -15,15 +16,19 @@ public class VtRankActDep extends JInternalFrame{
 	private JLabel lblActividad;
 	private JTable tableRank;
 	private JButton btnCerrar;
-	JInternalFrame yo = this;
+	private JInternalFrame yo = this;
+	private VtPrincipal principal;
 	
-	public VtRankActDep() {
-		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		this.setBounds(47, 40, 263, 343);
-		this.getContentPane().setLayout(null);
-		this.setTitle("Ranking");
-		this.setVisible(false);
-		this.setClosable(false);
+	public VtRankActDep(VtPrincipal VtPrincipal) {
+		setTitle("Ranking");
+		principal = VtPrincipal;
+		principal.bajarFrameActual();
+		
+		setDefaultCloseOperation(HIDE_ON_CLOSE);
+		setSize( 650, 370);
+		getContentPane().setLayout(null);	
+		getContentPane().setBackground(Color.decode("#cbdad5"));
+		principal.setFrameActual(yo);
 		
 		lblClases = new JLabel("Cantidad de clases");
 		lblClases.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -42,7 +47,7 @@ public class VtRankActDep extends JInternalFrame{
 		btnCerrar = new JButton("Cerrar");
 		btnCerrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				yo.setVisible(false);
+				yo.dispose();
 			}
 		});
 		btnCerrar.setBounds(10, 285, 226, 21);

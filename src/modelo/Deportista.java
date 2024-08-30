@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Data
@@ -14,9 +13,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Deportista extends Usuario{
 
-	boolean esProfesional;
+	private boolean esProfesional;
 	@OneToMany(mappedBy = "deportista")
 	private List<Inscripcion> inscripciones;
-	
 	
 }

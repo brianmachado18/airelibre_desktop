@@ -1,6 +1,9 @@
 package logica;
 
 import java.time.*;
+import java.util.List;
+import java.util.Vector;
+
 import datatype.*;
 import excepciones.*;
 import jakarta.persistence.*;
@@ -17,9 +20,13 @@ public class ControladorUsuario implements IControladorUsuario {
 
 	}
 
+	//True si el usuario existe
+	public boolean usuarioExiste(String nickname) throws PersistenciaException{
+		return m.usuarioExiste(nickname);
+	}
+	
 	//AltaUsuario
 	public void AltaUsuario(String nickname, String contrasena, String nombre, String apellido, String email, LocalDate fechaNacimiento, String tipoUsuario, boolean esProfesional, String disciplina, String web) throws PersistenciaException{
-		
 		
 		try {	
 			if (tipoUsuario == "Entrenador") { // Si es entrenador
@@ -50,11 +57,29 @@ public class ControladorUsuario implements IControladorUsuario {
 		}catch (Exception e) {
 			throw new PersistenciaException("Error al persistir el usuario");
 		}
-			
-		
+	}
+	
+	//Retorna un Vector con todos los nicknames de los usuarios
+	public Vector<String> obtenerVectorUsuarios() throws PersistenciaException{
+		return m.obtenerVectorUsuarios();
+	}
+	
+	//True si es entrenador
+	public boolean esEntrenador(String nickname) throws PersistenciaException{
+		return m.esEntrenador(nickname);
+	}
+	
+	//Retorna un objeto entrenador
+	public Entrenador obtenerEntrenador(String nickname) throws PersistenciaException{
+		return m.obtenerEntrenador(nickname);
+	}
+	
+	//Retorna un objeto deportista
+	public Deportista obtenerDeportista(String nickname) throws PersistenciaException{
+		return m.obtenerDeportista(nickname);
 	}
 
-
+	
 	//verInfoDeportista
 	public DtDeportista verInfoDeportista(String nickname)throws UsuarioNoExisteException{
 		//Agrego throw para que no rompa

@@ -203,7 +203,7 @@ public class VtPrincipal extends JFrame {
         panel.add(IFAltaUsuario);
     }
     private void mostrarVtConsUsuario(JDesktopPane panel) {
-		VtConsUsuario IFConsUsuario = new VtConsUsuario(yo);
+		VtConsUsuario IFConsUsuario = new VtConsUsuario(ICU, yo);
 		IFConsUsuario.setVisible(true);
 		panel.add(IFConsUsuario);
     }

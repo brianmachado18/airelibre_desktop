@@ -10,7 +10,6 @@ import lombok.Setter;
 
 @Entity
 @Data
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Deportista extends Usuario{
@@ -18,4 +17,6 @@ public class Deportista extends Usuario{
 	boolean esProfesional;
 	@OneToMany(mappedBy = "deportista")
 	private List<Inscripcion> inscripciones;
+	
+	
 }

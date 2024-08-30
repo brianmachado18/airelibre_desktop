@@ -66,6 +66,19 @@ public class VtConsUsuario extends JInternalFrame{
 		btmBuscarConsulta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				textNombreConsulta.setText("");
+				textApellidoConsulta.setText("");
+				textEmailConsulta.setText("");
+				//textFechaConsulta.setText("");
+				textDisciplinaConsulta.setText("");
+				textWebConsulta.setText("");
+				rdbtnEntrenadorConsulta.setSelected(false);
+				textNombreConsulta.setText("");
+				textApellidoConsulta.setText("");
+				textEmailConsulta.setText("");
+				//textFechaConsulta.setText("");
+				rdbtnDeportistaConsulta.setSelected(false);
+				//chckbxEsProfesioanlConsulta.setSelected(false);
 				
 				EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
 				EntityManager em = emf.createEntityManager();
@@ -77,9 +90,8 @@ public class VtConsUsuario extends JInternalFrame{
 				Query buscarId = em.createNativeQuery("SELECT ID FROM USUARIO WHERE NICKNAME = ?");
 				buscarId.setParameter(1, nick);
 		        int ID = (int) buscarId.getSingleResult();
-
 				
-				if(buscarUsuario.getSingleResult() == "Entrenador") {
+				if(buscarUsuario.getSingleResult().equals("Entrenador")) {
 
 					Entrenador traerEntrador = em.find(Entrenador.class, ID);
 					
@@ -91,7 +103,7 @@ public class VtConsUsuario extends JInternalFrame{
 					textWebConsulta.setText(traerEntrador.getSitioWeb());
 					rdbtnEntrenadorConsulta.setSelected(true);
 					
-				}else {
+				}else{
 					Deportista traerDeportista = em.find(Deportista.class, ID);
 					
 					textNombreConsulta.setText(traerDeportista.getNombre());

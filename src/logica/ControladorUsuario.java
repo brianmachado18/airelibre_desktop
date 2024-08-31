@@ -1,12 +1,10 @@
 package logica;
 
 import java.time.*;
-import java.util.List;
 import java.util.Vector;
 
 import datatype.*;
 import excepciones.*;
-import jakarta.persistence.*;
 import persistencia.*;
 import modelo.Deportista;
 import modelo.Entrenador;
@@ -23,6 +21,9 @@ public class ControladorUsuario implements IControladorUsuario {
 	//True si el usuario existe
 	public boolean usuarioExiste(String nickname) throws PersistenciaException{
 		return m.usuarioExiste(nickname);
+	}
+	public boolean usuarioExiste(String nickname, String email) throws PersistenciaException{
+		return m.usuarioExiste(nickname, email);
 	}
 	
 	//AltaUsuario

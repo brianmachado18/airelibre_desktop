@@ -5,15 +5,8 @@ import java.util.Vector;
 
 import datatype.DtActividad;
 import excepciones.ActividadNoExisteException;
-import excepciones.ActividadRepetidaException;
 import excepciones.PersistenciaException;
-import excepciones.UsuarioNoExisteException;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-import jakarta.persistence.Query;
 import modelo.Actividad;
-import modelo.Deportista;
 import modelo.Entrenador;
 import persistencia.ManejarPersistenia;
 

@@ -21,6 +21,8 @@ public interface IControladorUsuario {
 	
 	public abstract boolean usuarioExiste(String nickname) throws PersistenciaException;
 	
+	public abstract boolean usuarioExiste(String nickname, String email) throws PersistenciaException;
+	
 	public abstract boolean esEntrenador(String nickname) throws PersistenciaException;
 	
 	public abstract Entrenador obtenerEntrenador(String nickname) throws PersistenciaException;

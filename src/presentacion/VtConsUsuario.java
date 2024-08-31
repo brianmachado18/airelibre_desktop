@@ -3,24 +3,17 @@ package presentacion;
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.Label;
-import java.util.List;
 import java.util.Vector;
-import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.time.format.DateTimeFormatter;
-import java.awt.*;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -28,15 +21,10 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import excepciones.PersistenciaException;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-import jakarta.persistence.Query;
 import logica.IControladorUsuario;
 import modelo.Deportista;
 import modelo.Entrenador;
 
-import javax.swing.JComboBox;
 import javax.swing.JList;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -76,41 +64,6 @@ public class VtConsUsuario extends JInternalFrame{
 		this.getContentPane().add(lblNicknameConsulta);
 		
 		Button btmBuscarConsulta = new Button("Buscar");
-		btmBuscarConsulta.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				limpiarCampos();
-				String nick = textNicknameConsulta.getText();
-				try {
-					if(iControladorUsuario.usuarioExiste(nick)) {
-						if (iControladorUsuario.esEntrenador(nick)) {
-							Entrenador traerEntrenador = iControladorUsuario.obtenerEntrenador(nick);
-							textNombreConsulta.setText(traerEntrenador.getNombre());
-							textApellidoConsulta.setText(traerEntrenador.getApellido());
-							textEmailConsulta.setText(traerEntrenador.getMail());
-							textFechaConsulta.setText(traerEntrenador.getFechaNacimiento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString());
-							rdbtnEntrenadorConsulta.setSelected(true);
-							textDisciplinaConsulta.setText(traerEntrenador.getDisciplina());
-							textWebConsulta.setText(traerEntrenador.getSitioWeb());
-						} else {
-							Deportista traerDeportista = iControladorUsuario.obtenerDeportista(nick);
-							textNombreConsulta.setText(traerDeportista.getNombre());
-							textApellidoConsulta.setText(traerDeportista.getApellido());
-							textEmailConsulta.setText(traerDeportista.getMail());
-							textFechaConsulta.setText(traerDeportista.getFechaNacimiento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString());
-							rdbtnDeportistaConsulta.setSelected(true);
-							chckbxEsProfesioanlConsulta.setSelected(traerDeportista.isEsProfesional());
-						}
-					} else {
-						JOptionPane.showMessageDialog( textNicknameConsulta, "El usuario no existe","Error", JOptionPane.ERROR_MESSAGE);
-						return;
-					}
-				} catch (PersistenciaException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
-		
 		btmBuscarConsulta.setBounds(352, 21, 70, 22);
 		this.getContentPane().add(btmBuscarConsulta);
 		
@@ -206,30 +159,19 @@ public class VtConsUsuario extends JInternalFrame{
 		panelEntrenador_1.add(textWebConsulta);
 		
 		JButton btnCancelarConsulta = new JButton("Cancelar");
-		btnCancelarConsulta.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				yo.dispose();
-			}
-		});
 		btnCancelarConsulta.setBounds(527, 301, 105, 21);
 		this.getContentPane().add(btnCancelarConsulta);
 		
 		listUsuarios = new JList<String>();
-		listUsuarios.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				textNicknameConsulta.setText(listUsuarios.getSelectedValue());
-			}
-		});
 		listUsuarios.setBounds(10, 11, 137, 318);
 		getContentPane().add(listUsuarios);
 		
 		textNicknameConsulta = new JTextField();
-		textNicknameConsulta.setEditable(false);
 		textNicknameConsulta.setColumns(10);
 		textNicknameConsulta.setBounds(238, 21, 96, 19);
 		getContentPane().add(textNicknameConsulta);
 		
+		//EVENTOS
 		addComponentListener(new ComponentAdapter() {
 			public void componentShown(ComponentEvent e) {
 				Vector<String> vUsuarios = null;
@@ -245,6 +187,53 @@ public class VtConsUsuario extends JInternalFrame{
 			}
 		});
 		
+		listUsuarios.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				textNicknameConsulta.setText(listUsuarios.getSelectedValue());
+			}
+		});
+
+		btmBuscarConsulta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				limpiarCampos();
+				String nick = textNicknameConsulta.getText();
+				try {
+					if(iControladorUsuario.usuarioExiste(nick)) {
+						if (iControladorUsuario.esEntrenador(nick)) {
+							Entrenador traerEntrenador = iControladorUsuario.obtenerEntrenador(nick);
+							textNombreConsulta.setText(traerEntrenador.getNombre());
+							textApellidoConsulta.setText(traerEntrenador.getApellido());
+							textEmailConsulta.setText(traerEntrenador.getMail());
+							textFechaConsulta.setText(traerEntrenador.getFechaNacimiento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString());
+							rdbtnEntrenadorConsulta.setSelected(true);
+							textDisciplinaConsulta.setText(traerEntrenador.getDisciplina());
+							textWebConsulta.setText(traerEntrenador.getSitioWeb());
+						} else {
+							Deportista traerDeportista = iControladorUsuario.obtenerDeportista(nick);
+							textNombreConsulta.setText(traerDeportista.getNombre());
+							textApellidoConsulta.setText(traerDeportista.getApellido());
+							textEmailConsulta.setText(traerDeportista.getMail());
+							textFechaConsulta.setText(traerDeportista.getFechaNacimiento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString());
+							rdbtnDeportistaConsulta.setSelected(true);
+							chckbxEsProfesioanlConsulta.setSelected(traerDeportista.isEsProfesional());
+						}
+					} else {
+						JOptionPane.showMessageDialog( textNicknameConsulta, "El usuario no existe","Error", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+				} catch (PersistenciaException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		btnCancelarConsulta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				yo.dispose();
+			}
+		});
 	}
 	
 	public void limpiarCampos() {

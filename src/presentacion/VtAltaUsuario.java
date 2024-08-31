@@ -4,16 +4,12 @@ import java.awt.FlowLayout;
 import java.awt.event.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.*;
 import java.awt.*;
 import excepciones.PersistenciaException;
-import logica.ControladorUsuario;
-import logica.Fabrica;
 import logica.IControladorUsuario;
-import persistencia.ManejarPersistenia;
 
 
 public class VtAltaUsuario extends JInternalFrame{
@@ -30,7 +26,6 @@ public class VtAltaUsuario extends JInternalFrame{
 	private JRadioButton rdbtnDeportista;
 	private JRadioButton rdbtnEntrenador;
 	private IControladorUsuario iControladorUsuario;
-	private ManejarPersistenia manejarPersistencia = new ManejarPersistenia();
 	private VtPrincipal principal;
 	private JInternalFrame yo = this;
 	public VtAltaUsuario(IControladorUsuario i, VtPrincipal VtPrincipal) {
@@ -262,10 +257,9 @@ public class VtAltaUsuario extends JInternalFrame{
 		LocalDate fecha = LocalDate.parse(fechaNacimiento, formatoFecha);
 		
 		//Verifico si existe usuario con mismo nick/email
-		if (manejarPersistencia.usuarioExiste(nickname, email)) {
+		if (iControladorUsuario.usuarioExiste(nickname, email)) {
 			JOptionPane.showMessageDialog(this, "El nickname o el correo electrónico ya están en uso", "Error", JOptionPane.ERROR_MESSAGE);
 			return;
-			
 		}
 		
 		//Ingreso los datos a la db

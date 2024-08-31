@@ -1,10 +1,12 @@
 package logica;
 
 import java.time.LocalDate;
+import java.util.Vector;
 
 import datatype.DtActividad;
 import excepciones.ActividadNoExisteException;
 import excepciones.ActividadRepetidaException;
+import excepciones.PersistenciaException;
 import excepciones.UsuarioNoExisteException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -24,6 +26,21 @@ public class ControladorActividad implements IControladorActividad {
     
 	public boolean actividadExiste(String nombre){
 		return m.actividadExiste(nombre);
+	}
+	
+	public Vector<String> obtenerVectorActividad(){
+		Vector<String> ret = null;
+		try {
+			ret = m.obtenerVectorActividades();
+		} catch (PersistenciaException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ret;
+	}
+	
+	public Actividad obtenerActividad(String nom) {
+		return m.obtenerActividad(nom);
 	}
 
 

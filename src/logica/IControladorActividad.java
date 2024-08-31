@@ -1,10 +1,11 @@
 package logica;
 
 import java.time.LocalDate;
+import java.util.Vector;
 
 import datatype.DtActividad;
 import excepciones.ActividadNoExisteException;
-import excepciones.ActividadRepetidaException;
+import modelo.Actividad;
 import modelo.Entrenador;
 
 public interface IControladorActividad {
@@ -17,6 +18,10 @@ public interface IControladorActividad {
 	public abstract boolean actividadExiste(String nombre);
 	
 	public abstract void AltaActividad(String nombre, String desc, int dHoras, int costo, String lugar, LocalDate fAlta, String img,  Entrenador ent);
+	
+	public abstract Vector<String> obtenerVectorActividad();
+	
+	public abstract Actividad obtenerActividad(String nom);
 
     /**
      * Retorna la informacion de todas las Actividades.

@@ -1,26 +1,24 @@
 package presentacion;
 
-import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JList;
-import java.awt.List;
 import java.awt.Color;
-import java.awt.Label;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import logica.IControladorActividad;
+import modelo.Actividad;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.time.format.DateTimeFormatter;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
 
 public class VtConsActDep extends JInternalFrame{
 	private JTextField textNombre;
@@ -35,25 +33,23 @@ public class VtConsActDep extends JInternalFrame{
 	private JTextField textHoraClase;
 	private JTextField textLugarClase;
 	private JTextField textFechaAltaClase;
-	private List listInscriptos;
-	private List listActividades;
-	private List listClases;
-	private JInternalFrame yo = this;
+	private JList<String> listInscriptos;
+	private JList<String> listClases;
+	private JList<String> listActividades;
+	private IControladorActividad iControladorActividad;
 	private VtPrincipal principal;
+	private JInternalFrame yo = this;
 	
-	public VtConsActDep(VtPrincipal VtPrincipal) {
+	public VtConsActDep(IControladorActividad i, VtPrincipal VtPrincipal) {
 		principal = VtPrincipal;
+		iControladorActividad = i;
 		principal.bajarFrameActual();
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
 		setTitle("Consulta Actividad");
-		setSize( 650, 370);
+		setSize( 855, 370);
 		getContentPane().setLayout(null);	
 		getContentPane().setBackground(Color.decode("#cbdad5"));
 		principal.setFrameActual(yo);
-		
-		listActividades = new List();
-		listActividades.setBounds(10, 10, 146, 314);
-		getContentPane().add(listActividades);
 		
 		JLabel lblNombre = new JLabel("Nombre");
 		lblNombre.setBounds(177, 29, 47, 14);
@@ -124,10 +120,6 @@ public class VtConsActDep extends JInternalFrame{
 		textEstado.setBounds(249, 241, 190, 20);
 		getContentPane().add(textEstado);
 		
-		listClases = new List();
-		listClases.setBounds(461, 54, 146, 270);
-		getContentPane().add(listClases);
-		
 		JLabel lblClases = new JLabel("Clases");
 		lblClases.setBounds(461, 29, 146, 14);
 		getContentPane().add(lblClases);
@@ -186,35 +178,70 @@ public class VtConsActDep extends JInternalFrame{
 		lblInscriptos.setBounds(626, 179, 203, 14);
 		getContentPane().add(lblInscriptos);
 		
-		listInscriptos = new List();
-		listInscriptos.setBounds(626, 202, 203, 122);
-		getContentPane().add(listInscriptos);
-		
 		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Verificar si la actividad existe
+				if(iControladorActividad.actividadExiste(textNombre.getText())) {
+					//Traer objeto actividad
+					Actividad act = iControladorActividad.obtenerActividad(textNombre.getText());
+					//Mostrar la info en los campos de texto
+					textDescripcion.setText(act.getDescripcion());
+					textDuracion.setText(String.valueOf(act.getDuracionHoras()));
+					textCosto.setText(String.valueOf(act.getCosto()));
+					textLugar.setText(act.getLugar());
+					textFechaAlta.setText(act.getFechaAlta().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString());
+					textEstado.setText(act.getEstado());
+				} else {
+					JOptionPane.showMessageDialog(new JPanel(), "La actividad " + textNombre.getText() + " no existe");
+				}
+			}
+		});
 		btnBuscar.setBounds(361, 25, 78, 23);
 		getContentPane().add(btnBuscar);
 		
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//Cerrar el fame
 				yo.dispose();
 			}
 		});
+		
 		btnCancelar.setBounds(249, 290, 190, 21);
 		btnCancelar.setVisible(true);
 		this.getContentPane().add(btnCancelar);
 		
+		listInscriptos = new JList<String>();
+		listInscriptos.setBounds(626, 204, 203, 125);
+		getContentPane().add(listInscriptos);
+		
+		listClases = new JList<String>();
+		listClases.setBounds(461, 51, 146, 278);
+		getContentPane().add(listClases);
+		
+		listActividades = new JList<String>();
+		listActividades.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				textNombre.setText(listActividades.getSelectedValue());
+			}
+		});
+		listActividades.setBounds(10, 11, 157, 318);
+		getContentPane().add(listActividades);
+		
 	    addComponentListener ( new ComponentAdapter () {
 	        public void componentShown ( ComponentEvent e ) {
 	        	//ejecuta la funcion al cambiar el estado 'visible' del frame a true
-	            recargarListaActividades();
+	            cargarListaActividades();
 	        }
 	    });
 	}
 
-	private void recargarListaActividades() {
+	private void cargarListaActividades() {
 		//limpia la lista
 		listActividades.removeAll();
-		//completar la lista con datos actualizados
+		//completar la lista con datos
+		listActividades.setListData(iControladorActividad.obtenerVectorActividad());
 	}
 }

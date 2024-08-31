@@ -238,4 +238,38 @@ public class ManejarPersistenia {
 		}
 	}
 	
+	public Vector<String> obtenerVectorActividades() throws PersistenciaException{
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		Vector<String> vActividades = new Vector<String>();
+		try {
+			Query buscarActividades = em.createNativeQuery("SELECT NOMBRE FROM ACTIVIDAD");
+			List<String> actividades = buscarActividades.getResultList();
+			for (String ac : actividades) {
+				vActividades.add(ac);
+			}
+		} finally {
+			em.close();
+			emf.close();
+		}
+		return vActividades;
+	}
+	
+	public Actividad obtenerActividad(String nom) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		Actividad ret = null;
+		
+		try {
+			Query buscarId = em.createNativeQuery("SELECT ID FROM ACTIVIDAD WHERE NOMBRE = ?");
+			buscarId.setParameter(1, nom);
+	        int ID = (int) buscarId.getSingleResult();
+	        ret = em.find(Actividad.class, ID);
+		} finally {
+			em.close();
+			emf.close();
+		}
+		return ret;
+	}
+	
 }

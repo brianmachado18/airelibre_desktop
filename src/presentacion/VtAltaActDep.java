@@ -8,6 +8,7 @@ import java.awt.event.ComponentEvent;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,6 +16,7 @@ import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
@@ -173,6 +175,26 @@ public class VtAltaActDep extends JInternalFrame {
 		String fecha = textFecha.getText();
 		String img = textIMG.getText();
 		String ent = cbEntrenador.getSelectedItem().toString();
+		
+		if (nombre.isEmpty() || desc.isEmpty() || duracionHora.isEmpty() || costo.isEmpty() || lugar.isEmpty() || fecha.isEmpty()) {    
+			JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		
+		if (!duracionHora.matches("[0-9]")) {
+		    JOptionPane.showMessageDialog(this, "La duración debe ser un número entre 0 y 9", "Error", JOptionPane.ERROR_MESSAGE);
+		    return;
+		}
+		
+		if (!costo.matches("\\d+")) {
+		    JOptionPane.showMessageDialog(this, "El costo debe ser un número", "Error", JOptionPane.ERROR_MESSAGE);
+		    return;
+		}
+		
+		if (!Pattern.compile("^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/(\\d{4})$").matcher(fecha).matches()) {
+			JOptionPane.showMessageDialog(this, "El formato de la Fecha no es válido, usar 'dd/mm/aaaa'", "Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
 		
 		//Obtiene el objeto del entrenador seleccionado
 		Entrenador traerEntrador = iControladorUsuario.obtenerEntrenador(ent);

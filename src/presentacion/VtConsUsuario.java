@@ -101,7 +101,8 @@ public class VtConsUsuario extends JInternalFrame{
 							chckbxEsProfesioanlConsulta.setSelected(traerDeportista.isEsProfesional());
 						}
 					} else {
-						JOptionPane.showMessageDialog(new JPanel(), "El usuario no existe");
+						JOptionPane.showMessageDialog( textNicknameConsulta, "El usuario no existe","Error", JOptionPane.ERROR_MESSAGE);
+						return;
 					}
 				} catch (PersistenciaException e1) {
 					// TODO Auto-generated catch block
@@ -224,6 +225,7 @@ public class VtConsUsuario extends JInternalFrame{
 		getContentPane().add(listUsuarios);
 		
 		textNicknameConsulta = new JTextField();
+		textNicknameConsulta.setEditable(false);
 		textNicknameConsulta.setColumns(10);
 		textNicknameConsulta.setBounds(238, 21, 96, 19);
 		getContentPane().add(textNicknameConsulta);

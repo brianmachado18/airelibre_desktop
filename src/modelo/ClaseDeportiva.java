@@ -24,7 +24,7 @@ public class ClaseDeportiva {
 	private LocalTime hora;
 	private String lugar;
 	private String imagen;
-	private LocalTime fechaAlta;
+	private LocalDate fechaAlta;
 	private int cupo;
 	@ManyToOne
 	@JoinColumn(name = "id_actividad")

@@ -220,7 +220,7 @@ public class VtPrincipal extends JFrame {
     	panel.add(IFRankActDep);
     }
     private void mostrarVtAltaClase(JDesktopPane panel) {
-    	VtAltaClaseDep IFAltaClaseDep = new VtAltaClaseDep(yo);
+    	VtAltaClaseDep IFAltaClaseDep = new VtAltaClaseDep(ICA, yo);
     	IFAltaClaseDep.setVisible(true);
     	panel.add(IFAltaClaseDep);
     }

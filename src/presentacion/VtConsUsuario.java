@@ -112,26 +112,31 @@ public class VtConsUsuario extends JInternalFrame{
 		this.getContentPane().add(textFechaConsulta);
 		
 		rdbtnEntrenadorConsulta = new JRadioButton("Entrenador");
+		rdbtnEntrenadorConsulta.setBackground(new Color(203, 218, 213));
 		rdbtnEntrenadorConsulta.setEnabled(false);
 		rdbtnEntrenadorConsulta.setHorizontalAlignment(SwingConstants.LEFT);
 		rdbtnEntrenadorConsulta.setBounds(403, 143, 233, 21);
 		this.getContentPane().add(rdbtnEntrenadorConsulta);
 		
 		rdbtnDeportistaConsulta = new JRadioButton("Deportista");
+		rdbtnDeportistaConsulta.setBackground(new Color(203, 218, 213));
 		rdbtnDeportistaConsulta.setEnabled(false);
 		rdbtnDeportistaConsulta.setHorizontalAlignment(SwingConstants.LEFT);
 		rdbtnDeportistaConsulta.setBounds(403, 80, 233, 21);
 		this.getContentPane().add(rdbtnDeportistaConsulta);
 		
 		JPanel panelDeposrtista_1 = new JPanel();
+		panelDeposrtista_1.setBackground(new Color(203, 218, 213));
 		panelDeposrtista_1.setBounds(403, 100, 233, 33);
 		this.getContentPane().add(panelDeposrtista_1);
 		
 		chckbxEsProfesioanlConsulta = new JCheckBox("Profesional");
+		chckbxEsProfesioanlConsulta.setBackground(new Color(203, 218, 213));
 		chckbxEsProfesioanlConsulta.setEnabled(false);
 		panelDeposrtista_1.add(chckbxEsProfesioanlConsulta);
 		
 		JPanel panelEntrenador_1 = new JPanel();
+		panelEntrenador_1.setBackground(new Color(203, 218, 213));
 		panelEntrenador_1.setLayout(null);
 		panelEntrenador_1.setBounds(403, 169, 233, 55);
 		this.getContentPane().add(panelEntrenador_1);

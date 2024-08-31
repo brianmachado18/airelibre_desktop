@@ -41,6 +41,11 @@ public class ControladorActividad implements IControladorActividad {
 	public void AltaActividad(String nombre, String desc, int dHoras, int costo, String lugar, LocalDate fAlta, String img, Entrenador ent){
 		m.AltaActividad(nombre, desc, dHoras, costo, lugar, fAlta, img, ent);
 	}
+	
+	//Retorna un Vector con todos los nombres de las actividades
+	public Vector<String> obtenerVectorUsuarios() throws PersistenciaException{
+		return m.obtenerVectorActividades();
+	}
     
     //ListarActividades
     public DtActividad ListarActividades() throws ActividadNoExisteException{

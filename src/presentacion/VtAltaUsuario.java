@@ -100,21 +100,25 @@ public class VtAltaUsuario extends JInternalFrame{
 
 
 		JPanel panelDeposrtista = new JPanel();
+		panelDeposrtista.setBackground(new Color(203, 218, 213));
 		FlowLayout fl_panelDeposrtista = (FlowLayout) panelDeposrtista.getLayout();
 		fl_panelDeposrtista.setAlignOnBaseline(true);
 		panelDeposrtista.setBounds(253, 32, 233, 33);
 		this.getContentPane().add(panelDeposrtista);
 
 		chckbxEsProfesioanl = new JCheckBox("Profesional");
+		chckbxEsProfesioanl.setBackground(new Color(203, 218, 213));
 		chckbxEsProfesioanl.setEnabled(false);
 		panelDeposrtista.add(chckbxEsProfesioanl);
 
 		JPanel panelEntrenador = new JPanel();
+		panelEntrenador.setBackground(new Color(203, 218, 213));
 		panelEntrenador.setBounds(253, 102, 233, 55);
 		this.getContentPane().add(panelEntrenador);
 		panelEntrenador.setLayout(null);
 
 		JLabel lblDisciplina = new JLabel("Disciplina");
+		lblDisciplina.setBackground(new Color(0, 0, 0));
 		lblDisciplina.setEnabled(false);
 		lblDisciplina.setBounds(10, 5, 68, 14);
 		panelEntrenador.add(lblDisciplina);
@@ -137,6 +141,7 @@ public class VtAltaUsuario extends JInternalFrame{
 		panelEntrenador.add(textWeb);
 
 		rdbtnDeportista = new JRadioButton("Deportista");
+		rdbtnDeportista.setBackground(new Color(203, 218, 213));
 		rdbtnDeportista.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (rdbtnDeportista.isSelected()) {
@@ -151,6 +156,7 @@ public class VtAltaUsuario extends JInternalFrame{
 		this.getContentPane().add(rdbtnDeportista);
 
 		rdbtnEntrenador = new JRadioButton("Entrenador");
+		rdbtnEntrenador.setBackground(new Color(203, 218, 213));
 		rdbtnEntrenador.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (rdbtnEntrenador.isSelected()) {

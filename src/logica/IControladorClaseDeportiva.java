@@ -5,6 +5,8 @@ import java.time.*;
 import datatype.DtClaseDeportiva;
 import datatype.DtInscripcion;
 import excepciones.ClaseRepetidoException;
+import excepciones.PersistenciaException;
+import modelo.Actividad;
 import excepciones.ClaseNoExisteException;
 import excepciones.ActividadNoExisteException;
 
@@ -13,9 +15,9 @@ public interface IControladorClaseDeportiva {
 	/**
      * Registra la Clase Deportiva en el sistema.
      * @throws ClaseRepetidoException Si el nombre de la CalseDeportiva ya se encuentra registrada en el sistema.
+	 * @throws PersistenciaException 
      */
-	public abstract void AltaClaseDeportiva(String nombreClaseDeportiva, LocalDate fecha, LocalTime hora, String lugar, int cupo, LocalDate fAlta) throws ClaseRepetidoException;
-	
+	public void AltaClaseDeportiva(String nombreClaseDeportiva, LocalDate fecha, LocalTime hora, String lugar, int cupo, LocalDate fAlta, Actividad Act) throws ClaseRepetidoException, PersistenciaException;	
 	/**
      * Lista las Clases Deportivas asociadas a una Actividad en el sistema.
      * @throws ActividadNoExisteException Si el nombre de la Actividad no se encuentra registrada en el sistema.

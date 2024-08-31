@@ -8,14 +8,38 @@ import datatype.DtInscripcion;
 import excepciones.ActividadNoExisteException;
 import excepciones.ClaseNoExisteException;
 import excepciones.ClaseRepetidoException;
+import excepciones.PersistenciaException;
+import modelo.Actividad;
+import modelo.ClaseDeportiva;
+import persistencia.ManejarPersistenia;
 
 public class ControladorClaseDeportiva implements IControladorClaseDeportiva{
 
+	ManejarPersistenia m = new ManejarPersistenia();
+
 	//AltaClaseDeportiva
-	public void AltaClaseDeportiva(String nombreClaseDeportiva, LocalDate fecha, LocalTime hora, String lugar, int cupo, LocalDate fAlta) throws ClaseRepetidoException{
-		//Agrego throw para que no rompa
-		throw new ClaseRepetidoException("La clase" + nombreClaseDeportiva + " ya esta registrada");
-		//...
+	public void AltaClaseDeportiva(String nombreClaseDeportiva, LocalDate fecha, LocalTime hora, String lugar, int cupo, LocalDate fAlta, Actividad Act) throws ClaseRepetidoException, PersistenciaException{
+		
+		ClaseDeportiva nuevaClaseDeportiva = new ClaseDeportiva();
+		try {
+			nuevaClaseDeportiva.setActividad(Act);
+			nuevaClaseDeportiva.setCupo(cupo);
+			nuevaClaseDeportiva.setFecha(fecha);
+			nuevaClaseDeportiva.setFechaAlta(fAlta);
+			nuevaClaseDeportiva.setHora(hora);
+			nuevaClaseDeportiva.setLugar(lugar);
+			nuevaClaseDeportiva.setNombre(nombreClaseDeportiva);
+			
+			m.persistirClase(nuevaClaseDeportiva);
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw new ClaseRepetidoException("La clase" + nombreClaseDeportiva + " ya esta registrada");
+			//...
+		}
+	
+		
+		
+
 	}
 
 	//ConsultaClaseDeportiva

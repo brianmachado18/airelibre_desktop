@@ -7,6 +7,7 @@ import java.util.Vector;
 import excepciones.*;
 import jakarta.persistence.*;
 import modelo.Actividad;
+import modelo.ClaseDeportiva;
 import modelo.Deportista;
 import modelo.Entrenador;
 
@@ -67,6 +68,37 @@ public class ManejarPersistenia {
 		}
 		
 	}
+	
+	
+	public void persistirClase(ClaseDeportiva cd) throws PersistenciaException {
+		
+		EntityManagerFactory emf = null;
+		EntityManager em = null;
+		
+		try {
+			
+			emf = Persistence.createEntityManagerFactory("airelibre_desk");
+			em = emf.createEntityManager();
+			
+			em.getTransaction().begin();
+			em.persist(cd);
+			em.getTransaction().commit();
+			
+		}catch (Exception e) {
+			throw new PersistenciaException("Error al persistir el usuario");
+		}finally {
+			
+			if (em != null) {
+				em.close();
+			}
+			if (emf != null) {
+				emf.close();
+			}
+		
+		}
+		
+	}
+	
 	
 	public boolean usuarioExiste(String nick, String mail) throws PersistenciaException{
 
@@ -261,7 +293,7 @@ public class ManejarPersistenia {
 		Actividad ret = null;
 		
 		try {
-			Query buscarId = em.createNativeQuery("SELECT ID FROM ACTIVIDAD WHERE NOMBRE = ?");
+			Query buscarId = em.createNativeQuery("SELECT NOMBRE FROM ACTIVIDAD WHERE NOMBRE = ?");
 			buscarId.setParameter(1, nom);
 	        int ID = (int) buscarId.getSingleResult();
 	        ret = em.find(Actividad.class, ID);

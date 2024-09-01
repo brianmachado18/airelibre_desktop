@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import datatype.DtActividad;
 import excepciones.ActividadNoExisteException;
+import excepciones.PersistenciaException;
 import modelo.Actividad;
 import modelo.Entrenador;
 
@@ -40,5 +41,7 @@ public interface IControladorActividad {
      * @throws ActividadNoExisteException Si no hay ninguna Actividad con dicho nombre en el sistema.
      */
     public abstract void ModActividades(String desc, int dHoras, int costo, String lugar, String img) throws ActividadNoExisteException;
+
+	public Vector<String> obtenerVectorUsuarios() throws PersistenciaException;
 
 }

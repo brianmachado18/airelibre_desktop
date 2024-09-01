@@ -7,6 +7,7 @@ import java.util.Vector;
 import excepciones.*;
 import jakarta.persistence.*;
 import modelo.Actividad;
+import modelo.ClaseDeportiva;
 import modelo.Deportista;
 import modelo.Entrenador;
 
@@ -67,6 +68,38 @@ public class ManejarPersistenia {
 		}
 		
 	}
+	
+	
+	public void persistirClase(ClaseDeportiva cd) throws PersistenciaException {
+		
+		EntityManagerFactory emf = null;
+		EntityManager em = null;
+		
+		try {
+			
+			emf = Persistence.createEntityManagerFactory("airelibre_desk");
+			em = emf.createEntityManager();
+
+			em.getTransaction().begin();
+			
+			em.persist(cd);
+			em.getTransaction().commit();
+
+		}catch (Exception e) {
+			throw new PersistenciaException("Error al persistir la clase");
+		}finally {
+			
+			if (em != null) {
+				em.close();
+			}
+			if (emf != null) {
+				emf.close();
+			}
+		
+		}
+		
+	}
+	
 	
 	public boolean usuarioExiste(String nick, String mail) throws PersistenciaException{
 
@@ -270,6 +303,21 @@ public class ManejarPersistenia {
 			emf.close();
 		}
 		return ret;
+	}
+
+	public boolean claseExiste(String nombre) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+
+		try {
+	        Query buscarNombre = em.createNativeQuery("SELECT COUNT(*) FROM CLASEDEPORTIVA WHERE NOMBRE = ?");
+	        buscarNombre.setParameter(1, nombre);
+	        Number countNick = (Number) buscarNombre.getSingleResult();
+	        return countNick.intValue() > 0;
+		} finally {
+			em.close();
+			emf.close();
+		}
 	}
 	
 }

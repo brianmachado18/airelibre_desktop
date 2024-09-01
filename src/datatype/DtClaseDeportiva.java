@@ -21,7 +21,7 @@ public class DtClaseDeportiva {
 	private LocalTime hora;
 	private String lugar;
 	private String imagen;
-	private LocalTime fechaAlta;
+	private LocalDate fechaAlta;
 	private int cupo;
 	private Actividad actividad;
 	private List<Inscripcion> inscripciones;

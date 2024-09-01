@@ -29,12 +29,12 @@ public class ControladorClaseDeportiva implements IControladorClaseDeportiva{
 			nuevaClaseDeportiva.setHora(hora);
 			nuevaClaseDeportiva.setLugar(lugar);
 			nuevaClaseDeportiva.setNombre(nombreClaseDeportiva);
+			nuevaClaseDeportiva.setImagen(null);
+			nuevaClaseDeportiva.setInscripciones(null);
 			
 			m.persistirClase(nuevaClaseDeportiva);
 		} catch (Exception e) {
-			// TODO: handle exception
-			throw new ClaseRepetidoException("La clase" + nombreClaseDeportiva + " ya esta registrada");
-			//...
+			throw new ClaseRepetidoException("La clase " + nombreClaseDeportiva + " ya esta registrada");
 		}
 	
 		
@@ -54,6 +54,10 @@ public class ControladorClaseDeportiva implements IControladorClaseDeportiva{
 		//Agrego throw para que no rompa
     	throw new ClaseNoExisteException("La clase" + nombreClaseDeportiva + "no existe");
     	//...
+	}
+	
+	public boolean claseExiste(String nombre){
+		return m.claseExiste(nombre);
 	}
 	
 }

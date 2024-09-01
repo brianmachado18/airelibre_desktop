@@ -79,13 +79,14 @@ public class ManejarPersistenia {
 			
 			emf = Persistence.createEntityManagerFactory("airelibre_desk");
 			em = emf.createEntityManager();
-			
+
 			em.getTransaction().begin();
+			
 			em.persist(cd);
 			em.getTransaction().commit();
-			
+
 		}catch (Exception e) {
-			throw new PersistenciaException("Error al persistir el usuario");
+			throw new PersistenciaException("Error al persistir la clase");
 		}finally {
 			
 			if (em != null) {
@@ -293,7 +294,7 @@ public class ManejarPersistenia {
 		Actividad ret = null;
 		
 		try {
-			Query buscarId = em.createNativeQuery("SELECT NOMBRE FROM ACTIVIDAD WHERE NOMBRE = ?");
+			Query buscarId = em.createNativeQuery("SELECT ID FROM ACTIVIDAD WHERE NOMBRE = ?");
 			buscarId.setParameter(1, nom);
 	        int ID = (int) buscarId.getSingleResult();
 	        ret = em.find(Actividad.class, ID);
@@ -302,6 +303,21 @@ public class ManejarPersistenia {
 			emf.close();
 		}
 		return ret;
+	}
+
+	public boolean claseExiste(String nombre) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+
+		try {
+	        Query buscarNombre = em.createNativeQuery("SELECT COUNT(*) FROM CLASEDEPORTIVA WHERE NOMBRE = ?");
+	        buscarNombre.setParameter(1, nombre);
+	        Number countNick = (Number) buscarNombre.getSingleResult();
+	        return countNick.intValue() > 0;
+		} finally {
+			em.close();
+			emf.close();
+		}
 	}
 	
 }

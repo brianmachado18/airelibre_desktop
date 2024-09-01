@@ -120,7 +120,7 @@ public class VtAltaActDep extends JInternalFrame {
 		btnConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					confirmarAltaUsuario();
+					confirmarAltaAct();
 				} catch (PersistenciaException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -161,7 +161,7 @@ public class VtAltaActDep extends JInternalFrame {
 		});
 	}
 	
-	private void confirmarAltaUsuario() throws PersistenciaException{
+	private void confirmarAltaAct() throws PersistenciaException{
 		//Guardo los datos en variables
 		String nombre =  textNombre.getText();
 		String desc = textDescripcion.getText();
@@ -189,6 +189,11 @@ public class VtAltaActDep extends JInternalFrame {
 		
 		if (!Pattern.compile("^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/(\\d{4})$").matcher(fecha).matches()) {
 			JOptionPane.showMessageDialog(this, "El formato de la Fecha no es válido, usar 'dd/mm/aaaa'", "Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		
+		if(iControladorActividad.actividadExiste(nombre)) {
+			JOptionPane.showMessageDialog(this, "Ya exite una actividad con ese nombre", "Error", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		

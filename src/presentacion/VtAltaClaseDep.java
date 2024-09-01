@@ -12,6 +12,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Vector;
+import java.util.regex.Pattern;
 
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
@@ -31,6 +32,7 @@ import logica.IControladorUsuario;
 import modelo.Actividad;
 
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 
 public class VtAltaClaseDep extends JInternalFrame{
 	JButton btnCancelar;
@@ -45,11 +47,13 @@ public class VtAltaClaseDep extends JInternalFrame{
 	private IControladorActividad iControladorActividad;
 	private IControladorClaseDeportiva iControladorClase;
 	private JTextField textNombreAct;
+	private JList listActividades;
 	
-	public VtAltaClaseDep(IControladorActividad ia, VtPrincipal VtPrincipal) {
+	public VtAltaClaseDep(IControladorClaseDeportiva icc,IControladorActividad ia, VtPrincipal VtPrincipal) {
 		
 		//Inicio el controlador usuario
 		iControladorActividad = ia;
+		iControladorClase = icc;
 		setTitle("Alta Clase");
 		principal = VtPrincipal;
 		principal.bajarFrameActual();
@@ -127,39 +131,18 @@ public class VtAltaClaseDep extends JInternalFrame{
 		textFechaAlta.setBounds(314, 167, 147, 20);
 		getContentPane().add(textFechaAlta);
 		
-		JList listActividades = new JList();
+		listActividades = new JList();
 		listActividades.setBounds(10, 15, 147, 314);
 		getContentPane().add(listActividades);
 		
 		JButton btnConfirmar = new JButton("Confirmar");
 		btnConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				
-				 DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-				 DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("hh:mm");
-				 LocalDate fecha = LocalDate.parse(textFecha.getText(), formatoFecha);
-				 LocalTime hora = LocalTime.parse(textHora.getText(), formatoFecha);
-				 
-				 
-				 
-				 try {
-					iControladorClase.AltaClaseDeportiva(textNombre.getText(), fecha, hora, textLugar.getText(), Integer.parseInt(textCupos.getText()),LocalDate.now(), ia.obtenerActividad((String) listActividades.getSelectedValue()));
-				} catch (NumberFormatException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (ClaseRepetidoException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (PersistenciaException e1) {
-					// TODO Auto-generated catch block
+				try {
+					coinfirmarAltaClase();
+				} catch (PersistenciaException | ClaseRepetidoException e1) {
 					e1.printStackTrace();
 				}
-				
-				
-				
-				
-				
 			}
 		});
 		btnConfirmar.setBounds(241, 206, 105, 21);
@@ -196,7 +179,62 @@ public class VtAltaClaseDep extends JInternalFrame{
 				textNombreAct.setText((String) listActividades.getSelectedValue());
 			}
 		});
-
+	}
+	
+	private void coinfirmarAltaClase() throws PersistenciaException, ClaseRepetidoException{
+		//Guardo los datos en variables
+		String nombreClase =  textNombre.getText();
+		String nombreAct = textNombreAct.getText();			
+		String cupo = textCupos.getText();
+		String lugar = textLugar.getText();
+		String fecha = textFecha.getText();
+		String fechaAlta =  textFechaAlta.getText();
+		String hora = textHora.getText();
 		
-	}	
+		//Verifico campos vacios
+		if (lugar.isEmpty() ||nombreClase.isEmpty() ||nombreAct.isEmpty() || cupo.isEmpty() ||fecha.isEmpty() || fechaAlta.isEmpty() ||hora.isEmpty()) {    
+			JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		
+		//Verifico que el cupo sea un numero
+		if (!cupo.matches("\\d+")) {
+		    JOptionPane.showMessageDialog(this, "El cupo debe ser un número", "Error", JOptionPane.ERROR_MESSAGE);
+		    return;
+		}
+		
+		//Verifico que la fecha sea con el formato correcto
+		if (!Pattern.compile("^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/(\\d{4})$").matcher(fecha).matches()) {
+			JOptionPane.showMessageDialog(this, "El formato de la Fecha no es válido, usar 'dd/mm/aaaa'", "Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		//Verifico que la hora sea con el formato correcto
+		if (!Pattern.compile("^([01]\\d|2[0-3]):[0-5]\\d$").matcher(hora).matches()) {
+		    JOptionPane.showMessageDialog(this, "El formato de la Hora no es válido, usar 'hh:mm'", "Error", JOptionPane.ERROR_MESSAGE);
+		    return;
+		}
+		
+		//Doy formato a la fecha y hora antes de guardarla
+		 DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		 DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm");
+		 LocalDate fechaFor = LocalDate.parse(textFecha.getText(), formatoFecha);
+		 LocalTime horaFor = LocalTime.parse(textHora.getText(), formatoHora);
+		//Pasero a int
+		 Integer cupos = Integer.parseInt(textCupos.getText());
+		 
+		//Verifico si existe el nombre de la clase
+		if(iControladorClase.claseExiste(nombreClase)) {
+			JOptionPane.showMessageDialog(this, "Ya exite una clase con ese nombre", "Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		 
+		 try {
+			iControladorClase.AltaClaseDeportiva(textNombre.getText(), fechaFor, horaFor, textLugar.getText(), cupos,LocalDate.now(), iControladorActividad.obtenerActividad((String) listActividades.getSelectedValue()));
+		} catch (PersistenciaException e1) {
+			e1.printStackTrace();
+		}
+		
+		
+		
+	}
 }

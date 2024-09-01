@@ -29,5 +29,7 @@ public interface IControladorClaseDeportiva {
      * @throws ClaseNoExisteException Si el nombre de la Clase Deportiva no se encuentra registrada en el sistema.
      */
 	public abstract DtInscripcion ConsultaInscripciones(String nombreClaseDeportiva) throws ClaseNoExisteException;
+	
+	public boolean claseExiste(String nombre);
 
 }

@@ -320,4 +320,69 @@ public class ManejarPersistenia {
 		}
 	}
 	
+	public Vector<String> obtenerVectorClasesActividad(String nom){
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		Vector<String> vClases = new Vector<String>();
+		
+		try {
+			Query buscarId = em.createNativeQuery("SELECT ID FROM ACTIVIDAD WHERE NOMBRE = ?");
+			buscarId.setParameter(1, nom);
+			int id = (int) buscarId.getSingleResult();
+			Query buscarClase = em.createNativeQuery("SELECT NOMBRE FROM CLASEDEPORTIVA WHERE ID_ACTIVIDAD = ?");
+			buscarClase.setParameter(1, id);
+			List<String> clases = buscarClase.getResultList();
+			for (String cl : clases) {
+				vClases.add(cl);
+			}
+		}finally {
+			em.close();
+			emf.close();
+		}
+		return vClases;
+	}
+	
+	public ClaseDeportiva obtenerClase(String nom) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		ClaseDeportiva ret = null;
+		try {
+			Query buscarId = em.createNativeQuery("SELECT ID FROM CLASEDEPORTIVA WHERE NOMBRE = ?");
+			buscarId.setParameter(1, nom);
+			int id = (int) buscarId.getSingleResult();
+			ret = em.find(ClaseDeportiva.class, id);
+		}finally {
+			em.close();
+			emf.close();
+		}
+		return ret;
+	}
+	
+	public Vector<String> obtenerListaInscripciones(String nom){
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		Vector<String> vInsc = new Vector<String>();
+		
+		try {
+			Query buscarIdClase = em.createNativeQuery("SELECT ID FROM CLASEDEPORTIVA WHERE NOMBRE = ?");
+			buscarIdClase.setParameter(1, nom);
+			int id = (int) buscarIdClase.getSingleResult();
+			
+			Query buscarClase = em.createNativeQuery("SELECT ID_DEPORTISTA FROM INSCRIPCION WHERE ID_CLASEDEPORTIVA = ?");
+			buscarClase.setParameter(1, id);
+			List<Integer> insc = buscarClase.getResultList();
+			
+			for (Integer i : insc) {
+				Query buscarNombre = em.createNativeQuery("SELECT NICKNAME FROM USUARIO WHERE ID = ?");
+				buscarNombre.setParameter(1, i);
+				vInsc.add(buscarNombre.getSingleResult().toString());
+			}
+			
+		}finally {
+			em.close();
+			emf.close();
+		}
+		return vInsc;
+	}
+	
 }

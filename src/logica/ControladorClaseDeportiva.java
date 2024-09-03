@@ -2,6 +2,7 @@ package logica;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Vector;
 
 import datatype.DtClaseDeportiva;
 import datatype.DtInscripcion;
@@ -36,10 +37,15 @@ public class ControladorClaseDeportiva implements IControladorClaseDeportiva{
 		} catch (Exception e) {
 			throw new ClaseRepetidoException("La clase " + nombreClaseDeportiva + " ya esta registrada");
 		}
-	
-		
-		
 
+	}
+	
+	public ClaseDeportiva obtenerClase(String nom) {
+		return m.obtenerClase(nom);
+	}
+	
+	public Vector<String> obtenerListaInscripciones(String nom){
+		return m.obtenerListaInscripciones(nom);
 	}
 
 	//ConsultaClaseDeportiva

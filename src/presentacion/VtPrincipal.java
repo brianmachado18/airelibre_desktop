@@ -210,7 +210,7 @@ public class VtPrincipal extends JFrame {
 		panel.add(IFAltaActividad);
     }
     private void mostrarVtConsActividad(JDesktopPane panel) {
-    	VtConsActDep IFConsultaActividad = new VtConsActDep(ICA, yo);
+    	VtConsActDep IFConsultaActividad = new VtConsActDep(ICA, ICC, yo);
     	IFConsultaActividad.setVisible(true);
     	panel.add(IFConsultaActividad);
     }

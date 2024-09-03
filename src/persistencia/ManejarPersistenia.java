@@ -1,6 +1,7 @@
 package persistencia;
 
 import java.time.LocalDate;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
@@ -383,6 +384,40 @@ public class ManejarPersistenia {
 			emf.close();
 		}
 		return vInsc;
+	}
+	
+	public String[][] obtenerArrRankingActividades(){
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		String[][] data = null;
+		try {
+			Query cantActividades = em.createNativeQuery("SELECT COUNT(DISTINCT ID_ACTIVIDAD) FROM CLASEDEPORTIVA;");
+			long cant = (long) cantActividades.getSingleResult();
+			data = new String[(int) cant][2];
+			
+			//Buscar las actividades ordenadas e insertarlas al String[x][0]
+			Query buscarActividades = em.createNativeQuery("SELECT a.NOMBRE FROM ACTIVIDAD a JOIN CLASEDEPORTIVA c ON a.ID = c.ID_ACTIVIDAD GROUP BY a.NOMBRE ORDER BY COUNT(c.ID) DESC");
+			List<String> act = buscarActividades.getResultList();
+
+			Iterator<String> it = act.iterator();
+			for (int i=0; i<cant; i++) {
+				data[i][0] = it.next();
+			}
+
+			//Buscar la cantidad de clases ordenadas e insertarlas al String[x][1]
+			Query buscarCantClases = em.createNativeQuery("SELECT COUNT(c.ID_ACTIVIDAD) FROM ACTIVIDAD a JOIN CLASEDEPORTIVA c ON a.ID = c.ID_ACTIVIDAD GROUP BY a.NOMBRE ORDER BY COUNT(c.ID) DESC");
+			List<Long> cla = buscarCantClases.getResultList();
+			
+			Iterator<Long> it2 = cla.iterator();
+			for (int i=0; i<cant; i++) {
+				data[i][1] = it2.next().toString();
+			}
+			
+		}finally {
+			em.close();
+			emf.close();
+		}
+		return data;
 	}
 	
 }

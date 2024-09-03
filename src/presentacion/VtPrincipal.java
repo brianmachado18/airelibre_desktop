@@ -226,7 +226,7 @@ public class VtPrincipal extends JFrame {
     	panel.add(IFConsultaActividad);
     }
     private void mostrarVtRankActividad(JDesktopPane panel) {
-    	VtRankActDep IFRankActDep = new VtRankActDep(yo);
+    	VtRankActDep IFRankActDep = new VtRankActDep(ICA, yo);
     	IFRankActDep.setVisible(true);
     	panel.add(IFRankActDep);
     }

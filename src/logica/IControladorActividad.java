@@ -25,6 +25,8 @@ public interface IControladorActividad {
 	public abstract Actividad obtenerActividad(String nom);
 	
 	public abstract Vector<String> obtenerVectorClasesActividad(String nom);
+	
+	public abstract String[][] obtenerArrRankingActividades();
 
     /**
      * Retorna la informacion de todas las Actividades.

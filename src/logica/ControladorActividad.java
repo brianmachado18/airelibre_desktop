@@ -35,6 +35,10 @@ public class ControladorActividad implements IControladorActividad {
 	public Actividad obtenerActividad(String nom) {
 		return m.obtenerActividad(nom);
 	}
+	
+	public String[][] obtenerArrRankingActividades(){
+		return m.obtenerArrRankingActividades();
+	}
 
 
 	//AltaActividad

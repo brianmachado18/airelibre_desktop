@@ -3,8 +3,6 @@ package logica;
 import java.time.LocalDate;
 import java.util.Vector;
 
-import datatype.DtActividad;
-import excepciones.ActividadNoExisteException;
 import excepciones.PersistenciaException;
 import modelo.Actividad;
 import modelo.Entrenador;
@@ -14,34 +12,29 @@ public class ControladorActividad implements IControladorActividad {
 
 	ManejarPersistenia m = new ManejarPersistenia();
 	
-    public ControladorActividad() {
-    }
+    public ControladorActividad(){}
     
-	public boolean actividadExiste(String nombre){
-		return m.actividadExiste(nombre);
+    //Retorna true si la actividad 'nom' existe
+	public boolean actividadExiste(String nom){
+		return m.actividadExiste(nom);
 	}
 	
+	//Retorna un vector con todas las actividades
 	public Vector<String> obtenerVectorActividad(){
-		Vector<String> ret = null;
-		try {
-			ret = m.obtenerVectorActividades();
-		} catch (PersistenciaException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return ret;
+		return m.obtenerVectorActividades();
 	}
 	
+	//Devuelve un DtActividad de la actividad 'nom'
 	public Actividad obtenerActividad(String nom) {
 		return m.obtenerActividad(nom);
 	}
 	
+	//Array de dos columnas, la primara con el nombre de una actividad y la segunda con su cantidad de clases
 	public String[][] obtenerArrRankingActividades(){
 		return m.obtenerArrRankingActividades();
 	}
 
-
-	//AltaActividad
+	//Alta de una actividad
 	public void AltaActividad(String nombre, String desc, int dHoras, int costo, String lugar, LocalDate fAlta, String img, Entrenador ent){
 		m.AltaActividad(nombre, desc, dHoras, costo, lugar, fAlta, img, ent);
 	}
@@ -51,29 +44,9 @@ public class ControladorActividad implements IControladorActividad {
 		return m.obtenerVectorActividades();
 	}
 	
+	//Retorna un vector con el nombre de todas las clases de una actividad
 	public Vector<String> obtenerVectorClasesActividad(String nom){
 		return m.obtenerVectorClasesActividad(nom);
 	}
-    
-    //ListarActividades
-    public DtActividad ListarActividades() throws ActividadNoExisteException{
-    	//Agrego throw para que no rompa
-    	throw new ActividadNoExisteException("La actividad no existe");
-    	//...
-    }
-    
-    //ConsultaActividad
-    public DtActividad ConsultaActividad(String nombre) throws ActividadNoExisteException{
-    	//Agrego throw para que no rompa
-    	throw new ActividadNoExisteException("La actividad no existe");
-    	//...
-    }
-    
-    //ModActividades
-    public void ModActividades(String desc, int dHoras, int costo, String lugar, String img) throws ActividadNoExisteException{
-    	//Agrego throw para que no rompa
-    	throw new ActividadNoExisteException("La actividad no existe");
-    	//...
-    }
     
 }

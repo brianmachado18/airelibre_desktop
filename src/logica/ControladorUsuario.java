@@ -3,30 +3,29 @@ package logica;
 import java.time.*;
 import java.util.Vector;
 
-import datatype.*;
-import excepciones.*;
-import persistencia.*;
+import excepciones.PersistenciaException;
 import modelo.Deportista;
 import modelo.Entrenador;
+import persistencia.ManejarPersistenia;
 
 
 public class ControladorUsuario implements IControladorUsuario {
 
 	ManejarPersistenia m = new ManejarPersistenia();
 	
-	public ControladorUsuario(){
-
-	}
+	public ControladorUsuario(){}
 
 	//True si el usuario existe
 	public boolean usuarioExiste(String nickname) throws PersistenciaException{
 		return m.usuarioExiste(nickname);
 	}
+	
+	//True si el nickname o el email existe
 	public boolean usuarioExiste(String nickname, String email) throws PersistenciaException{
 		return m.usuarioExiste(nickname, email);
 	}
 	
-	//AltaUsuario
+	//Alta del usuario
 	public void AltaUsuario(String nickname, String contrasena, String nombre, String apellido, String email, LocalDate fechaNacimiento, String tipoUsuario, boolean esProfesional, String disciplina, String web) throws PersistenciaException{
 		
 		try {	
@@ -78,42 +77,6 @@ public class ControladorUsuario implements IControladorUsuario {
 	//Retorna un objeto deportista
 	public Deportista obtenerDeportista(String nickname) throws PersistenciaException{
 		return m.obtenerDeportista(nickname);
-	}
-
-	
-	//verInfoDeportista
-	public DtDeportista verInfoDeportista(String nickname)throws UsuarioNoExisteException{
-		//Agrego throw para que no rompa
-		throw new UsuarioNoExisteException("El usuario " + nickname + " no existe");
-		//...
-	}
-
-	//verInfoEntrenador
-	public DtEntrenador verInfoEntrenador(String nickname)throws UsuarioNoExisteException{
-		//Agrego throw para que no rompa
-		throw new UsuarioNoExisteException("El usuario " + nickname + " no existe");
-		//...
-	}
-
-	//ModUsuario
-	public void ModUsuario(String nombre, String ap, LocalDate fNac, String pass, boolean tipo) throws UsuarioRepetidoException{
-		//Agrego throw para que no rompa
-		throw new UsuarioRepetidoException("El usuario " + nombre + " ya esta registrado");
-		//...
-	}
-
-	//getDeportistas
-	public DtDeportista[] getDeportistas() throws UsuarioNoExisteException{
-		//Agrego throw para que no rompa
-		throw new UsuarioNoExisteException("El usuario no existe");
-		//...
-	}
-
-	//getEntrenadores
-	public DtEntrenador[] getEntrenadores() throws UsuarioNoExisteException{
-		//Agrego throw para que no rompa
-		throw new UsuarioNoExisteException("El usuario no existe");
-		//...
 	}
 
 }

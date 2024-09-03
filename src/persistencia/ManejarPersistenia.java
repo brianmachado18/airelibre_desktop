@@ -13,6 +13,8 @@ import modelo.Deportista;
 import modelo.Entrenador;
 
 public class ManejarPersistenia {
+
+	// ===== USURIO ======================================================================================
 	
 	public void persistirEntrenador(Entrenador ent) throws PersistenciaException {
 		
@@ -69,38 +71,6 @@ public class ManejarPersistenia {
 		}
 		
 	}
-	
-	
-	public void persistirClase(ClaseDeportiva cd) throws PersistenciaException {
-		
-		EntityManagerFactory emf = null;
-		EntityManager em = null;
-		
-		try {
-			
-			emf = Persistence.createEntityManagerFactory("airelibre_desk");
-			em = emf.createEntityManager();
-
-			em.getTransaction().begin();
-			
-			em.persist(cd);
-			em.getTransaction().commit();
-
-		}catch (Exception e) {
-			throw new PersistenciaException("Error al persistir la clase");
-		}finally {
-			
-			if (em != null) {
-				em.close();
-			}
-			if (emf != null) {
-				emf.close();
-			}
-		
-		}
-		
-	}
-	
 	
 	public boolean usuarioExiste(String nick, String mail) throws PersistenciaException{
 
@@ -161,7 +131,7 @@ public class ManejarPersistenia {
 			}
 		}
 	}
-	
+
 	public Vector<String> obtenerVectorUsuarios() throws PersistenciaException{
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
 		EntityManager em = emf.createEntityManager();
@@ -181,7 +151,7 @@ public class ManejarPersistenia {
 		}
 		return vUsuarios;
 	}
-	
+
 	public boolean esEntrenador(String nick) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
 		EntityManager em = emf.createEntityManager();
@@ -197,7 +167,7 @@ public class ManejarPersistenia {
 		}
 		return ret;
 	}
-	
+
 	public Entrenador obtenerEntrenador(String nick) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
 		EntityManager em = emf.createEntityManager();
@@ -232,6 +202,8 @@ public class ManejarPersistenia {
 		return ret;
 	}
 	
+	// ===== ACTIVIDAD ===================================================================================
+
 	public boolean actividadExiste(String nombre){
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
 		EntityManager em = emf.createEntityManager();
@@ -272,7 +244,7 @@ public class ManejarPersistenia {
 		}
 	}
 	
-	public Vector<String> obtenerVectorActividades() throws PersistenciaException{
+	public Vector<String> obtenerVectorActividades(){
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
 		EntityManager em = emf.createEntityManager();
 		Vector<String> vActividades = new Vector<String>();
@@ -305,7 +277,73 @@ public class ManejarPersistenia {
 		}
 		return ret;
 	}
+	
+	public String[][] obtenerArrRankingActividades(){
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		String[][] data = null;
+		try {
+			Query cantActividades = em.createNativeQuery("SELECT COUNT(DISTINCT ID_ACTIVIDAD) FROM CLASEDEPORTIVA;");
+			long cant = (long) cantActividades.getSingleResult();
+			data = new String[(int) cant][2];
+			
+			//Buscar las actividades ordenadas e insertarlas al String[x][0]
+			Query buscarActividades = em.createNativeQuery("SELECT a.NOMBRE FROM ACTIVIDAD a JOIN CLASEDEPORTIVA c ON a.ID = c.ID_ACTIVIDAD GROUP BY a.NOMBRE ORDER BY COUNT(c.ID) DESC");
+			List<String> act = buscarActividades.getResultList();
 
+			Iterator<String> it = act.iterator();
+			for (int i=0; i<cant; i++) {
+				data[i][0] = it.next();
+			}
+
+			//Buscar la cantidad de clases ordenadas e insertarlas al String[x][1]
+			Query buscarCantClases = em.createNativeQuery("SELECT COUNT(c.ID_ACTIVIDAD) FROM ACTIVIDAD a JOIN CLASEDEPORTIVA c ON a.ID = c.ID_ACTIVIDAD GROUP BY a.NOMBRE ORDER BY COUNT(c.ID) DESC");
+			List<Long> cla = buscarCantClases.getResultList();
+			
+			Iterator<Long> it2 = cla.iterator();
+			for (int i=0; i<cant; i++) {
+				data[i][1] = it2.next().toString();
+			}
+			
+		}finally {
+			em.close();
+			emf.close();
+		}
+		return data;
+	}
+	
+	// ===== CLASE =======================================================================================
+		
+	public void persistirClase(ClaseDeportiva cd) throws PersistenciaException {
+		
+		EntityManagerFactory emf = null;
+		EntityManager em = null;
+		
+		try {
+			
+			emf = Persistence.createEntityManagerFactory("airelibre_desk");
+			em = emf.createEntityManager();
+
+			em.getTransaction().begin();
+			
+			em.persist(cd);
+			em.getTransaction().commit();
+
+		}catch (Exception e) {
+			throw new PersistenciaException("Error al persistir la clase");
+		}finally {
+			
+			if (em != null) {
+				em.close();
+			}
+			if (emf != null) {
+				emf.close();
+			}
+		
+		}
+		
+	}
+	
 	public boolean claseExiste(String nombre) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
 		EntityManager em = emf.createEntityManager();
@@ -385,39 +423,5 @@ public class ManejarPersistenia {
 		}
 		return vInsc;
 	}
-	
-	public String[][] obtenerArrRankingActividades(){
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
-		EntityManager em = emf.createEntityManager();
-		String[][] data = null;
-		try {
-			Query cantActividades = em.createNativeQuery("SELECT COUNT(DISTINCT ID_ACTIVIDAD) FROM CLASEDEPORTIVA;");
-			long cant = (long) cantActividades.getSingleResult();
-			data = new String[(int) cant][2];
-			
-			//Buscar las actividades ordenadas e insertarlas al String[x][0]
-			Query buscarActividades = em.createNativeQuery("SELECT a.NOMBRE FROM ACTIVIDAD a JOIN CLASEDEPORTIVA c ON a.ID = c.ID_ACTIVIDAD GROUP BY a.NOMBRE ORDER BY COUNT(c.ID) DESC");
-			List<String> act = buscarActividades.getResultList();
 
-			Iterator<String> it = act.iterator();
-			for (int i=0; i<cant; i++) {
-				data[i][0] = it.next();
-			}
-
-			//Buscar la cantidad de clases ordenadas e insertarlas al String[x][1]
-			Query buscarCantClases = em.createNativeQuery("SELECT COUNT(c.ID_ACTIVIDAD) FROM ACTIVIDAD a JOIN CLASEDEPORTIVA c ON a.ID = c.ID_ACTIVIDAD GROUP BY a.NOMBRE ORDER BY COUNT(c.ID) DESC");
-			List<Long> cla = buscarCantClases.getResultList();
-			
-			Iterator<Long> it2 = cla.iterator();
-			for (int i=0; i<cant; i++) {
-				data[i][1] = it2.next().toString();
-			}
-			
-		}finally {
-			em.close();
-			emf.close();
-		}
-		return data;
-	}
-	
 }

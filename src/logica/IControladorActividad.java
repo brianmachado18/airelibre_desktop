@@ -3,18 +3,11 @@ package logica;
 import java.time.LocalDate;
 import java.util.Vector;
 
-import datatype.DtActividad;
-import excepciones.ActividadNoExisteException;
 import excepciones.PersistenciaException;
 import modelo.Actividad;
 import modelo.Entrenador;
 
 public interface IControladorActividad {
-
-    /**
-     * Registra la actividad en el sistema.
-     * @throws ActividadRepetidoException Si el nombre de la Actividad ya se encuentra registrada en el sistema.
-     */
     
 	public abstract boolean actividadExiste(String nombre);
 	
@@ -22,30 +15,12 @@ public interface IControladorActividad {
 	
 	public abstract Vector<String> obtenerVectorActividad();
 	
-	public abstract Actividad obtenerActividad(String nom);
+	public abstract Actividad obtenerActividad(String nom); //DtActividad
 	
 	public abstract Vector<String> obtenerVectorClasesActividad(String nom);
 	
 	public abstract String[][] obtenerArrRankingActividades();
-
-    /**
-     * Retorna la informacion de todas las Actividades.
-     * @throws ActividadNoExisteException Si no hay ninguna Actividad registrada en el sistema.
-     */
-    public abstract DtActividad ListarActividades() throws ActividadNoExisteException;
-
-    /**
-     * Retorna la informacion de la Actividads especificada con nombre.
-     * @throws ActividadNoExisteException Si el nombre de la Actividad no se encuentra registrada en el sistema.
-     */
-    public abstract DtActividad ConsultaActividad(String nombre) throws ActividadNoExisteException;
-
-    /**
-     * Retorna la informacion de la actividad especificado y permite modificar sus datos.
-     * @throws ActividadNoExisteException Si no hay ninguna Actividad con dicho nombre en el sistema.
-     */
-    public abstract void ModActividades(String desc, int dHoras, int costo, String lugar, String img) throws ActividadNoExisteException;
-
-	public Vector<String> obtenerVectorUsuarios() throws PersistenciaException;
+	
+	public abstract Vector<String> obtenerVectorUsuarios() throws PersistenciaException;
 
 }

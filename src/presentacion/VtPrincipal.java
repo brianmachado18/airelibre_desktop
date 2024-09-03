@@ -119,46 +119,57 @@ public class VtPrincipal extends JFrame {
                         case "Alta Usuario":
                             // Lógica para alta de usuario
                         	mostrarVtAltaUsuario(desktopPane);
+                        	listaSubopciones.clearSelection();
                             break;
                         case "Consulta Usuario":
                             // Lógica para consulta de usuario
                         	mostrarVtConsUsuario(desktopPane);
+                        	listaSubopciones.clearSelection();
                             break;
                         case "Modificar Usuario":
                             // Lógica para modificar usuario
                         	mostrarMensaje("MODIFICAR USUARIO PENDIENTE");
+                        	listaSubopciones.clearSelection();
                             break;
                         case "Alta Actividad":
                             // Lógica para alta de actividad
                         	mostrarVtAltaActividad(desktopPane);
+                        	listaSubopciones.clearSelection();
                             break;
                         case "Consulta Actividad":
                             // Lógica para consulta de actividad
                         	mostrarVtConsActividad(desktopPane);
+                        	listaSubopciones.clearSelection();
                             break;
                         case "Modificar Actividad":
                             // Lógica para modificar actividad
                         	mostrarMensaje("MODIFICAR ACTIVIDAD PENDIENTE");
+                        	listaSubopciones.clearSelection();
                             break;
                         case "Ranking Actividad":
                             // Lógica para mostrar ranking de actividad
                         	mostrarVtRankActividad(desktopPane);
+                        	listaSubopciones.clearSelection();
                             break;
                         case "Alta Clase":
                             // Lógica para alta de clase
                         	mostrarVtAltaClase(desktopPane);
+                        	listaSubopciones.clearSelection();
                             break;
                         case "Consulta Clase":
                             // Lógica para consulta de clase
                         	mostrarVtConsClase(desktopPane);
+                        	listaSubopciones.clearSelection();
                             break;
                         case "Alta Inscripción":
                             // Lógica para alta de inscripción
                         	mostrarVtInscClase(desktopPane);
+                        	listaSubopciones.clearSelection();
                             break;
                         case "Consulta Inscripción":
                             // Lógica para consulta de inscripción
                         	mostrarVtConsInsc(desktopPane);
+                        	listaSubopciones.clearSelection();
                             break;
                     }
                 }

@@ -4,9 +4,10 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Vector;
 
+import datatype.DtActividad;
+import datatype.DtClaseDeportiva;
 import excepciones.ClaseRepetidoException;
 import excepciones.PersistenciaException;
-import modelo.Actividad;
 import modelo.ClaseDeportiva;
 import persistencia.ManejarPersistenia;
 
@@ -17,11 +18,11 @@ public class ControladorClaseDeportiva implements IControladorClaseDeportiva{
 	public ControladorClaseDeportiva(){}
 
 	//Alta de una clase deportiva
-	public void AltaClaseDeportiva(String nombreClaseDeportiva, LocalDate fecha, LocalTime hora, String lugar, int cupo, LocalDate fAlta, Actividad Act) throws ClaseRepetidoException, PersistenciaException{
+	public void AltaClaseDeportiva(String nombreClaseDeportiva, LocalDate fecha, LocalTime hora, String lugar, int cupo, LocalDate fAlta, DtActividad Act) throws ClaseRepetidoException, PersistenciaException{
 		
 		ClaseDeportiva nuevaClaseDeportiva = new ClaseDeportiva();
 		try {
-			nuevaClaseDeportiva.setActividad(Act);
+			nuevaClaseDeportiva.setActividad(DtActividad.toObject(Act));
 			nuevaClaseDeportiva.setCupo(cupo);
 			nuevaClaseDeportiva.setFecha(fecha);
 			nuevaClaseDeportiva.setFechaAlta(fAlta);
@@ -39,8 +40,8 @@ public class ControladorClaseDeportiva implements IControladorClaseDeportiva{
 	}
 	
 	//Retorna el DtClaseDeportiva de la clase con nombre 'nom'
-	public ClaseDeportiva obtenerClase(String nom) {
-		return m.obtenerClase(nom);
+	public DtClaseDeportiva obtenerClase(String nom) {
+		return DtClaseDeportiva.toDataType(m.obtenerClase(nom));
 	}
 	
 	//Retorna un vector con todas las inscripciones de una clase con nombre 'nom'

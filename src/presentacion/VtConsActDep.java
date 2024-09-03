@@ -8,6 +8,8 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import datatype.DtActividad;
+import datatype.DtClaseDeportiva;
 import logica.IControladorActividad;
 import logica.IControladorClaseDeportiva;
 import modelo.Actividad;
@@ -227,7 +229,7 @@ public class VtConsActDep extends JInternalFrame{
 				//Verificar si la actividad existe
 				if(iControladorActividad.actividadExiste(textNombre.getText())) {
 					//Traer objeto actividad
-					Actividad act = iControladorActividad.obtenerActividad(textNombre.getText());
+					DtActividad act = iControladorActividad.obtenerActividad(textNombre.getText());
 					//Mostrar la info en los campos de texto
 					textDescripcion.setText(act.getDescripcion());
 					textDuracion.setText(String.valueOf(act.getDuracionHoras()));
@@ -254,7 +256,7 @@ public class VtConsActDep extends JInternalFrame{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				//Obtiene obj de la clase seleccionada
-				ClaseDeportiva cla = iControladorClase.obtenerClase(listClases.getSelectedValue());
+				DtClaseDeportiva cla = iControladorClase.obtenerClase(listClases.getSelectedValue());
 				//Completa los campos con los datos del obj
 				textNombreClase.setText(cla.getNombre());
 				textFechaClase.setText(cla.getFecha().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString());

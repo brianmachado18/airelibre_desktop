@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
+import datatype.DtEntrenador;
 import excepciones.PersistenciaException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -198,7 +199,7 @@ public class VtAltaActDep extends JInternalFrame {
 		}
 		
 		//Obtiene el objeto del entrenador seleccionado
-		Entrenador traerEntrador = iControladorUsuario.obtenerEntrenador(ent);
+		DtEntrenador traerEntrador = iControladorUsuario.obtenerEntrenador(ent);
 		
 		//Ingresa los datos a la bd
 		LocalDate fechaAux = LocalDate.parse(fecha, DateTimeFormatter.ofPattern("dd/MM/yyyy"));

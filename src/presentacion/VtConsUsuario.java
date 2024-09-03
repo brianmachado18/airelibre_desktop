@@ -20,6 +20,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import datatype.DtDeportista;
+import datatype.DtEntrenador;
 import excepciones.PersistenciaException;
 import logica.IControladorUsuario;
 import modelo.Deportista;
@@ -206,7 +208,7 @@ public class VtConsUsuario extends JInternalFrame{
 				try {
 					if(iControladorUsuario.usuarioExiste(nick)) {
 						if (iControladorUsuario.esEntrenador(nick)) {
-							Entrenador traerEntrenador = iControladorUsuario.obtenerEntrenador(nick);
+							DtEntrenador traerEntrenador = iControladorUsuario.obtenerEntrenador(nick);
 							textNombreConsulta.setText(traerEntrenador.getNombre());
 							textApellidoConsulta.setText(traerEntrenador.getApellido());
 							textEmailConsulta.setText(traerEntrenador.getMail());
@@ -215,7 +217,7 @@ public class VtConsUsuario extends JInternalFrame{
 							textDisciplinaConsulta.setText(traerEntrenador.getDisciplina());
 							textWebConsulta.setText(traerEntrenador.getSitioWeb());
 						} else {
-							Deportista traerDeportista = iControladorUsuario.obtenerDeportista(nick);
+							DtDeportista traerDeportista = iControladorUsuario.obtenerDeportista(nick);
 							textNombreConsulta.setText(traerDeportista.getNombre());
 							textApellidoConsulta.setText(traerDeportista.getApellido());
 							textEmailConsulta.setText(traerDeportista.getMail());

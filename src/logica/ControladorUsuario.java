@@ -3,6 +3,8 @@ package logica;
 import java.time.*;
 import java.util.Vector;
 
+import datatype.DtDeportista;
+import datatype.DtEntrenador;
 import excepciones.PersistenciaException;
 import modelo.Deportista;
 import modelo.Entrenador;
@@ -70,13 +72,13 @@ public class ControladorUsuario implements IControladorUsuario {
 	}
 	
 	//Retorna un objeto entrenador
-	public Entrenador obtenerEntrenador(String nickname) throws PersistenciaException{
-		return m.obtenerEntrenador(nickname);
+	public DtEntrenador obtenerEntrenador(String nickname) throws PersistenciaException{
+		return DtEntrenador.toDataType(m.obtenerEntrenador(nickname));
 	}
 	
 	//Retorna un objeto deportista
-	public Deportista obtenerDeportista(String nickname) throws PersistenciaException{
-		return m.obtenerDeportista(nickname);
+	public DtDeportista obtenerDeportista(String nickname) throws PersistenciaException{
+		return DtDeportista.toDataType(m.obtenerDeportista(nickname));
 	}
 
 }

@@ -3,6 +3,8 @@ package logica;
 import java.time.LocalDate;
 import java.util.Vector;
 
+import datatype.DtDeportista;
+import datatype.DtEntrenador;
 import excepciones.PersistenciaException;
 import modelo.Deportista;
 import modelo.Entrenador;
@@ -21,8 +23,8 @@ public interface IControladorUsuario {
 	
 	public abstract boolean esEntrenador(String nickname) throws PersistenciaException;
 	
-	public abstract Entrenador obtenerEntrenador(String nickname) throws PersistenciaException; //DtEntrenador
+	public abstract DtEntrenador obtenerEntrenador(String nickname) throws PersistenciaException;
 	
-	public abstract Deportista obtenerDeportista(String nickname) throws PersistenciaException; //DtDeportista
+	public abstract DtDeportista obtenerDeportista(String nickname) throws PersistenciaException;
 	
 }

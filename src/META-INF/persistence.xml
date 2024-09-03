@@ -13,10 +13,11 @@
 		
 		<properties>
 			
-		<property name="jakarta.persistence.jdbc.url" value="jdbc:hsqldb:\Users\Brian\Desktop\PAP\BaseDatos\;shutdown=true" />
- 	<!--		<property name="jakarta.persistence.jdbc.url" value="jdbc:hsqldb:\Users\mwied\OneDrive\Documents\DBeaver\;shutdown=true" /> -->
+		<!--<property name="jakarta.persistence.jdbc.url" value="jdbc:hsqldb:\Users\Brian\Desktop\PAP\BaseDatos\;shutdown=true" /> -->
+ 	<!--	<property name="jakarta.persistence.jdbc.url" value="jdbc:hsqldb:\Users\mwied\OneDrive\Documents\DBeaver\;shutdown=true" /> -->
 <!--		<property name="jakarta.persistence.jdbc.url" value="jdbc:hsqldb:file:/home/testing/Escritorio/pap/bd/;shutdown=true"/> -->
 <!-- 		<property name="jakarta.persistence.jdbc.url" value="jdbc:hsqldb:\Users\fedca\Desktop\PAP\BDPAP\;shutdown=true" /> -->
+			<property name="jakarta.persistence.jdbc.url" value="jdbc:hsqldb:\Users\usuario\Documents\DBAireLibrePAP\;shutdown=true" />
 			
             <property name="jakarta.persistence.jdbc.user" value="root"/>
             <property name="jakarta.persistence.jdbc.password" value="root"/>

@@ -1,16 +1,23 @@
 package logica;
 
 import java.time.*;
+import java.util.Vector;
 
 import datatype.DtClaseDeportiva;
 import datatype.DtInscripcion;
 import excepciones.ClaseRepetidoException;
 import excepciones.PersistenciaException;
 import modelo.Actividad;
+import modelo.ClaseDeportiva;
+import modelo.Inscripcion;
 import excepciones.ClaseNoExisteException;
 import excepciones.ActividadNoExisteException;
 
 public interface IControladorClaseDeportiva {
+	
+	public abstract ClaseDeportiva obtenerClase(String nom);
+	
+	public abstract Vector<String> obtenerListaInscripciones(String nom);
 	
 	/**
      * Registra la Clase Deportiva en el sistema.

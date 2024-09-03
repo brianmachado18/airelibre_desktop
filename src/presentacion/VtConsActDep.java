@@ -9,7 +9,9 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import logica.IControladorActividad;
+import logica.IControladorClaseDeportiva;
 import modelo.Actividad;
+import modelo.ClaseDeportiva;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -19,6 +21,8 @@ import java.time.format.DateTimeFormatter;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class VtConsActDep extends JInternalFrame{
 	private JTextField textNombre;
@@ -37,12 +41,14 @@ public class VtConsActDep extends JInternalFrame{
 	private JList<String> listClases;
 	private JList<String> listActividades;
 	private IControladorActividad iControladorActividad;
+	private IControladorClaseDeportiva iControladorClase;
 	private VtPrincipal principal;
 	private JInternalFrame yo = this;
 	
-	public VtConsActDep(IControladorActividad i, VtPrincipal VtPrincipal) {
+	public VtConsActDep(IControladorActividad ia, IControladorClaseDeportiva ic, VtPrincipal VtPrincipal) {
 		principal = VtPrincipal;
-		iControladorActividad = i;
+		iControladorActividad = ia;
+		iControladorClase = ic;
 		principal.bajarFrameActual();
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
 		setTitle("Consulta Actividad");
@@ -179,35 +185,10 @@ public class VtConsActDep extends JInternalFrame{
 		getContentPane().add(lblInscriptos);
 		
 		JButton btnBuscar = new JButton("Buscar");
-		btnBuscar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//Verificar si la actividad existe
-				if(iControladorActividad.actividadExiste(textNombre.getText())) {
-					//Traer objeto actividad
-					Actividad act = iControladorActividad.obtenerActividad(textNombre.getText());
-					//Mostrar la info en los campos de texto
-					textDescripcion.setText(act.getDescripcion());
-					textDuracion.setText(String.valueOf(act.getDuracionHoras()));
-					textCosto.setText(String.valueOf(act.getCosto()));
-					textLugar.setText(act.getLugar());
-					textFechaAlta.setText(act.getFechaAlta().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString());
-					textEstado.setText(act.getEstado());
-				} else {
-					JOptionPane.showMessageDialog(new JPanel(), "La actividad " + textNombre.getText() + " no existe");
-				}
-			}
-		});
 		btnBuscar.setBounds(361, 25, 78, 23);
 		getContentPane().add(btnBuscar);
 		
 		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//Cerrar el fame
-				yo.dispose();
-			}
-		});
-		
 		btnCancelar.setBounds(249, 290, 190, 21);
 		btnCancelar.setVisible(true);
 		this.getContentPane().add(btnCancelar);
@@ -221,14 +202,10 @@ public class VtConsActDep extends JInternalFrame{
 		getContentPane().add(listClases);
 		
 		listActividades = new JList<String>();
-		listActividades.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				textNombre.setText(listActividades.getSelectedValue());
-			}
-		});
 		listActividades.setBounds(10, 11, 157, 318);
 		getContentPane().add(listActividades);
+		
+		//EVENTOS ========================================================================
 		
 	    addComponentListener ( new ComponentAdapter () {
 	        public void componentShown ( ComponentEvent e ) {
@@ -236,6 +213,65 @@ public class VtConsActDep extends JInternalFrame{
 	            cargarListaActividades();
 	        }
 	    });
+
+		listActividades.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				//Coloca el nombre de la clase seleccionada en el textBox para buscar
+				textNombre.setText(listActividades.getSelectedValue());
+			}
+		});
+		
+		btnBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Verificar si la actividad existe
+				if(iControladorActividad.actividadExiste(textNombre.getText())) {
+					//Traer objeto actividad
+					Actividad act = iControladorActividad.obtenerActividad(textNombre.getText());
+					//Mostrar la info en los campos de texto
+					textDescripcion.setText(act.getDescripcion());
+					textDuracion.setText(String.valueOf(act.getDuracionHoras()));
+					textCosto.setText(String.valueOf(act.getCosto()));
+					textLugar.setText(act.getLugar());
+					textFechaAlta.setText(act.getFechaAlta().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString());
+					textEstado.setText(act.getEstado());
+					//Cargar datos en la lista de clases
+					listClases.removeAll();
+					listClases.setListData(iControladorActividad.obtenerVectorClasesActividad(textNombre.getText()));
+					//Limpiar campos de clases
+					textNombreClase.setText(null);
+					textFechaClase.setText(null);
+					textHoraClase.setText(null);
+					textLugarClase.setText(null);
+					textFechaAltaClase.setText(null);
+				} else {
+					JOptionPane.showMessageDialog(new JPanel(), "La actividad " + textNombre.getText() + " no existe");
+				}
+			}
+		});
+		
+		listClases.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				//Obtiene obj de la clase seleccionada
+				ClaseDeportiva cla = iControladorClase.obtenerClase(listClases.getSelectedValue());
+				//Completa los campos con los datos del obj
+				textNombreClase.setText(cla.getNombre());
+				textFechaClase.setText(cla.getFecha().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString());
+				textHoraClase.setText(cla.getHora().toString());
+				textLugarClase.setText(cla.getLugar());
+				textFechaAltaClase.setText(cla.getFechaAlta().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString());
+				//Completa la lista con todas las inscripciones a la clase
+				listInscriptos.setListData(iControladorClase.obtenerListaInscripciones(cla.getNombre()));
+			}
+		});
+		
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Cerrar el fame
+				yo.dispose();
+			}
+		});
 	}
 
 	private void cargarListaActividades() {

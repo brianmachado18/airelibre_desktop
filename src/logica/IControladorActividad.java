@@ -23,6 +23,8 @@ public interface IControladorActividad {
 	public abstract Vector<String> obtenerVectorActividad();
 	
 	public abstract Actividad obtenerActividad(String nom);
+	
+	public abstract Vector<String> obtenerVectorClasesActividad(String nom);
 
     /**
      * Retorna la informacion de todas las Actividades.

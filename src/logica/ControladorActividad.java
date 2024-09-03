@@ -46,6 +46,10 @@ public class ControladorActividad implements IControladorActividad {
 	public Vector<String> obtenerVectorUsuarios() throws PersistenciaException{
 		return m.obtenerVectorActividades();
 	}
+	
+	public Vector<String> obtenerVectorClasesActividad(String nom){
+		return m.obtenerVectorClasesActividad(nom);
+	}
     
     //ListarActividades
     public DtActividad ListarActividades() throws ActividadNoExisteException{

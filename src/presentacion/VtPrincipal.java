@@ -102,7 +102,6 @@ public class VtPrincipal extends JFrame {
                         break;
                     case "Clases e Inscripciones":
                         modelSubopciones.addElement("Alta Clase");
-                        modelSubopciones.addElement("Consulta Clase");
                         modelSubopciones.addElement("Alta Inscripción");
                         modelSubopciones.addElement("Consulta Inscripción");
                         break;
@@ -154,11 +153,6 @@ public class VtPrincipal extends JFrame {
                         case "Alta Clase":
                             // Lógica para alta de clase
                         	mostrarVtAltaClase(desktopPane);
-                        	listaSubopciones.clearSelection();
-                            break;
-                        case "Consulta Clase":
-                            // Lógica para consulta de clase
-                        	mostrarVtConsClase(desktopPane);
                         	listaSubopciones.clearSelection();
                             break;
                         case "Alta Inscripción":
@@ -235,18 +229,13 @@ public class VtPrincipal extends JFrame {
     	IFAltaClaseDep.setVisible(true);
     	panel.add(IFAltaClaseDep);
     }
-    private void mostrarVtConsClase(JDesktopPane panel) {
-    	VtConsClaseDep IFConsClaseDep = new VtConsClaseDep(yo);
-    	IFConsClaseDep.setVisible(true);
-    	panel.add(IFConsClaseDep);
-    }
     private void mostrarVtInscClase(JDesktopPane panel) {
 		VtInscClaseDep IFInscClaseDep = new VtInscClaseDep(yo);
     	IFInscClaseDep.setVisible(true);
     	panel.add(IFInscClaseDep);
     }
     private void mostrarVtConsInsc(JDesktopPane panel) {
-    	VtConsInsc IFConsInsc = new VtConsInsc(yo);
+    	VtConsInsc IFConsInsc = new VtConsInsc(ICA, ICC, yo);
     	IFConsInsc.setVisible(true);
     	panel.add(IFConsInsc);
     }

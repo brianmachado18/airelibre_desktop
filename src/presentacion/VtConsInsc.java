@@ -3,6 +3,12 @@ package presentacion;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
@@ -10,17 +16,21 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JTextField;
 
+import datatype.DtClaseDeportiva;
+import logica.IControladorActividad;
+import logica.IControladorClaseDeportiva;
+
 public class VtConsInsc extends JInternalFrame{
 	JButton btnCerrar;
 	private JInternalFrame yo = this;
 	private VtPrincipal principal;
-	private JTextField textFechaAlta;
-	private JTextField textCupos;
-	private JTextField textLugar;
-	private JTextField textHora;
-	private JTextField textFecha;
-	public VtConsInsc(VtPrincipal VtPrincipal) {
+	private IControladorActividad ICA;
+	private IControladorClaseDeportiva ICC;
+	
+	public VtConsInsc(IControladorActividad ica,IControladorClaseDeportiva icc, VtPrincipal VtPrincipal) {
 
+		ICA = ica;
+		ICC = icc;
 		setTitle("Inscripcion");
 		principal = VtPrincipal;
 		principal.bajarFrameActual();
@@ -50,62 +60,12 @@ public class VtConsInsc extends JInternalFrame{
 		getContentPane().add(lblActividades);
 
 		JList listClases = new JList();
-		listClases.setBounds(226, 36, 206, 138);
+		listClases.setBounds(226, 36, 206, 267);
 		getContentPane().add(listClases);
 
 		JLabel lblClases = new JLabel("Clases");
 		lblClases.setBounds(226, 11, 148, 14);
 		getContentPane().add(lblClases);
-
-		JLabel lblFecha = new JLabel("Fecha");
-		lblFecha.setBounds(226, 185, 85, 14);
-		getContentPane().add(lblFecha);
-
-		JLabel lblHora = new JLabel("Hora");
-		lblHora.setBounds(226, 210, 85, 14);
-		getContentPane().add(lblHora);
-
-		JLabel lblLugar = new JLabel("Lugar");
-		lblLugar.setBounds(226, 235, 85, 14);
-		getContentPane().add(lblLugar);
-
-		JLabel lblCupos = new JLabel("Cupos");
-		lblCupos.setBounds(226, 260, 85, 14);
-		getContentPane().add(lblCupos);
-
-		JLabel lblFechaAlta = new JLabel("Fecha de alta");
-		lblFechaAlta.setBounds(226, 285, 85, 14);
-		getContentPane().add(lblFechaAlta);
-
-		textFechaAlta = new JTextField();
-		textFechaAlta.setEnabled(false);
-		textFechaAlta.setBounds(332, 282, 100, 20);
-		getContentPane().add(textFechaAlta);
-		textFechaAlta.setColumns(10);
-
-		textCupos = new JTextField();
-		textCupos.setEnabled(false);
-		textCupos.setColumns(10);
-		textCupos.setBounds(332, 257, 100, 20);
-		getContentPane().add(textCupos);
-
-		textLugar = new JTextField();
-		textLugar.setEnabled(false);
-		textLugar.setColumns(10);
-		textLugar.setBounds(332, 232, 100, 20);
-		getContentPane().add(textLugar);
-
-		textHora = new JTextField();
-		textHora.setEnabled(false);
-		textHora.setColumns(10);
-		textHora.setBounds(332, 207, 100, 20);
-		getContentPane().add(textHora);
-
-		textFecha = new JTextField();
-		textFecha.setEnabled(false);
-		textFecha.setColumns(10);
-		textFecha.setBounds(332, 182, 100, 20);
-		getContentPane().add(textFecha);
 
 		JList listInscripciones = new JList();
 		listInscripciones.setBounds(442, 36, 206, 235);
@@ -114,5 +74,36 @@ public class VtConsInsc extends JInternalFrame{
 		JLabel lblDeportista = new JLabel("Inscripciones");
 		lblDeportista.setBounds(442, 11, 206, 14);
 		getContentPane().add(lblDeportista);
+		
+
+		addComponentListener ( new ComponentAdapter () {
+	        public void componentShown ( ComponentEvent e ) {
+	        	Vector<String> vActividades = null;
+				vActividades = ICA.obtenerVectorActividad();
+				if (!vActividades.isEmpty()) {
+					listActividades.setListData(vActividades);
+				}
+	        }
+	    });
+		
+		listActividades.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Vector<String> vClases = null;
+				vClases = ICA.obtenerVectorClasesActividad(listActividades.getSelectedValue().toString());
+				listClases.setListData(vClases);
+
+			}
+		});
+		
+		listClases.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Vector<String> vInscripciones = null;
+				vInscripciones = ICC.obtenerListaInscripciones(listClases.getSelectedValue().toString());
+				listInscripciones.setListData(vInscripciones);
+
+			}
+		});
 	}
 }

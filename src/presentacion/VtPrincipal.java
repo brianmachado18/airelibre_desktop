@@ -128,7 +128,8 @@ public class VtPrincipal extends JFrame {
                             break;
                         case "Modificar Usuario":
                             // Lógica para modificar usuario
-                        	mostrarMensaje("MODIFICAR USUARIO PENDIENTE");
+                        	//mostrarMensaje("MODIFICAR USUARIO PENDIENTE");
+				mostrarVtModUsuario(desktopPane);
                         	listaSubopciones.clearSelection();
                             break;
                         case "Alta Actividad":
@@ -249,5 +250,10 @@ public class VtPrincipal extends JFrame {
     	VtConsInsc IFConsInsc = new VtConsInsc(yo);
     	IFConsInsc.setVisible(true);
     	panel.add(IFConsInsc);
+    }
+    private void mostrarVtModUsuario(JDesktopPane panel) {
+    	VtModUsuario IFModUsuario = new VtModUsuario(ICU, yo);
+    	IFModUsuario.setVisible(true);
+    	panel.add(IFModUsuario);
     }
 }

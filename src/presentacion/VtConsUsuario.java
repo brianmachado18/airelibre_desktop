@@ -181,7 +181,7 @@ public class VtConsUsuario extends JInternalFrame{
 		//EVENTOS
 		addComponentListener(new ComponentAdapter() {
 			public void componentShown(ComponentEvent e) {
-				Vector<String> vUsuarios = null;
+				Vector<String> vUsuarios = new Vector<String>();
 				try {
 					vUsuarios = iControladorUsuario.obtenerVectorUsuarios();
 				} catch (PersistenciaException e1) {

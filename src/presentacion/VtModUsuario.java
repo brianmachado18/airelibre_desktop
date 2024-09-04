@@ -7,8 +7,10 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Vector;
+import java.util.regex.Pattern;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -26,11 +28,13 @@ import datatype.DtDeportista;
 import datatype.DtEntrenador;
 import excepciones.PersistenciaException;
 import logica.IControladorUsuario;
+import persistencia.ManejarPersistenia;
+
 import javax.swing.JPasswordField;
 
 public class VtModUsuario extends JInternalFrame{
 	private JTextField textDisciplina;
-	private JTextField textWebConsulta;
+	private JTextField textWeb;
 	private JRadioButton rdbtnEntrenador;
 	private JRadioButton rdbtnDeportista;
 	private JCheckBox chckbxEsProfesioanl;
@@ -48,6 +52,8 @@ public class VtModUsuario extends JInternalFrame{
 	private JPasswordField passwordField;
 	private JCheckBox chckbxContrasena;
 	private JButton btnBuscar;
+	private int id; //mal
+	
 	public VtModUsuario(IControladorUsuario i, VtPrincipal VtPrincipal) {
 		
 		principal = VtPrincipal;
@@ -107,11 +113,11 @@ public class VtModUsuario extends JInternalFrame{
 		textDisciplina.setBounds(88, 2, 135, 19);
 		panelEntrenador.add(textDisciplina);
 		
-		textWebConsulta = new JTextField();
-		textWebConsulta.setEnabled(false);
-		textWebConsulta.setColumns(10);
-		textWebConsulta.setBounds(88, 32, 135, 19);
-		panelEntrenador.add(textWebConsulta);
+		textWeb = new JTextField();
+		textWeb.setEnabled(false);
+		textWeb.setColumns(10);
+		textWeb.setBounds(88, 32, 135, 19);
+		panelEntrenador.add(textWeb);
 		
 		JButton btnCancelar = new JButton("Salir");
 		btnCancelar.setBounds(569, 235, 105, 21);
@@ -245,6 +251,7 @@ public class VtModUsuario extends JInternalFrame{
 						btnCancelar.setText("Cancelar");
 						if (iControladorUsuario.esEntrenador(nick)) {
 							DtEntrenador traerEntrenador = iControladorUsuario.obtenerEntrenador(nick);
+							id = traerEntrenador.getId();
 							passwordField.setText(traerEntrenador.getContrasena());
 							textNombre.setText(traerEntrenador.getNombre());
 							textApellido.setText(traerEntrenador.getApellido());
@@ -252,9 +259,10 @@ public class VtModUsuario extends JInternalFrame{
 							textFecha.setText(traerEntrenador.getFechaNacimiento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString());
 							rdbtnEntrenador.setSelected(true);
 							textDisciplina.setText(traerEntrenador.getDisciplina());
-							textWebConsulta.setText(traerEntrenador.getSitioWeb());
+							textWeb.setText(traerEntrenador.getSitioWeb());
 						} else {
 							DtDeportista traerDeportista = iControladorUsuario.obtenerDeportista(nick);
+							id = traerDeportista.getId();
 							passwordField.setText(traerDeportista.getContrasena());
 							textNombre.setText(traerDeportista.getNombre());
 							textApellido.setText(traerDeportista.getApellido());
@@ -288,6 +296,12 @@ public class VtModUsuario extends JInternalFrame{
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//Validaciones y demas cosas para la modificacion
+				try {
+					confirmarModUsuario();
+				} catch (PersistenciaException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		
@@ -303,7 +317,7 @@ public class VtModUsuario extends JInternalFrame{
 		chckbxEsProfesioanl.setSelected(false);
 		rdbtnEntrenador.setSelected(false);
 		textDisciplina.setText("");
-		textWebConsulta.setText("");
+		textWeb.setText("");
 		setCamposEnable(false);
 	}
 	
@@ -317,10 +331,72 @@ public class VtModUsuario extends JInternalFrame{
 		chckbxEsProfesioanl.setEnabled(b);
 		rdbtnEntrenador.setEnabled(b);
 		textDisciplina.setEnabled(b);
-		textWebConsulta.setEnabled(b);
+		textWeb.setEnabled(b);
 		chckbxContrasena.setEnabled(b);
 		textNickname.setEnabled(!b);
 		btnBuscar.setEnabled(!b);
 	}
+	
+private void confirmarModUsuario() throws PersistenciaException{
+		
+		//Guardo los datos en variables
+		String nickname = textNickname.getText();
+		String contrasena = new String(passwordField.getPassword());
+		String nombre = textNombre.getText();
+		String apellido = textApellido.getText();
+		String email = textEmail.getText();
+		String fechaNacimiento = textFecha.getText();
+		String tipoUsuario = "";
+		boolean esProfesional = false;
+		String disciplina = "";
+		String web = "";
+		
+
+		//Verifico campos obligatorios 
+		if (nickname.isEmpty() || contrasena.isEmpty() || nombre.isEmpty() || apellido.isEmpty() || email.isEmpty() || fechaNacimiento.isEmpty()) {
+			JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		if (rdbtnDeportista.isSelected()) {
+			tipoUsuario = "Deportista";
+			esProfesional = chckbxEsProfesioanl.isSelected();
+		} else if (rdbtnEntrenador.isSelected()) {
+			tipoUsuario = "Entrenador";
+			disciplina = textDisciplina.getText();
+			web = textWeb.getText();
+
+			if (disciplina.isEmpty()) {
+				JOptionPane.showMessageDialog(this, "La disciplina es obligatoria para los entrenadores", "Error", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+		} else {
+			JOptionPane.showMessageDialog(this, "Debe seleccionar si es Deportista o Entrenador", "Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		
+		//Verifico formato mail
+		if (!Pattern.compile("^[a-zA-Z0-9._]+@[a-zA-Z0-9]+\\.[a-zA-Z]{2,}$").matcher(email).matches()) {
+			JOptionPane.showMessageDialog(this, "El formato del correo electrónico no es válido", "Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+    
+		//Verifico formato fecha
+		if (!Pattern.compile("^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/(\\d{4})$").matcher(fechaNacimiento).matches()) {
+			JOptionPane.showMessageDialog(this, "El formato de la Fecha no es válido, usar 'dd/mm/aaaa'", "Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		//Parsero de string a localDate
+		DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		LocalDate fecha = LocalDate.parse(fechaNacimiento, formatoFecha);
+		
+		
+		//Ingreso los datos a la db
+		iControladorUsuario.modifiarUsuario(id, nickname, contrasena, nombre, apellido, email, fecha, tipoUsuario, esProfesional, disciplina, web);
+		
+		//Limmpio los campos y oculto el panel
+		yo.dispose();
+
+	}
+
 	
 }

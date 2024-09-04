@@ -27,4 +27,5 @@ public interface IControladorUsuario {
 	
 	public abstract DtDeportista obtenerDeportista(String nickname) throws PersistenciaException;
 	
+	public abstract void modifiarUsuario(int id, String nickname, String contrasena, String nombre, String apellido, String email, LocalDate fechaNacimiento, String tipoUsuario, boolean esProfesional, String disciplina, String web)throws PersistenciaException;
 }

@@ -80,5 +80,39 @@ public class ControladorUsuario implements IControladorUsuario {
 	public DtDeportista obtenerDeportista(String nickname) throws PersistenciaException{
 		return DtDeportista.toDataType(m.obtenerDeportista(nickname));
 	}
+	
+	public void modifiarUsuario(int id, String nickname, String contrasena, String nombre, String apellido, String email, LocalDate fechaNacimiento, String tipoUsuario, boolean esProfesional, String disciplina, String web)throws PersistenciaException{
+		try {	
+			if (tipoUsuario == "Entrenador") { // Si es entrenador
+				Entrenador nuevoEntrenador = new Entrenador();
+				nuevoEntrenador.setId(id);
+				nuevoEntrenador.setNickname(nickname);
+				nuevoEntrenador.setContrasena(contrasena);
+				nuevoEntrenador.setNombre(nombre);
+				nuevoEntrenador.setApellido(apellido);
+				nuevoEntrenador.setMail(email);
+				nuevoEntrenador.setFechaNacimiento(fechaNacimiento);
+				nuevoEntrenador.setDisciplina(disciplina);
+				nuevoEntrenador.setSitioWeb(web);
+
+				m.modificarEntrenador(nuevoEntrenador);
+
+			} else { // Si es deportista
+				Deportista nuevoDeportista = new Deportista();
+				nuevoDeportista.setId(id);
+				nuevoDeportista.setNickname(nickname);
+				nuevoDeportista.setContrasena(contrasena);
+				nuevoDeportista.setNombre(nombre);
+				nuevoDeportista.setApellido(apellido);
+				nuevoDeportista.setMail(email);
+				nuevoDeportista.setFechaNacimiento(fechaNacimiento);
+				nuevoDeportista.setEsProfesional(esProfesional);
+				
+				m.modificarDeportista(nuevoDeportista);
+			}
+		}catch (Exception e) {
+			throw new PersistenciaException("Error al persistir el usuario");
+		}
+	}
 
 }

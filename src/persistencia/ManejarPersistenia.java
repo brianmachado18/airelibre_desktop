@@ -424,4 +424,60 @@ public class ManejarPersistenia {
 		return vInsc;
 	}
 
+	public void modificarDeportista(Deportista dep) throws PersistenciaException {
+		
+		EntityManagerFactory emf = null;
+		EntityManager em = null;
+		
+		try {
+			
+			emf = Persistence.createEntityManagerFactory("airelibre_desk");
+			em = emf.createEntityManager();
+			
+			em.getTransaction().begin();
+			em.merge(dep);
+			em.getTransaction().commit();
+			
+		}catch (Exception e) {
+			throw new PersistenciaException("Error al persistir el usuario");
+		}finally {
+			
+			if (em != null) {
+				em.close();
+			}
+			if (emf != null) {
+				emf.close();
+			}
+		
+		}
+		
+	}
+	
+public void modificarEntrenador(Entrenador ent) throws PersistenciaException {
+		
+		EntityManagerFactory emf = null;
+		EntityManager em = null;
+		
+		try {
+			
+			emf = Persistence.createEntityManagerFactory("airelibre_desk");
+			em = emf.createEntityManager();
+
+			em.getTransaction().begin();
+			em.merge(ent);
+			em.getTransaction().commit();
+			
+		}catch (Exception e) {
+			throw new PersistenciaException("Error al persistir el usuario");
+		}finally {
+			if (em != null) {
+				em.close();
+			}
+			if (emf != null) {
+				emf.close();
+			}
+		}
+		
+	}
+	
 }

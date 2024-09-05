@@ -66,4 +66,10 @@ public class ControladorClaseDeportiva implements IControladorClaseDeportiva{
 		return m.claseExiste(nombre);
 	}
 	
+	public void AltainscripcionAClase(String nomClase, String NomDeportista,int CantidadDesportistas,LocalDate FechaInscripcion) throws ClaseNoExisteException{
+		//Agrego throw para que no rompa
+    	//throw new ClaseNoExisteException("La clase" + nomClase + "no existe");
+    	m.persistirInscripcion(nomClase, NomDeportista,CantidadDesportistas , FechaInscripcion);
+	}
+	
 }

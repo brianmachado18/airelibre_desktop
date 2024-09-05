@@ -230,7 +230,7 @@ public class VtPrincipal extends JFrame {
     	panel.add(IFConsClaseDep);
     }
     private void mostrarVtInscClase(JDesktopPane panel) {
-		VtInscClaseDep IFInscClaseDep = new VtInscClaseDep(yo);
+		VtInscClaseDep IFInscClaseDep = new VtInscClaseDep(ICA,ICC,yo);
     	IFInscClaseDep.setVisible(true);
     	panel.add(IFInscClaseDep);
     }

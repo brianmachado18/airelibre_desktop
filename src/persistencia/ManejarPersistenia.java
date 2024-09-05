@@ -10,6 +10,7 @@ import modelo.Actividad;
 import modelo.ClaseDeportiva;
 import modelo.Deportista;
 import modelo.Entrenador;
+import modelo.Inscripcion;
 
 public class ManejarPersistenia {
 	
@@ -288,6 +289,27 @@ public class ManejarPersistenia {
 		return vActividades;
 	}
 	
+	public Actividad obtenerActividadByClase(String nomClase) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		Actividad ret = null;
+		try {
+	        Query buscarIdClase = em.createNativeQuery("SELECT ID FROM CLASEDEPORTIVA WHERE NOMBRE = ?");
+	        buscarIdClase.setParameter(1, nomClase);
+	        int IDClase = (int) buscarIdClase.getSingleResult();
+			Query buscarIdAct = em.createNativeQuery("SELECT ID_ACTIVIDAD FROM CLASEDEPORTIVA WHERE ID = ?");
+			buscarIdAct.setParameter(1, IDClase);
+	        int ID = (int) buscarIdAct.getSingleResult();
+	        ret = em.find(Actividad.class, ID);
+		} finally {
+			em.close();
+			emf.close();
+		}
+		return ret;
+	}
+		
+		
+	
 	public Actividad obtenerActividad(String nom) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
 		EntityManager em = emf.createEntityManager();
@@ -384,5 +406,39 @@ public class ManejarPersistenia {
 		}
 		return vInsc;
 	}
+	
+	public void persistirInscripcion(String nomClase, String NomDeportista,int CantidadDesportistas,LocalDate FechaInscripcion){
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		
+		
+		try {
+			Query buscarIdClase = em.createNativeQuery("SELECT ID FROM CLASEDEPORTIVA WHERE NOMBRE = ?");
+			buscarIdClase.setParameter(1, nomClase);
+			ClaseDeportiva cla = obtenerClase(nomClase);
+			Deportista dep = obtenerDeportista(NomDeportista);
+			Actividad act =  obtenerActividadByClase(nomClase);
+			int costoact = act.getCosto();
+			int cupo  = cla.getCupo();
+			int ci    = 2;
+			int costo = (costoact/10)* ((cupo+ci)/cupo);
+			Inscripcion nuevaInscripcion = new Inscripcion();
+			nuevaInscripcion.setCantidadDesportistas(CantidadDesportistas);
+			nuevaInscripcion.setClaseDeportiva(cla);
+			nuevaInscripcion.setCosto(costo);
+			nuevaInscripcion.setDeportista(dep);
+			nuevaInscripcion.setFechaInscripcion(FechaInscripcion);
+			
+			em.getTransaction().begin();
+			em.persist(nuevaInscripcion);
+			em.getTransaction().commit();
+			
+		}finally {
+			em.close();
+			emf.close();
+		}
+		
+	}
+	
 	
 }

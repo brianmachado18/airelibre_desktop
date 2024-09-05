@@ -37,6 +37,9 @@ public interface IControladorClaseDeportiva {
      */
 	public abstract DtInscripcion ConsultaInscripciones(String nombreClaseDeportiva) throws ClaseNoExisteException;
 	
+	public abstract  void AltainscripcionAClase(String nomClase, String NomDeportista,int CantidadDesportistas,LocalDate FechaInscripcion) throws ClaseNoExisteException;
+
+	
 	public boolean claseExiste(String nombre);
 
 }

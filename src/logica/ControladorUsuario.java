@@ -81,11 +81,10 @@ public class ControladorUsuario implements IControladorUsuario {
 		return DtDeportista.toDataType(m.obtenerDeportista(nickname));
 	}
 	
-	public void modifiarUsuario(int id, String nickname, String contrasena, String nombre, String apellido, String email, LocalDate fechaNacimiento, String tipoUsuario, boolean esProfesional, String disciplina, String web)throws PersistenciaException{
+	public void modifiarUsuario(String nickname, String contrasena, String nombre, String apellido, String email, LocalDate fechaNacimiento, String tipoUsuario, boolean esProfesional, String disciplina, String web)throws PersistenciaException{
 		try {	
 			if (tipoUsuario == "Entrenador") { // Si es entrenador
 				Entrenador nuevoEntrenador = new Entrenador();
-				nuevoEntrenador.setId(id);
 				nuevoEntrenador.setNickname(nickname);
 				nuevoEntrenador.setContrasena(contrasena);
 				nuevoEntrenador.setNombre(nombre);
@@ -99,7 +98,6 @@ public class ControladorUsuario implements IControladorUsuario {
 
 			} else { // Si es deportista
 				Deportista nuevoDeportista = new Deportista();
-				nuevoDeportista.setId(id);
 				nuevoDeportista.setNickname(nickname);
 				nuevoDeportista.setContrasena(contrasena);
 				nuevoDeportista.setNombre(nombre);

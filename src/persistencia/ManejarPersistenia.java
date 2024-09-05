@@ -202,6 +202,62 @@ public class ManejarPersistenia {
 		return ret;
 	}
 	
+	public void modificarDeportista(Deportista dep) throws PersistenciaException {
+		EntityManagerFactory emf = null;
+		EntityManager em = null;
+		try {
+			emf = Persistence.createEntityManagerFactory("airelibre_desk");
+			em = emf.createEntityManager();
+			em.getTransaction().begin();
+			//Busca el id del usuario
+			Query buscarId = em.createNativeQuery("SELECT ID FROM USUARIO WHERE NICKNAME = ?");
+			buscarId.setParameter(1, dep.getNickname());
+	        int ID = (int) buscarId.getSingleResult();
+	        dep.setId(ID);
+			//Modifica el usuario
+			em.merge(dep); //no se puede modificar por la fk en inscripcion
+			em.getTransaction().commit();
+		}catch (Exception e) {
+			throw new PersistenciaException("Error al modificar el usuario");
+		}finally {
+			if (em != null) {
+				em.close();
+			}
+			if (emf != null) {
+				emf.close();
+			}
+		}
+	}
+	
+	public void modificarEntrenador(Entrenador ent) throws PersistenciaException {
+		EntityManagerFactory emf = null;
+		EntityManager em = null;
+		try {
+			emf = Persistence.createEntityManagerFactory("airelibre_desk");
+			em = emf.createEntityManager();
+			em.getTransaction().begin();
+			//Busca el id del usuario
+			Query buscarId = em.createNativeQuery("SELECT ID FROM USUARIO WHERE NICKNAME = ?");
+			buscarId.setParameter(1, ent.getNickname());
+	        int ID = (int) buscarId.getSingleResult();
+	        ent.setId(ID);
+			//Modifica el usuario
+			em.setFlushMode(FlushModeType.AUTO);
+	        em.flush();
+			em.merge(ent); //no se puede modificar por la fk en inscripcion
+			em.getTransaction().commit();
+		}catch (Exception e) {
+			throw new PersistenciaException("Error al modificar el usuario");
+		}finally {
+			if (em != null) {
+				em.close();
+			}
+			if (emf != null) {
+				emf.close();
+			}
+		}
+	}
+	
 	// ===== ACTIVIDAD ===================================================================================
 
 	public boolean actividadExiste(String nombre){
@@ -422,62 +478,6 @@ public class ManejarPersistenia {
 			emf.close();
 		}
 		return vInsc;
-	}
-
-	public void modificarDeportista(Deportista dep) throws PersistenciaException {
-		
-		EntityManagerFactory emf = null;
-		EntityManager em = null;
-		
-		try {
-			
-			emf = Persistence.createEntityManagerFactory("airelibre_desk");
-			em = emf.createEntityManager();
-			
-			em.getTransaction().begin();
-			em.merge(dep);
-			em.getTransaction().commit();
-			
-		}catch (Exception e) {
-			throw new PersistenciaException("Error al persistir el usuario");
-		}finally {
-			
-			if (em != null) {
-				em.close();
-			}
-			if (emf != null) {
-				emf.close();
-			}
-		
-		}
-		
-	}
-	
-public void modificarEntrenador(Entrenador ent) throws PersistenciaException {
-		
-		EntityManagerFactory emf = null;
-		EntityManager em = null;
-		
-		try {
-			
-			emf = Persistence.createEntityManagerFactory("airelibre_desk");
-			em = emf.createEntityManager();
-
-			em.getTransaction().begin();
-			em.merge(ent);
-			em.getTransaction().commit();
-			
-		}catch (Exception e) {
-			throw new PersistenciaException("Error al persistir el usuario");
-		}finally {
-			if (em != null) {
-				em.close();
-			}
-			if (emf != null) {
-				emf.close();
-			}
-		}
-		
 	}
 	
 }

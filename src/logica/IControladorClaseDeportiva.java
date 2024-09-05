@@ -5,10 +5,7 @@ import java.util.Vector;
 
 import datatype.DtActividad;
 import datatype.DtClaseDeportiva;
-import excepciones.ClaseRepetidoException;
 import excepciones.PersistenciaException;
-import modelo.Actividad;
-import modelo.ClaseDeportiva;
 
 public interface IControladorClaseDeportiva {
 	

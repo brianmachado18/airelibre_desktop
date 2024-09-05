@@ -6,8 +6,6 @@ import java.util.Vector;
 import datatype.DtDeportista;
 import datatype.DtEntrenador;
 import excepciones.PersistenciaException;
-import modelo.Deportista;
-import modelo.Entrenador;
 
 
 public interface IControladorUsuario {
@@ -27,5 +25,5 @@ public interface IControladorUsuario {
 	
 	public abstract DtDeportista obtenerDeportista(String nickname) throws PersistenciaException;
 	
-	public abstract void modifiarUsuario(int id, String nickname, String contrasena, String nombre, String apellido, String email, LocalDate fechaNacimiento, String tipoUsuario, boolean esProfesional, String disciplina, String web)throws PersistenciaException;
+	public abstract void modifiarUsuario(String nickname, String contrasena, String nombre, String apellido, String email, LocalDate fechaNacimiento, String tipoUsuario, boolean esProfesional, String disciplina, String web)throws PersistenciaException;
 }

@@ -1,6 +1,7 @@
 package logica;
 
 import java.time.*;
+import java.util.List;
 import java.util.Vector;
 
 import datatype.DtDeportista;
@@ -64,6 +65,11 @@ public class ControladorUsuario implements IControladorUsuario {
 	//Retorna un Vector con todos los nicknames de los usuarios
 	public Vector<String> obtenerVectorUsuarios() throws PersistenciaException{
 		return m.obtenerVectorUsuarios();
+	}
+	
+	//Retorn un Vector con todos los nicknames de entrenadores 
+	public List<String> obtenerListaEntrenadores() throws PersistenciaException{
+		return m.obtenerVectorEntrenadores();
 	}
 	
 	//True si es entrenador

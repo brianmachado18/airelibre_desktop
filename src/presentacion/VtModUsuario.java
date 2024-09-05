@@ -28,10 +28,10 @@ import datatype.DtDeportista;
 import datatype.DtEntrenador;
 import excepciones.PersistenciaException;
 import logica.IControladorUsuario;
-import persistencia.ManejarPersistenia;
 
 import javax.swing.JPasswordField;
 
+@SuppressWarnings("serial")
 public class VtModUsuario extends JInternalFrame{
 	private JTextField textDisciplina;
 	private JTextField textWeb;
@@ -52,7 +52,6 @@ public class VtModUsuario extends JInternalFrame{
 	private JPasswordField passwordField;
 	private JCheckBox chckbxContrasena;
 	private JButton btnBuscar;
-	private int id; //mal
 	
 	public VtModUsuario(IControladorUsuario i, VtPrincipal VtPrincipal) {
 		
@@ -251,7 +250,6 @@ public class VtModUsuario extends JInternalFrame{
 						btnCancelar.setText("Cancelar");
 						if (iControladorUsuario.esEntrenador(nick)) {
 							DtEntrenador traerEntrenador = iControladorUsuario.obtenerEntrenador(nick);
-							id = traerEntrenador.getId();
 							passwordField.setText(traerEntrenador.getContrasena());
 							textNombre.setText(traerEntrenador.getNombre());
 							textApellido.setText(traerEntrenador.getApellido());
@@ -262,7 +260,6 @@ public class VtModUsuario extends JInternalFrame{
 							textWeb.setText(traerEntrenador.getSitioWeb());
 						} else {
 							DtDeportista traerDeportista = iControladorUsuario.obtenerDeportista(nick);
-							id = traerDeportista.getId();
 							passwordField.setText(traerDeportista.getContrasena());
 							textNombre.setText(traerDeportista.getNombre());
 							textApellido.setText(traerDeportista.getApellido());

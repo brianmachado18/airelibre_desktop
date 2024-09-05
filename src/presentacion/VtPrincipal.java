@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.awt.*;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
-import javax.swing.JOptionPane;
 import javax.swing.*;
 
 import logica.Fabrica;
@@ -102,7 +101,6 @@ public class VtPrincipal extends JFrame {
                         break;
                     case "Clases e Inscripciones":
                         modelSubopciones.addElement("Alta Clase");
-                        modelSubopciones.addElement("Consulta Clase");
                         modelSubopciones.addElement("Alta Inscripción");
                         modelSubopciones.addElement("Consulta Inscripción");
                         break;
@@ -128,8 +126,7 @@ public class VtPrincipal extends JFrame {
                             break;
                         case "Modificar Usuario":
                             // Lógica para modificar usuario
-                        	//mostrarMensaje("MODIFICAR USUARIO PENDIENTE");
-				mostrarVtModUsuario(desktopPane);
+                        	mostrarVtModUsuario(desktopPane);
                         	listaSubopciones.clearSelection();
                             break;
                         case "Alta Actividad":
@@ -144,7 +141,7 @@ public class VtPrincipal extends JFrame {
                             break;
                         case "Modificar Actividad":
                             // Lógica para modificar actividad
-                        	mostrarMensaje("MODIFICAR ACTIVIDAD PENDIENTE");
+                        	mostrarVtModActividad(desktopPane);
                         	listaSubopciones.clearSelection();
                             break;
                         case "Ranking Actividad":
@@ -155,11 +152,6 @@ public class VtPrincipal extends JFrame {
                         case "Alta Clase":
                             // Lógica para alta de clase
                         	mostrarVtAltaClase(desktopPane);
-                        	listaSubopciones.clearSelection();
-                            break;
-                        case "Consulta Clase":
-                            // Lógica para consulta de clase
-                        	mostrarVtConsClase(desktopPane);
                         	listaSubopciones.clearSelection();
                             break;
                         case "Alta Inscripción":
@@ -203,9 +195,6 @@ public class VtPrincipal extends JFrame {
     		frameActual.dispose();
     	}	
     }
-    private void mostrarMensaje(String mensaje) {
-        JOptionPane.showMessageDialog(this, mensaje);
-    }
     private void mostrarVtAltaUsuario(JDesktopPane panel) {
         VtAltaUsuario IFAltaUsuario = new VtAltaUsuario(ICU,yo);
     	IFAltaUsuario.setVisible(true);
@@ -236,11 +225,6 @@ public class VtPrincipal extends JFrame {
     	IFAltaClaseDep.setVisible(true);
     	panel.add(IFAltaClaseDep);
     }
-    private void mostrarVtConsClase(JDesktopPane panel) {
-    	VtConsClaseDep IFConsClaseDep = new VtConsClaseDep(yo);
-    	IFConsClaseDep.setVisible(true);
-    	panel.add(IFConsClaseDep);
-    }
     private void mostrarVtInscClase(JDesktopPane panel) {
 		VtInscClaseDep IFInscClaseDep = new VtInscClaseDep(yo);
     	IFInscClaseDep.setVisible(true);
@@ -255,5 +239,10 @@ public class VtPrincipal extends JFrame {
     	VtModUsuario IFModUsuario = new VtModUsuario(ICU, yo);
     	IFModUsuario.setVisible(true);
     	panel.add(IFModUsuario);
+    }
+    private void mostrarVtModActividad(JDesktopPane panel) {
+    	VtModActividad IFModActividad = new VtModActividad(ICU, ICA, yo);
+    	IFModActividad.setVisible(true);
+    	panel.add(IFModActividad);
     }
 }

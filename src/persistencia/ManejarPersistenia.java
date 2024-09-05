@@ -1,6 +1,7 @@
 package persistencia;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -151,6 +152,20 @@ public class ManejarPersistenia {
 		}
 		return vUsuarios;
 	}
+	
+	public List<String> obtenerVectorEntrenadores(){
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();	
+		List<String> entrenadores = new ArrayList<>();
+		try {
+			Query buscarEntrenadores = em.createNativeQuery("SELECT NICKNAME FROM USUARIO WHERE DTYPE LIKE 'Entrenador'");
+			entrenadores = buscarEntrenadores.getResultList();
+		} finally {
+			em.close();
+			emf.close();
+		}
+		return entrenadores;
+	}
 
 	public boolean esEntrenador(String nick) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
@@ -242,9 +257,7 @@ public class ManejarPersistenia {
 	        int ID = (int) buscarId.getSingleResult();
 	        ent.setId(ID);
 			//Modifica el usuario
-			em.setFlushMode(FlushModeType.AUTO);
-	        em.flush();
-			em.merge(ent); //no se puede modificar por la fk en inscripcion
+			em.merge(ent); //no se puede modificar por la fk en actividad
 			em.getTransaction().commit();
 		}catch (Exception e) {
 			throw new PersistenciaException("Error al modificar el usuario");

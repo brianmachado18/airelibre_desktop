@@ -24,8 +24,6 @@ import datatype.DtDeportista;
 import datatype.DtEntrenador;
 import excepciones.PersistenciaException;
 import logica.IControladorUsuario;
-import modelo.Deportista;
-import modelo.Entrenador;
 
 import javax.swing.JList;
 import java.awt.event.MouseAdapter;

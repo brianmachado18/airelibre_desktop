@@ -10,26 +10,18 @@ import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Vector;
 import java.util.regex.Pattern;
 
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
-import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
 import excepciones.ClaseRepetidoException;
 import excepciones.PersistenciaException;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-import jakarta.persistence.Query;
 import logica.IControladorActividad;
 import logica.IControladorClaseDeportiva;
-import logica.IControladorUsuario;
-import modelo.Actividad;
 
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -228,13 +220,14 @@ public class VtAltaClaseDep extends JInternalFrame{
 			return;
 		}
 		 
-		 try {
+		try {
 			iControladorClase.AltaClaseDeportiva(textNombre.getText(), fechaFor, horaFor, textLugar.getText(), cupos,LocalDate.now(), iControladorActividad.obtenerActividad((String) listActividades.getSelectedValue()));
 		} catch (PersistenciaException e1) {
 			e1.printStackTrace();
 		}
 		
-		
-		
+		//Limmpio los campos y oculto el panel
+		yo.dispose();
 	}
+	
 }

@@ -505,6 +505,9 @@ public class ManejarPersistenia {
 			
 			int costoact = act.getCosto();
 			int cupo  = cla.getCupo();
+			System.out.println(costoact);
+			System.out.println(cupo);
+			System.out.println(ci);
 			int costo = (costoact/10)*((cupo+ci)/cupo);
 			
 			Inscripcion nuevaInscripcion = new Inscripcion();

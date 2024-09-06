@@ -217,7 +217,7 @@ public class ManejarPersistenia {
 		return ret;
 	}
 	
-	public void modificarDeportista(Deportista dep) throws PersistenciaException {
+	public void modificarDeportista(String nickname, String contrasena, String nombre, String apellido, String email, LocalDate fechaNacimiento, boolean esProfesional) throws PersistenciaException {
 		EntityManagerFactory emf = null;
 		EntityManager em = null;
 		try {
@@ -226,11 +226,17 @@ public class ManejarPersistenia {
 			em.getTransaction().begin();
 			//Busca el id del usuario
 			Query buscarId = em.createNativeQuery("SELECT ID FROM USUARIO WHERE NICKNAME = ?");
-			buscarId.setParameter(1, dep.getNickname());
+			buscarId.setParameter(1, nickname);
 	        int ID = (int) buscarId.getSingleResult();
-	        dep.setId(ID);
 			//Modifica el usuario
-			em.merge(dep); //no se puede modificar por la fk en inscripcion
+	        Deportista deportista = em.find(Deportista.class, ID);
+	        deportista.setNombre(nombre);
+	        deportista.setApellido(apellido);
+	        deportista.setContrasena(contrasena);
+	        deportista.setMail(email);
+	        deportista.setFechaNacimiento(fechaNacimiento);
+	        deportista.setEsProfesional(esProfesional);
+	        em.merge(deportista);
 			em.getTransaction().commit();
 		}catch (Exception e) {
 			throw new PersistenciaException("Error al modificar el usuario");
@@ -244,7 +250,7 @@ public class ManejarPersistenia {
 		}
 	}
 	
-	public void modificarEntrenador(Entrenador ent) throws PersistenciaException {
+	public void modificarEntrenador(String nickname, String contrasena, String nombre, String apellido, String email, LocalDate fechaNacimiento, String disciplina, String web) throws PersistenciaException {
 		EntityManagerFactory emf = null;
 		EntityManager em = null;
 		try {
@@ -253,11 +259,16 @@ public class ManejarPersistenia {
 			em.getTransaction().begin();
 			//Busca el id del usuario
 			Query buscarId = em.createNativeQuery("SELECT ID FROM USUARIO WHERE NICKNAME = ?");
-			buscarId.setParameter(1, ent.getNickname());
+			buscarId.setParameter(1, nickname);
 	        int ID = (int) buscarId.getSingleResult();
-	        ent.setId(ID);
-			//Modifica el usuario
-			em.merge(ent); //no se puede modificar por la fk en actividad
+			//Modifica el usuariodeportista.setNombre(nombre);
+	        Entrenador entrenador = em.find(Entrenador.class, ID);
+	        entrenador.setApellido(apellido);
+	        entrenador.setContrasena(contrasena);
+	        entrenador.setMail(email);
+	        entrenador.setFechaNacimiento(fechaNacimiento);
+	        entrenador.setDisciplina(disciplina);
+	        entrenador.setSitioWeb(web);
 			em.getTransaction().commit();
 		}catch (Exception e) {
 			throw new PersistenciaException("Error al modificar el usuario");

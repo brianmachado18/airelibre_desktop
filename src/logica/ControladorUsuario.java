@@ -90,29 +90,9 @@ public class ControladorUsuario implements IControladorUsuario {
 	public void modifiarUsuario(String nickname, String contrasena, String nombre, String apellido, String email, LocalDate fechaNacimiento, String tipoUsuario, boolean esProfesional, String disciplina, String web)throws PersistenciaException{
 		try {	
 			if (tipoUsuario == "Entrenador") { // Si es entrenador
-				Entrenador nuevoEntrenador = new Entrenador();
-				nuevoEntrenador.setNickname(nickname);
-				nuevoEntrenador.setContrasena(contrasena);
-				nuevoEntrenador.setNombre(nombre);
-				nuevoEntrenador.setApellido(apellido);
-				nuevoEntrenador.setMail(email);
-				nuevoEntrenador.setFechaNacimiento(fechaNacimiento);
-				nuevoEntrenador.setDisciplina(disciplina);
-				nuevoEntrenador.setSitioWeb(web);
-
-				m.modificarEntrenador(nuevoEntrenador);
-
+				m.modificarEntrenador(nickname, contrasena, nombre, apellido, email, fechaNacimiento, disciplina, web);
 			} else { // Si es deportista
-				Deportista nuevoDeportista = new Deportista();
-				nuevoDeportista.setNickname(nickname);
-				nuevoDeportista.setContrasena(contrasena);
-				nuevoDeportista.setNombre(nombre);
-				nuevoDeportista.setApellido(apellido);
-				nuevoDeportista.setMail(email);
-				nuevoDeportista.setFechaNacimiento(fechaNacimiento);
-				nuevoDeportista.setEsProfesional(esProfesional);
-				
-				m.modificarDeportista(nuevoDeportista);
+				m.modificarDeportista(nickname, contrasena, nombre, apellido, email, fechaNacimiento, esProfesional);
 			}
 		}catch (Exception e) {
 			throw new PersistenciaException("Error al persistir el usuario");

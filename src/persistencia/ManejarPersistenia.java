@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
+import datatype.DtEntrenador;
 import excepciones.*;
 import jakarta.persistence.*;
 import modelo.Actividad;
@@ -390,6 +391,34 @@ public class ManejarPersistenia {
 			emf.close();
 		}
 		return data;
+	}
+	
+	public void modificarActividad(String nombre, String desc, int dHoras, int costo, String lugar, LocalDate fAlta, String img,  Entrenador ent){
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		
+		try {
+			em.getTransaction().begin();
+			//Obtener actividad a modificar
+			Query buscarId = em.createNativeQuery("SELECT ID FROM ACTIVIDAD WHERE NOMBRE = ?");
+			buscarId.setParameter(1, nombre);
+	        int ID = (int) buscarId.getSingleResult();
+	        Actividad actividadMod = em.find(Actividad.class, ID);
+			//Modicar datos de la actividad	
+			actividadMod.setDescripcion(desc);
+			actividadMod.setDuracionHoras(dHoras);
+			actividadMod.setCosto(costo);
+			actividadMod.setLugar(lugar);
+			actividadMod.setFechaAlta(fAlta);
+			actividadMod.setImagen(img);
+			actividadMod.setEntrenador(ent);
+			//Subir los datos modificados a la bd
+			em.merge(actividadMod);
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+			emf.close();
+		}
 	}
 	
 	// ===== CLASE =======================================================================================

@@ -48,5 +48,9 @@ public class ControladorActividad implements IControladorActividad {
 	public Vector<String> obtenerVectorClasesActividad(String nom){
 		return m.obtenerVectorClasesActividad(nom);
 	}
+	
+	public void modificarActividad(String nombre, String desc, int dHoras, int costo, String lugar, LocalDate fAlta, String img,  DtEntrenador ent) {
+		m.modificarActividad(nombre, desc, dHoras, costo, lugar, fAlta, img, DtEntrenador.toObject(ent));
+	}
     
 }

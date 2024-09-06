@@ -314,7 +314,7 @@ public class VtModUsuario extends JInternalFrame{
 		
 	}
 	
-	public void limpiarCampos() {
+	private void limpiarCampos() {
 		passwordField.setText("");
 		textNombre.setText("");
 		textApellido.setText("");
@@ -328,7 +328,7 @@ public class VtModUsuario extends JInternalFrame{
 		setCamposEnable(false);
 	}
 	
-	public void setCamposEnable(boolean b) {
+	private void setCamposEnable(boolean b) {
 		passwordField.setEnabled(b);
 		textNombre.setEnabled(b);
 		textApellido.setEnabled(b);
@@ -341,7 +341,7 @@ public class VtModUsuario extends JInternalFrame{
 		setCamposDeportista(b);
 	}
 	
-	public void setCamposEntrenador(boolean b) {
+	private void setCamposEntrenador(boolean b) {
 		rdbtnEntrenador.setEnabled(b);
 		textDisciplina.setEnabled(b);
 		lblDisciplina.setEnabled(b);
@@ -349,7 +349,7 @@ public class VtModUsuario extends JInternalFrame{
 		lblWeb.setEnabled(b);
 	}
 	
-	public void setCamposDeportista(boolean b) {
+	private void setCamposDeportista(boolean b) {
 		rdbtnDeportista.setEnabled(b);
 		chckbxEsProfesioanl.setEnabled(b);
 	}

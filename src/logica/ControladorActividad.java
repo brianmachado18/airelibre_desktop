@@ -6,8 +6,6 @@ import java.util.Vector;
 import datatype.DtActividad;
 import datatype.DtEntrenador;
 import excepciones.PersistenciaException;
-import modelo.Actividad;
-import modelo.Entrenador;
 import persistencia.ManejarPersistenia;
 
 public class ControladorActividad implements IControladorActividad {

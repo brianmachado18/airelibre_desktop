@@ -6,8 +6,6 @@ import java.util.Vector;
 import datatype.DtDeportista;
 import datatype.DtEntrenador;
 import excepciones.PersistenciaException;
-import modelo.Deportista;
-import modelo.Entrenador;
 
 
 public interface IControladorUsuario {

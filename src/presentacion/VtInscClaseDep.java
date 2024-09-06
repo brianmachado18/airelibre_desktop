@@ -218,7 +218,7 @@ public class VtInscClaseDep extends JInternalFrame{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				textNombreCla.setText((String) listClases.getSelectedValue());
-				ClaseDeportiva cla = iControladorClase.obtenerClase(textNombreCla.getText());
+				DtClaseDeportiva cla = iControladorClase.obtenerClase(textNombreCla.getText());
 				textFecha.setText(cla.getFecha().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString());
 				textHora.setText(cla.getHora().toString());
 				textLugar.setText(cla.getLugar());

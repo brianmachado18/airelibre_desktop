@@ -223,7 +223,7 @@ public class ManejarPersistenia {
 		try {
 			Query buscarId = em.createNativeQuery("SELECT ID FROM USUARIO WHERE NICKNAME = ?");
 			buscarId.setParameter(1, nick);
-	        int ID = (int) buscarId.getSingleResult();
+			Number ID = (Number) buscarId.getSingleResult();
 	        ret = em.find(Deportista.class, ID);
 		}finally {
 			em.close();
@@ -299,7 +299,7 @@ public class ManejarPersistenia {
 	        int IDClase = (int) buscarIdClase.getSingleResult();
 			Query buscarIdAct = em.createNativeQuery("SELECT ID_ACTIVIDAD FROM CLASEDEPORTIVA WHERE ID = ?");
 			buscarIdAct.setParameter(1, IDClase);
-	        int ID = (int) buscarIdAct.getSingleResult();
+			Number ID = (Number) buscarIdAct.getSingleResult();
 	        ret = em.find(Actividad.class, ID);
 		} finally {
 			em.close();
@@ -334,6 +334,26 @@ public class ManejarPersistenia {
 		try {
 	        Query buscarNombre = em.createNativeQuery("SELECT COUNT(*) FROM CLASEDEPORTIVA WHERE NOMBRE = ?");
 	        buscarNombre.setParameter(1, nombre);
+	        Number countNick = (Number) buscarNombre.getSingleResult();
+	        return countNick.intValue() > 0;
+		} finally {
+			em.close();
+			emf.close();
+		}
+	}
+	
+	public boolean DeportistaEnClase(String nombreDep,String NombreCla) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+
+		try {
+			ClaseDeportiva cla = obtenerClase(NombreCla);
+			int claId = cla.getId();
+			Deportista dep = obtenerDeportista(nombreDep);
+			int depId  = dep.getId();
+	        Query buscarNombre = em.createNativeQuery("SELECT COUNT(*) FROM INSCRIPCION WHERE id_deportista = ? AND id_ClaseDeportiva = ?");
+	        buscarNombre.setParameter(1, depId);
+	        buscarNombre.setParameter(2, claId);
 	        Number countNick = (Number) buscarNombre.getSingleResult();
 	        return countNick.intValue() > 0;
 		} finally {
@@ -380,6 +400,27 @@ public class ManejarPersistenia {
 		return ret;
 	}
 	
+	public int CuposDisponibles(String nomClase) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		int RetCupos = 0;
+		try {
+			Query buscarId = em.createNativeQuery("SELECT ID FROM CLASEDEPORTIVA WHERE NOMBRE = ?");
+			buscarId.setParameter(1, nomClase);
+			int id = (int) buscarId.getSingleResult();
+			Query Cuposdis = em.createNativeQuery("SELECT count(*) FROM INSCRIPCION WHERE id_ClaseDeportiva = ?");
+			Cuposdis.setParameter(1, id);
+			Number NRetCupos = (Number) Cuposdis.getSingleResult();
+			RetCupos = NRetCupos.intValue(); 
+			
+		}finally {
+			em.close();
+			emf.close();
+		}
+		return RetCupos;
+	}
+	
+	
 	public Vector<String> obtenerListaInscripciones(String nom){
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
 		EntityManager em = emf.createEntityManager();
@@ -413,15 +454,20 @@ public class ManejarPersistenia {
 		
 		
 		try {
-			Query buscarIdClase = em.createNativeQuery("SELECT ID FROM CLASEDEPORTIVA WHERE NOMBRE = ?");
-			buscarIdClase.setParameter(1, nomClase);
 			ClaseDeportiva cla = obtenerClase(nomClase);
+			int IdClase		   = cla.getId();
+			Query CantidadInscriptos = em.createNativeQuery("SELECT count(*) FROM INSCRIPCION WHERE id_ClaseDeportiva = ?");
+			CantidadInscriptos.setParameter(1, IdClase);
+			Number Numci =  (Number) CantidadInscriptos.getSingleResult();
+			int ci = Numci.intValue(); 
+			
 			Deportista dep = obtenerDeportista(NomDeportista);
 			Actividad act =  obtenerActividadByClase(nomClase);
+			
 			int costoact = act.getCosto();
 			int cupo  = cla.getCupo();
-			int ci    = 2;
 			int costo = (costoact/10)* ((cupo+ci)/cupo);
+			
 			Inscripcion nuevaInscripcion = new Inscripcion();
 			nuevaInscripcion.setCantidadDesportistas(CantidadDesportistas);
 			nuevaInscripcion.setClaseDeportiva(cla);

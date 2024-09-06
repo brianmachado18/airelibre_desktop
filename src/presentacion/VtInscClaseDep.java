@@ -219,10 +219,10 @@ public class VtInscClaseDep extends JInternalFrame{
 			public void mouseClicked(MouseEvent e) {
 				textNombreCla.setText((String) listClases.getSelectedValue());
 				ClaseDeportiva cla = iControladorClase.obtenerClase(textNombreCla.getText());
-				//textFecha.setText(cla.getFecha().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString());
-				//textHora.setText(cla.getHora().toString());
+				textFecha.setText(cla.getFecha().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString());
+				textHora.setText(cla.getHora().toString());
 				textLugar.setText(cla.getLugar());
-				//textFechaAlta.setText(cla.getFechaAlta().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString());
+				textFechaAlta.setText(cla.getFechaAlta().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString());
 			}
 		});
 		
@@ -245,6 +245,17 @@ public class VtInscClaseDep extends JInternalFrame{
 		String NomCla = textNombreCla.getText();
 		String CantidadIns = textCantidadInscrip.getText();
 		String FechaInscripcion = textFechaInscrip.getText();
+		boolean DepenClase = iControladorClase.DeportistaEstaEnClase(NomDep,NomCla);
+		int cuposdis = iControladorClase.CuposDisponiblesEnClase(NomCla);
+		int numcantidadIns = Integer.parseInt(textCantidadInscrip.getText());
+		if (cuposdis < numcantidadIns) {
+			JOptionPane.showMessageDialog(this, "No hay tantos cupos disponibles para la clase: " + NomCla, "Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}		
+		if (DepenClase) {
+		    JOptionPane.showMessageDialog(this, "El deportista ya esta inscripto en la clase", "Error", JOptionPane.ERROR_MESSAGE);
+		    return;
+		}
 		if (!CantidadIns.matches("\\d+")) {
 		    JOptionPane.showMessageDialog(this, "La cantidad de inscriptos debe ser un número", "Error", JOptionPane.ERROR_MESSAGE);
 		    return;
@@ -255,7 +266,7 @@ public class VtInscClaseDep extends JInternalFrame{
 		}
 		LocalDate fechaAux = LocalDate.parse(FechaInscripcion, DateTimeFormatter.ofPattern("dd/MM/yyyy"));	 
 		try {
-			iControladorClase.AltainscripcionAClase(NomCla, NomDep,Integer.parseInt(textCantidadInscrip.getText()), fechaAux);
+			iControladorClase.AltainscripcionAClase(NomCla, NomDep,numcantidadIns, fechaAux);
 		} catch (NumberFormatException e) {
 			
 			e.printStackTrace();

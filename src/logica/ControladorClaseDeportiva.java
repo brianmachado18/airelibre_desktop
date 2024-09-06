@@ -71,5 +71,17 @@ public class ControladorClaseDeportiva implements IControladorClaseDeportiva{
     	//throw new ClaseNoExisteException("La clase" + nomClase + "no existe");
     	m.persistirInscripcion(nomClase, NomDeportista,CantidadDesportistas , FechaInscripcion);
 	}
+	public  boolean DeportistaEstaEnClase(String nombreDep,String NombreCla) {
+	
+		return m.DeportistaEnClase(nombreDep, NombreCla);
+	};
+	
+	public  int CuposDisponiblesEnClase(String nomClase){
+		//Agrego throw para que no rompa
+    	//throw new ClaseNoExisteException("La clase" + nomClase + "no existe");
+		return m.CuposDisponibles(nomClase);
+	};
+	
+
 	
 }

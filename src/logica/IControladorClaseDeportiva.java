@@ -19,6 +19,7 @@ public interface IControladorClaseDeportiva {
 	
 	public abstract Vector<String> obtenerListaInscripciones(String nom);
 	
+	public abstract boolean DeportistaEstaEnClase(String nombreDep,String NombreCla);
 	/**
      * Registra la Clase Deportiva en el sistema.
      * @throws ClaseRepetidoException Si el nombre de la CalseDeportiva ya se encuentra registrada en el sistema.
@@ -40,6 +41,7 @@ public interface IControladorClaseDeportiva {
 	public abstract  void AltainscripcionAClase(String nomClase, String NomDeportista,int CantidadDesportistas,LocalDate FechaInscripcion) throws ClaseNoExisteException;
 
 	
-	public boolean claseExiste(String nombre);
-
+	public abstract boolean claseExiste(String nombre);
+	
+	public abstract int CuposDisponiblesEnClase(String nombre);
 }

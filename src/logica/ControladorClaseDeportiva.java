@@ -6,6 +6,7 @@ import java.util.Vector;
 
 import datatype.DtActividad;
 import datatype.DtClaseDeportiva;
+import excepciones.ClaseNoExisteException;
 import excepciones.PersistenciaException;
 import modelo.ClaseDeportiva;
 import persistencia.ManejarPersistenia;

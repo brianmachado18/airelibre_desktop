@@ -22,5 +22,7 @@ public interface IControladorActividad {
 	public abstract String[][] obtenerArrRankingActividades();
 	
 	public abstract Vector<String> obtenerVectorUsuarios() throws PersistenciaException;
+	
+	public abstract void modificarActividad(String nombre, String desc, int dHoras, int costo, String lugar, LocalDate fAlta, String img,  DtEntrenador ent);
 
 }

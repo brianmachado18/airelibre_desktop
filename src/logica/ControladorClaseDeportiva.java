@@ -6,8 +6,6 @@ import java.util.Vector;
 
 import datatype.DtActividad;
 import datatype.DtClaseDeportiva;
-import excepciones.ClaseNoExisteException;
-import excepciones.ClaseRepetidoException;
 import excepciones.PersistenciaException;
 import modelo.ClaseDeportiva;
 import persistencia.ManejarPersistenia;
@@ -19,12 +17,15 @@ public class ControladorClaseDeportiva implements IControladorClaseDeportiva{
 	public ControladorClaseDeportiva(){}
 
 	//Alta de una clase deportiva
-	public void AltaClaseDeportiva(String nombreClaseDeportiva, LocalDate fecha, LocalTime hora, String lugar, int cupo, LocalDate fAlta, DtActividad Act) throws ClaseRepetidoException, PersistenciaException{
+	public void AltaClaseDeportiva(String nombreClaseDeportiva, LocalDate fecha, LocalTime hora, String lugar, int cupo, LocalDate fAlta, DtActividad Act) throws PersistenciaException{
 		
 		ClaseDeportiva nuevaClaseDeportiva = new ClaseDeportiva();
 		try {
+			System.out.println(nombreClaseDeportiva);
 			nuevaClaseDeportiva.setActividad(DtActividad.toObject(Act));
+			System.out.println(cupo);
 			nuevaClaseDeportiva.setCupo(cupo);
+			System.out.println("Cupo");
 			nuevaClaseDeportiva.setFecha(fecha);
 			nuevaClaseDeportiva.setFechaAlta(fAlta);
 			nuevaClaseDeportiva.setHora(hora);
@@ -32,10 +33,10 @@ public class ControladorClaseDeportiva implements IControladorClaseDeportiva{
 			nuevaClaseDeportiva.setNombre(nombreClaseDeportiva);
 			nuevaClaseDeportiva.setImagen(null);
 			nuevaClaseDeportiva.setInscripciones(null);
-			
+			System.out.println("nulllll");
 			m.persistirClase(nuevaClaseDeportiva);
 		} catch (Exception e) {
-			throw new ClaseRepetidoException("La clase " + nombreClaseDeportiva + " ya esta registrada");
+			throw new PersistenciaException("Error al conectarse a la base de datos");
 		}
 
 	}

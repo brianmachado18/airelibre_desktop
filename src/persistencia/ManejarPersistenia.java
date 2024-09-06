@@ -1,12 +1,12 @@
 package persistencia;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-import javax.swing.DefaultListModel;
-
+import datatype.DtEntrenador;
 import excepciones.*;
 import jakarta.persistence.*;
 import modelo.Actividad;
@@ -177,6 +177,20 @@ public class ManejarPersistenia {
 		}
 		return vUsuarios;
 	}
+	
+	public List<String> obtenerVectorEntrenadores(){
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();	
+		List<String> entrenadores = new ArrayList<>();
+		try {
+			Query buscarEntrenadores = em.createNativeQuery("SELECT NICKNAME FROM USUARIO WHERE DTYPE LIKE 'Entrenador'");
+			entrenadores = buscarEntrenadores.getResultList();
+		} finally {
+			em.close();
+			emf.close();
+		}
+		return entrenadores;
+	}
 
 	public boolean esEntrenador(String nick) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
@@ -226,6 +240,71 @@ public class ManejarPersistenia {
 			emf.close();
 		}
 		return ret;
+	}
+	
+	public void modificarDeportista(String nickname, String contrasena, String nombre, String apellido, String email, LocalDate fechaNacimiento, boolean esProfesional) throws PersistenciaException {
+		EntityManagerFactory emf = null;
+		EntityManager em = null;
+		try {
+			emf = Persistence.createEntityManagerFactory("airelibre_desk");
+			em = emf.createEntityManager();
+			em.getTransaction().begin();
+			//Busca el id del usuario
+			Query buscarId = em.createNativeQuery("SELECT ID FROM USUARIO WHERE NICKNAME = ?");
+			buscarId.setParameter(1, nickname);
+	        int ID = (int) buscarId.getSingleResult();
+			//Modifica el usuario
+	        Deportista deportista = em.find(Deportista.class, ID);
+	        deportista.setNombre(nombre);
+	        deportista.setApellido(apellido);
+	        deportista.setContrasena(contrasena);
+	        deportista.setMail(email);
+	        deportista.setFechaNacimiento(fechaNacimiento);
+	        deportista.setEsProfesional(esProfesional);
+	        em.merge(deportista);
+			em.getTransaction().commit();
+		}catch (Exception e) {
+			throw new PersistenciaException("Error al modificar el usuario");
+		}finally {
+			if (em != null) {
+				em.close();
+			}
+			if (emf != null) {
+				emf.close();
+			}
+		}
+	}
+	
+	public void modificarEntrenador(String nickname, String contrasena, String nombre, String apellido, String email, LocalDate fechaNacimiento, String disciplina, String web) throws PersistenciaException {
+		EntityManagerFactory emf = null;
+		EntityManager em = null;
+		try {
+			emf = Persistence.createEntityManagerFactory("airelibre_desk");
+			em = emf.createEntityManager();
+			em.getTransaction().begin();
+			//Busca el id del usuario
+			Query buscarId = em.createNativeQuery("SELECT ID FROM USUARIO WHERE NICKNAME = ?");
+			buscarId.setParameter(1, nickname);
+	        int ID = (int) buscarId.getSingleResult();
+			//Modifica el usuario
+	        Entrenador entrenador = em.find(Entrenador.class, ID);
+	        entrenador.setApellido(apellido);
+	        entrenador.setContrasena(contrasena);
+	        entrenador.setMail(email);
+	        entrenador.setFechaNacimiento(fechaNacimiento);
+	        entrenador.setDisciplina(disciplina);
+	        entrenador.setSitioWeb(web);
+			em.getTransaction().commit();
+		}catch (Exception e) {
+			throw new PersistenciaException("Error al modificar el usuario");
+		}finally {
+			if (em != null) {
+				em.close();
+			}
+			if (emf != null) {
+				emf.close();
+			}
+		}
 	}
 	
 	// ===== ACTIVIDAD ===================================================================================
@@ -357,6 +436,34 @@ public class ManejarPersistenia {
 			emf.close();
 		}
 		return data;
+	}
+	
+	public void modificarActividad(String nombre, String desc, int dHoras, int costo, String lugar, LocalDate fAlta, String img,  Entrenador ent){
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		
+		try {
+			em.getTransaction().begin();
+			//Obtener actividad a modificar
+			Query buscarId = em.createNativeQuery("SELECT ID FROM ACTIVIDAD WHERE NOMBRE = ?");
+			buscarId.setParameter(1, nombre);
+	        int ID = (int) buscarId.getSingleResult();
+	        Actividad actividadMod = em.find(Actividad.class, ID);
+			//Modicar datos de la actividad	
+			actividadMod.setDescripcion(desc);
+			actividadMod.setDuracionHoras(dHoras);
+			actividadMod.setCosto(costo);
+			actividadMod.setLugar(lugar);
+			actividadMod.setFechaAlta(fAlta);
+			actividadMod.setImagen(img);
+			actividadMod.setEntrenador(ent);
+			//Subir los datos modificados a la bd
+			em.merge(actividadMod);
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+			emf.close();
+		}
 	}
 	
 	// ===== CLASE =======================================================================================

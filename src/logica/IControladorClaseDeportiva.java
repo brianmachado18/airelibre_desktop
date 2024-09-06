@@ -5,9 +5,6 @@ import java.util.Vector;
 
 import datatype.DtActividad;
 import datatype.DtClaseDeportiva;
-import excepciones.ActividadNoExisteException;
-import excepciones.ClaseNoExisteException;
-import excepciones.ClaseRepetidoException;
 import excepciones.PersistenciaException;
 
 public interface IControladorClaseDeportiva {
@@ -24,6 +21,7 @@ public interface IControladorClaseDeportiva {
      * @throws ClaseRepetidoException Si el nombre de la CalseDeportiva ya se encuentra registrada en el sistema.
 	 * @throws PersistenciaException 
      */
+	public void AltaClaseDeportiva(String nombreClaseDeportiva, LocalDate fecha, LocalTime hora, String lugar, int cupo, LocalDate fAlta, DtActividad Act) throws PersistenciaException;
 	
 	public abstract void AltaClaseDeportiva(String nombreClaseDeportiva, LocalDate fecha, LocalTime hora, String lugar, int cupo, LocalDate fAlta, DtActividad Act) throws ClaseRepetidoException, PersistenciaException;	
 	/**

@@ -68,7 +68,7 @@ public class ControladorClaseDeportiva implements IControladorClaseDeportiva{
 	public  int CuposDisponiblesEnClase(String nomClase){
 		//Agrego throw para que no rompa
     	//throw new ClaseNoExisteException("La clase" + nomClase + "no existe");
-		return m.CuposDisponibles(nomClase);
+		return m.CuposDisponiblesEnClase(nomClase);
 	};
 	
 

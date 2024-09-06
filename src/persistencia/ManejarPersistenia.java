@@ -439,7 +439,7 @@ public class ManejarPersistenia {
 		return ret;
 	}
 	
-	public int CuposDisponibles(String nomClase) { //Cambiar nombre ne algun momento
+	public int CuposDisponiblesEnClase(String nomClase) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
 		EntityManager em = emf.createEntityManager();
 		int RetCupos = 0;
@@ -447,10 +447,20 @@ public class ManejarPersistenia {
 			Query buscarId = em.createNativeQuery("SELECT ID FROM CLASEDEPORTIVA WHERE NOMBRE = ?");
 			buscarId.setParameter(1, nomClase);
 			int id = (int) buscarId.getSingleResult();
-			Query Cuposdis = em.createNativeQuery("SELECT count(*) FROM INSCRIPCION WHERE id_ClaseDeportiva = ?");
-			Cuposdis.setParameter(1, id);
-			Number NRetCupos = (Number) Cuposdis.getSingleResult();
-			RetCupos = NRetCupos.intValue(); 
+			//===============================================================
+			Query BuscarCantInscripciones = em.createNativeQuery("SELECT CANTIDADDESPORTISTAS FROM INSCRIPCION WHERE id_ClaseDeportiva = ?");
+			BuscarCantInscripciones.setParameter(1, id);
+			List<Integer> listaCantInscripciones = BuscarCantInscripciones.getResultList();
+			int cantInscripciones = 0;
+			for (int ci : listaCantInscripciones) {
+				cantInscripciones = cantInscripciones + ci;
+			}
+			//===============================================================
+			Query buscarCupos = em.createNativeQuery("SELECT CUPO FROM CLASEDEPORTIVA WHERE ID = ?");
+			buscarCupos.setParameter(1, id);
+			int cupos = (int) buscarCupos.getSingleResult();
+			//===============================================================
+			RetCupos = cupos-cantInscripciones; 
 			
 		}finally {
 			em.close();
@@ -494,23 +504,17 @@ public class ManejarPersistenia {
 		
 		try {
 			ClaseDeportiva cla = obtenerClase(nomClase);
-			int IdClase		   = cla.getId();
-			Query CantidadInscriptos = em.createNativeQuery("SELECT count(*) FROM INSCRIPCION WHERE id_ClaseDeportiva = ?");
-			CantidadInscriptos.setParameter(1, IdClase);
-			Number Numci =  (Number) CantidadInscriptos.getSingleResult();
-			int ci = Numci.intValue(); 
-			
 			Deportista dep = obtenerDeportista(NomDeportista);
 			Actividad act =  obtenerActividadByClase(nomClase);
 			
-			int costoact = act.getCosto();
-			int cupo  = cla.getCupo();
-			int costo = (costoact/10)*((cupo+ci)/cupo);
-			
+			float costoact = act.getCosto();
+			float cupo  = cla.getCupo();
+			float ci = cupo - CuposDisponiblesEnClase(nomClase);
+			float costo = (costoact/10)*((cupo+ci)/cupo);
 			Inscripcion nuevaInscripcion = new Inscripcion();
 			nuevaInscripcion.setCantidadDesportistas(CantidadDesportistas);
 			nuevaInscripcion.setClaseDeportiva(cla);
-			nuevaInscripcion.setCosto(costo);
+			nuevaInscripcion.setCosto((int)costo);
 			nuevaInscripcion.setDeportista(dep);
 			nuevaInscripcion.setFechaInscripcion(FechaInscripcion);
 			
@@ -522,8 +526,6 @@ public class ManejarPersistenia {
 			em.close();
 			emf.close();
 		}
-		
 	}
-	
 	
 }

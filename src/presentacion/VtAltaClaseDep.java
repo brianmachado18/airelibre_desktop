@@ -234,7 +234,8 @@ public class VtAltaClaseDep extends JInternalFrame{
 			e1.printStackTrace();
 		}
 		
-		
-		
+		//Limmpio los campos y oculto el panel
+		yo.dispose();
 	}
+	
 }

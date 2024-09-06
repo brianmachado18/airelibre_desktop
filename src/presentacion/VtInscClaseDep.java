@@ -223,6 +223,7 @@ public class VtInscClaseDep extends JInternalFrame{
 				textHora.setText(cla.getHora().toString());
 				textLugar.setText(cla.getLugar());
 				textFechaAlta.setText(cla.getFechaAlta().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString());
+				textCupos.setText(String.valueOf(cla.getCupo()));
 			}
 		});
 		
@@ -246,11 +247,9 @@ public class VtInscClaseDep extends JInternalFrame{
 		String CantidadIns = textCantidadInscrip.getText();
 		String FechaInscripcion = textFechaInscrip.getText();
 		boolean DepenClase = iControladorClase.DeportistaEstaEnClase(NomDep,NomCla);
-		int cuposdis = iControladorClase.CuposDisponiblesEnClase(NomCla);
-		int numcantidadIns = Integer.parseInt(textCantidadInscrip.getText());
-		System.out.println(cuposdis);
-		System.out.println(numcantidadIns);
-		if (cuposdis >= numcantidadIns) {
+		int cuposDisp = iControladorClase.CuposDisponiblesEnClase(NomCla);
+		int numcantidadIns = Integer.parseInt(CantidadIns);
+		if (cuposDisp < numcantidadIns) {
 			JOptionPane.showMessageDialog(this, "No hay tantos cupos disponibles para la clase: " + NomCla, "Error", JOptionPane.ERROR_MESSAGE);
 			return;
 		}		

@@ -73,7 +73,7 @@ public class VtConsUsuario extends JInternalFrame{
 		textNombreConsulta.setEnabled(false);
 		textNombreConsulta.setEditable(false);
 		textNombreConsulta.setColumns(10);
-		textNombreConsulta.setBounds(275, 114, 96, 19);
+		textNombreConsulta.setBounds(275, 114, 116, 19);
 		this.getContentPane().add(textNombreConsulta);
 		
 		JLabel lblNombre_1 = new JLabel("Nombre");
@@ -88,14 +88,14 @@ public class VtConsUsuario extends JInternalFrame{
 		textApellidoConsulta.setEnabled(false);
 		textApellidoConsulta.setEditable(false);
 		textApellidoConsulta.setColumns(10);
-		textApellidoConsulta.setBounds(275, 144, 96, 19);
+		textApellidoConsulta.setBounds(275, 144, 116, 19);
 		this.getContentPane().add(textApellidoConsulta);
 		
 		textEmailConsulta = new JTextField();
 		textEmailConsulta.setEnabled(false);
 		textEmailConsulta.setEditable(false);
 		textEmailConsulta.setColumns(10);
-		textEmailConsulta.setBounds(275, 174, 96, 19);
+		textEmailConsulta.setBounds(275, 174, 116, 19);
 		this.getContentPane().add(textEmailConsulta);
 		
 		JLabel lblEmail_1 = new JLabel("Email");
@@ -110,7 +110,7 @@ public class VtConsUsuario extends JInternalFrame{
 		textFechaConsulta.setEnabled(false);
 		textFechaConsulta.setEditable(false);
 		textFechaConsulta.setColumns(10);
-		textFechaConsulta.setBounds(275, 204, 96, 19);
+		textFechaConsulta.setBounds(275, 204, 116, 19);
 		this.getContentPane().add(textFechaConsulta);
 		
 		rdbtnEntrenadorConsulta = new JRadioButton("Entrenador");

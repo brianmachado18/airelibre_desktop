@@ -29,6 +29,7 @@ public class VtAltaUsuario extends JInternalFrame{
 	private VtPrincipal principal;
 	private JInternalFrame yo = this;
 	public VtAltaUsuario(IControladorUsuario i, VtPrincipal VtPrincipal) {
+		getContentPane().setLocation(-193, -102);
 		principal = VtPrincipal;
 		principal.bajarFrameActual();
 		//Inicio el controlador usuario
@@ -69,32 +70,32 @@ public class VtAltaUsuario extends JInternalFrame{
 
 		//=========CAMPOS DE TEXTO ALTA===========================
 		textNickname = new JTextField();
-		textNickname.setBounds(125, 14, 96, 19);
+		textNickname.setBounds(125, 14, 136, 19);
 		this.getContentPane().add(textNickname);
 
 		passwordContrasena = new JPasswordField();
-		passwordContrasena.setBounds(125, 43, 96, 20);
+		passwordContrasena.setBounds(125, 43, 136, 20);
 		this.getContentPane().add(passwordContrasena);
 		textNickname.setColumns(10);
 
 		textNombre = new JTextField();
 		textNombre.setColumns(10);
-		textNombre.setBounds(125, 71, 96, 19);
+		textNombre.setBounds(125, 71, 135, 19);
 		this.getContentPane().add(textNombre);
 
 		textApellido = new JTextField();
 		textApellido.setColumns(10);
-		textApellido.setBounds(125, 105, 96, 19);
+		textApellido.setBounds(125, 105, 135, 19);
 		this.getContentPane().add(textApellido);
 
 		textEmail = new JTextField();
 		textEmail.setColumns(10);
-		textEmail.setBounds(125, 136, 96, 19);
+		textEmail.setBounds(125, 136, 135, 19);
 		this.getContentPane().add(textEmail);
 
 		textFecha = new JTextField();
 		textFecha.setColumns(10);
-		textFecha.setBounds(125, 169, 96, 19);
+		textFecha.setBounds(125, 169, 136, 19);
 		this.getContentPane().add(textFecha);
 		//==============================================
 
@@ -103,7 +104,7 @@ public class VtAltaUsuario extends JInternalFrame{
 		panelDeposrtista.setBackground(new Color(203, 218, 213));
 		FlowLayout fl_panelDeposrtista = (FlowLayout) panelDeposrtista.getLayout();
 		fl_panelDeposrtista.setAlignOnBaseline(true);
-		panelDeposrtista.setBounds(253, 32, 233, 33);
+		panelDeposrtista.setBounds(282, 30, 233, 33);
 		this.getContentPane().add(panelDeposrtista);
 
 		chckbxEsProfesioanl = new JCheckBox("Profesional");
@@ -113,7 +114,7 @@ public class VtAltaUsuario extends JInternalFrame{
 
 		JPanel panelEntrenador = new JPanel();
 		panelEntrenador.setBackground(new Color(203, 218, 213));
-		panelEntrenador.setBounds(253, 102, 233, 55);
+		panelEntrenador.setBounds(282, 100, 233, 55);
 		this.getContentPane().add(panelEntrenador);
 		panelEntrenador.setLayout(null);
 
@@ -152,7 +153,7 @@ public class VtAltaUsuario extends JInternalFrame{
 			}
 		});
 		rdbtnDeportista.setHorizontalAlignment(SwingConstants.LEFT);
-		rdbtnDeportista.setBounds(253, 14, 233, 21);
+		rdbtnDeportista.setBounds(282, 12, 233, 21);
 		this.getContentPane().add(rdbtnDeportista);
 
 		rdbtnEntrenador = new JRadioButton("Entrenador");
@@ -174,7 +175,7 @@ public class VtAltaUsuario extends JInternalFrame{
 			}
 		});
 		rdbtnEntrenador.setHorizontalAlignment(SwingConstants.LEFT);
-		rdbtnEntrenador.setBounds(253, 82, 233, 21);
+		rdbtnEntrenador.setBounds(282, 80, 233, 21);
 		this.getContentPane().add(rdbtnEntrenador);
 
 		//Grupo de botones para que solo se seleccione uno
@@ -193,7 +194,7 @@ public class VtAltaUsuario extends JInternalFrame{
 				}
 			}
 		});
-		btnConfirmar.setBounds(278, 195, 105, 21);
+		btnConfirmar.setBounds(307, 193, 105, 21);
 		this.getContentPane().add(btnConfirmar);
 
 		JButton btnCancelar = new JButton("Cancelar");
@@ -202,7 +203,7 @@ public class VtAltaUsuario extends JInternalFrame{
 				yo.dispose();
 			}
 		});
-		btnCancelar.setBounds(393, 195, 105, 21);
+		btnCancelar.setBounds(422, 193, 105, 21);
 		this.getContentPane().add(btnCancelar);
 		btnConfirmar.setVisible(true);
 		btnCancelar.setVisible(true);

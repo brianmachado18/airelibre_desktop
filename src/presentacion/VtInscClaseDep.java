@@ -32,6 +32,7 @@ import jakarta.persistence.Persistence;
 import jakarta.persistence.Query;
 import logica.IControladorActividad;
 import logica.IControladorClaseDeportiva;
+import logica.IControladorUsuario;
 import modelo.Actividad;
 import modelo.ClaseDeportiva;
 
@@ -52,12 +53,14 @@ public class VtInscClaseDep extends JInternalFrame{
 	private VtPrincipal principal;
 	private IControladorActividad iControladorActividad;
 	private IControladorClaseDeportiva iControladorClase;
+	private IControladorUsuario iControladorUsuario;
 	private JInternalFrame yo = this;
 	
-	public VtInscClaseDep(IControladorActividad ia, IControladorClaseDeportiva ic, VtPrincipal VtPrincipal) {
+	public VtInscClaseDep(IControladorActividad ia, IControladorClaseDeportiva ic, IControladorUsuario icu, VtPrincipal VtPrincipal) {
 		principal = VtPrincipal;
 		iControladorActividad = ia;
 		iControladorClase = ic;
+		iControladorUsuario = icu;
 		principal.bajarFrameActual();
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
 		setTitle("Inscripcion");
@@ -166,6 +169,7 @@ public class VtInscClaseDep extends JInternalFrame{
 		textCantidadInscrip.setColumns(10);
 		
 		textFechaInscrip = new JTextField();
+		textFechaInscrip.setEditable(false);
 		textFechaInscrip.setColumns(10);
 		textFechaInscrip.setBounds(548, 207, 100, 20);
 		getContentPane().add(textFechaInscrip);
@@ -196,8 +200,13 @@ public class VtInscClaseDep extends JInternalFrame{
 		addComponentListener ( new ComponentAdapter () {
 	        public void componentShown ( ComponentEvent e ) {
 	        	//ejecuta la funcion al cambiar el estado 'visible' del frame a true
+	        	textFechaInscrip.setText(LocalDate.now().toString());
 	            cargarListaActividades();
-	            cargardeportistas();
+	            try {
+					listDeportistas.setListData(iControladorUsuario.obtenerVectorDeportistas());
+				} catch (PersistenciaException e1) {
+					e1.printStackTrace();
+				}
 	        }
 	    });
 
@@ -223,7 +232,7 @@ public class VtInscClaseDep extends JInternalFrame{
 				textHora.setText(cla.getHora().toString());
 				textLugar.setText(cla.getLugar());
 				textFechaAlta.setText(cla.getFechaAlta().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString());
-				textCupos.setText(String.valueOf(cla.getCupo()));
+				textCupos.setText(String.valueOf(iControladorClase.CuposDisponiblesEnClase(cla.getNombre())));
 			}
 		});
 		
@@ -245,7 +254,6 @@ public class VtInscClaseDep extends JInternalFrame{
 		String NomDep = listDeportistas.getSelectedValue();
 		String NomCla = textNombreCla.getText();
 		String CantidadIns = textCantidadInscrip.getText();
-		String FechaInscripcion = textFechaInscrip.getText();
 		boolean DepenClase = iControladorClase.DeportistaEstaEnClase(NomDep,NomCla);
 		int cuposDisp = iControladorClase.CuposDisponiblesEnClase(NomCla);
 		int numcantidadIns = Integer.parseInt(CantidadIns);
@@ -261,13 +269,8 @@ public class VtInscClaseDep extends JInternalFrame{
 		    JOptionPane.showMessageDialog(this, "La cantidad de inscriptos debe ser un número", "Error", JOptionPane.ERROR_MESSAGE);
 		    return;
 		}
-		if (!Pattern.compile("^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/(\\d{4})$").matcher(FechaInscripcion).matches()) {
-			JOptionPane.showMessageDialog(this, "El formato de la Fecha no es válido, usar 'dd/mm/aaaa'", "Error", JOptionPane.ERROR_MESSAGE);
-			return;
-		}
-		LocalDate fechaAux = LocalDate.parse(FechaInscripcion, DateTimeFormatter.ofPattern("dd/MM/yyyy"));	 
 		try {
-			iControladorClase.AltainscripcionAClase(NomCla, NomDep,numcantidadIns, fechaAux);
+			iControladorClase.AltainscripcionAClase(NomCla, NomDep,numcantidadIns, LocalDate.now());
 		} catch (NumberFormatException e) {
 			
 			e.printStackTrace();
@@ -279,24 +282,7 @@ public class VtInscClaseDep extends JInternalFrame{
 	}
 	
 
-	
-	private void cargardeportistas() {
 
-				EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
-				EntityManager em = emf.createEntityManager();
-				try {
-			        DefaultListModel<String> listModel = new DefaultListModel<>();
-			        listDeportistas.setModel(listModel);
-					Query buscarDeportistas = em.createNativeQuery("SELECT NICKNAME FROM USUARIO WHERE DTYPE LIKE 'Deportista'");
-					List<String> deportistas = buscarDeportistas.getResultList();
-					for (String ent : deportistas) {
-						listModel.addElement(ent);
-					}
-				} finally {
-					em.close();
-					emf.close();
-	}}
-	
 	private void cargarListaActividades() {
 		//limpia la lista
 		listActividades.removeAll();

@@ -17,6 +17,10 @@ public class ControladorUsuario implements IControladorUsuario {
 	
 	public ControladorUsuario(){}
 
+	public Vector<String> obtenerVectorDeportistas() throws PersistenciaException{
+		return m.obtenerVectorDeportistas();
+	}
+	
 	//True si el usuario existe
 	public boolean usuarioExiste(String nickname) throws PersistenciaException{
 		return m.usuarioExiste(nickname);

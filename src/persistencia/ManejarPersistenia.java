@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.DefaultListModel;
+
 import excepciones.*;
 import jakarta.persistence.*;
 import modelo.Actividad;
@@ -16,6 +18,8 @@ import modelo.Inscripcion;
 public class ManejarPersistenia {
 
 	// ===== USURIO ======================================================================================
+	
+	
 	
 	public void persistirEntrenador(Entrenador ent) throws PersistenciaException {
 		
@@ -132,6 +136,27 @@ public class ManejarPersistenia {
 			}
 		}
 	}
+	
+	public Vector<String> obtenerVectorDeportistas() throws PersistenciaException{
+
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		
+		Vector<String> vDeportistas = new Vector<String>();
+	
+		try {
+			Query buscarDeportistas = em.createNativeQuery("SELECT NICKNAME FROM USUARIO WHERE DTYPE LIKE 'Deportista'");
+			List<String> deportistas = buscarDeportistas.getResultList();
+			for (String dep : deportistas) {
+				vDeportistas.addElement(dep);
+			}
+		} finally {
+			em.close();
+			emf.close();
+		}
+		return vDeportistas;
+	}
+
 
 	public Vector<String> obtenerVectorUsuarios() throws PersistenciaException{
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
@@ -514,7 +539,7 @@ public class ManejarPersistenia {
 			Inscripcion nuevaInscripcion = new Inscripcion();
 			nuevaInscripcion.setCantidadDesportistas(CantidadDesportistas);
 			nuevaInscripcion.setClaseDeportiva(cla);
-			nuevaInscripcion.setCosto((int)costo);
+			nuevaInscripcion.setCosto((int)costo * CantidadDesportistas);
 			nuevaInscripcion.setDeportista(dep);
 			nuevaInscripcion.setFechaInscripcion(FechaInscripcion);
 			

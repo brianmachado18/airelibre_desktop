@@ -25,4 +25,6 @@ public interface IControladorUsuario {
 	
 	public abstract DtDeportista obtenerDeportista(String nickname) throws PersistenciaException;
 	
+	public abstract Vector<String> obtenerVectorDeportistas() throws PersistenciaException;
+	
 }

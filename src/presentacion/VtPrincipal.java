@@ -200,7 +200,7 @@ public class VtPrincipal extends JFrame {
         JOptionPane.showMessageDialog(this, mensaje);
     }
     private void mostrarVtAltaUsuario(JDesktopPane panel) {
-        VtAltaUsuario IFAltaUsuario = new VtAltaUsuario(ICU,yo);
+        VtAltaUsuario IFAltaUsuario = new VtAltaUsuario(ICU, yo);
     	IFAltaUsuario.setVisible(true);
         panel.add(IFAltaUsuario);
     }
@@ -230,7 +230,7 @@ public class VtPrincipal extends JFrame {
     	panel.add(IFAltaClaseDep);
     }
     private void mostrarVtInscClase(JDesktopPane panel) {
-		VtInscClaseDep IFInscClaseDep = new VtInscClaseDep(ICA,ICC,yo);
+		VtInscClaseDep IFInscClaseDep = new VtInscClaseDep(ICA, ICC, ICU, yo);
     	IFInscClaseDep.setVisible(true);
     	panel.add(IFInscClaseDep);
     }

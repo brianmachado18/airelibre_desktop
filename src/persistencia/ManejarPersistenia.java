@@ -261,7 +261,7 @@ public class ManejarPersistenia {
 			Query buscarId = em.createNativeQuery("SELECT ID FROM USUARIO WHERE NICKNAME = ?");
 			buscarId.setParameter(1, nickname);
 	        int ID = (int) buscarId.getSingleResult();
-			//Modifica el usuariodeportista.setNombre(nombre);
+			//Modifica el usuario
 	        Entrenador entrenador = em.find(Entrenador.class, ID);
 	        entrenador.setApellido(apellido);
 	        entrenador.setContrasena(contrasena);

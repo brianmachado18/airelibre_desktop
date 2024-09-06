@@ -41,7 +41,6 @@ public class VtModUsuario extends JInternalFrame{
 	private JList<String> listUsuarios;
 	private IControladorUsuario iControladorUsuario;
 	private JTextField textNickname;
-	JButton btnCerrar;
 	private JInternalFrame yo = this;
 	private VtPrincipal principal;
 	private JTextField textNombre;
@@ -52,6 +51,10 @@ public class VtModUsuario extends JInternalFrame{
 	private JPasswordField passwordField;
 	private JCheckBox chckbxContrasena;
 	private JButton btnBuscar;
+	private JButton btnCancelar;
+	private JButton btnModificar;
+	private JLabel lblWeb;
+	private JLabel lblDisciplina;
 	
 	public VtModUsuario(IControladorUsuario i, VtPrincipal VtPrincipal) {
 		
@@ -98,11 +101,11 @@ public class VtModUsuario extends JInternalFrame{
 		panelEntrenador.setBounds(456, 151, 233, 55);
 		this.getContentPane().add(panelEntrenador);
 		
-		JLabel lblDisciplina = new JLabel("Disciplina");
+		lblDisciplina = new JLabel("Disciplina");
 		lblDisciplina.setBounds(10, 5, 68, 14);
 		panelEntrenador.add(lblDisciplina);
 		
-		JLabel lblWeb = new JLabel("Pagina Web");
+		lblWeb = new JLabel("Pagina Web");
 		lblWeb.setBounds(10, 35, 68, 14);
 		panelEntrenador.add(lblWeb);
 		
@@ -118,7 +121,7 @@ public class VtModUsuario extends JInternalFrame{
 		textWeb.setBounds(88, 32, 135, 19);
 		panelEntrenador.add(textWeb);
 		
-		JButton btnCancelar = new JButton("Salir");
+		btnCancelar = new JButton("Salir");
 		btnCancelar.setBounds(569, 235, 105, 21);
 		this.getContentPane().add(btnCancelar);
 		
@@ -131,7 +134,8 @@ public class VtModUsuario extends JInternalFrame{
 		textNickname.setBounds(238, 21, 96, 19);
 		getContentPane().add(textNickname);
 		
-		JButton btnModificar = new JButton("Modificar");
+		btnModificar = new JButton("Modificar");
+		btnModificar.setEnabled(false);
 		btnModificar.setBounds(456, 235, 105, 21);
 		getContentPane().add(btnModificar);
 		
@@ -236,7 +240,9 @@ public class VtModUsuario extends JInternalFrame{
 		listUsuarios.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				textNickname.setText(listUsuarios.getSelectedValue());
+				if(btnCancelar.getText().compareTo("Salir")==0) {
+					textNickname.setText(listUsuarios.getSelectedValue());
+				}
 			}
 		});
 		
@@ -249,6 +255,8 @@ public class VtModUsuario extends JInternalFrame{
 						setCamposEnable(true);
 						btnCancelar.setText("Cancelar");
 						if (iControladorUsuario.esEntrenador(nick)) {
+							setCamposEntrenador(true);
+							setCamposDeportista(false);
 							DtEntrenador traerEntrenador = iControladorUsuario.obtenerEntrenador(nick);
 							passwordField.setText(traerEntrenador.getContrasena());
 							textNombre.setText(traerEntrenador.getNombre());
@@ -259,6 +267,8 @@ public class VtModUsuario extends JInternalFrame{
 							textDisciplina.setText(traerEntrenador.getDisciplina());
 							textWeb.setText(traerEntrenador.getSitioWeb());
 						} else {
+							setCamposEntrenador(false);
+							setCamposDeportista(true);
 							DtDeportista traerDeportista = iControladorUsuario.obtenerDeportista(nick);
 							passwordField.setText(traerDeportista.getContrasena());
 							textNombre.setText(traerDeportista.getNombre());
@@ -322,19 +332,29 @@ public class VtModUsuario extends JInternalFrame{
 		passwordField.setEnabled(b);
 		textNombre.setEnabled(b);
 		textApellido.setEnabled(b);
-		textEmail.setEnabled(b);
 		textFecha.setEnabled(b);
-		rdbtnDeportista.setEnabled(b);
-		chckbxEsProfesioanl.setEnabled(b);
-		rdbtnEntrenador.setEnabled(b);
-		textDisciplina.setEnabled(b);
-		textWeb.setEnabled(b);
 		chckbxContrasena.setEnabled(b);
+		btnModificar.setEnabled(b);
 		textNickname.setEnabled(!b);
 		btnBuscar.setEnabled(!b);
+		setCamposEntrenador(b);
+		setCamposDeportista(b);
 	}
 	
-private void confirmarModUsuario() throws PersistenciaException{
+	public void setCamposEntrenador(boolean b) {
+		rdbtnEntrenador.setEnabled(b);
+		textDisciplina.setEnabled(b);
+		lblDisciplina.setEnabled(b);
+		textWeb.setEnabled(b);
+		lblWeb.setEnabled(b);
+	}
+	
+	public void setCamposDeportista(boolean b) {
+		rdbtnDeportista.setEnabled(b);
+		chckbxEsProfesioanl.setEnabled(b);
+	}
+	
+	private void confirmarModUsuario() throws PersistenciaException{
 		
 		//Guardo los datos en variables
 		String nickname = textNickname.getText();

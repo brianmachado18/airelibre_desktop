@@ -5,7 +5,6 @@ import java.util.Vector;
 
 import datatype.DtActividad;
 import datatype.DtClaseDeportiva;
-import excepciones.ActividadNoExisteException;
 import excepciones.ClaseNoExisteException;
 import excepciones.ClaseRepetidoException;
 import excepciones.PersistenciaException;

@@ -1,6 +1,7 @@
 package logica;
 
 import java.time.*;
+import java.util.List;
 import java.util.Vector;
 
 import datatype.DtDeportista;
@@ -70,6 +71,11 @@ public class ControladorUsuario implements IControladorUsuario {
 		return m.obtenerVectorUsuarios();
 	}
 	
+	//Retorn un Vector con todos los nicknames de entrenadores 
+	public List<String> obtenerListaEntrenadores() throws PersistenciaException{
+		return m.obtenerVectorEntrenadores();
+	}
+	
 	//True si es entrenador
 	public boolean esEntrenador(String nickname) throws PersistenciaException{
 		return m.esEntrenador(nickname);
@@ -83,6 +89,18 @@ public class ControladorUsuario implements IControladorUsuario {
 	//Retorna un objeto deportista
 	public DtDeportista obtenerDeportista(String nickname) throws PersistenciaException{
 		return DtDeportista.toDataType(m.obtenerDeportista(nickname));
+	}
+	
+	public void modifiarUsuario(String nickname, String contrasena, String nombre, String apellido, String email, LocalDate fechaNacimiento, String tipoUsuario, boolean esProfesional, String disciplina, String web)throws PersistenciaException{
+		try {	
+			if (tipoUsuario.compareTo("Entrenador")==0) { // Si es entrenador
+				m.modificarEntrenador(nickname, contrasena, nombre, apellido, email, fechaNacimiento, disciplina, web);
+			} else { // Si es deportista
+				m.modificarDeportista(nickname, contrasena, nombre, apellido, email, fechaNacimiento, esProfesional);
+			}
+		}catch (Exception e) {
+			throw new PersistenciaException("Error al modificar el usuario");
+		}
 	}
 
 }

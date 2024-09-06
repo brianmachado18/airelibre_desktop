@@ -12,8 +12,6 @@ import datatype.DtActividad;
 import datatype.DtClaseDeportiva;
 import logica.IControladorActividad;
 import logica.IControladorClaseDeportiva;
-import modelo.Actividad;
-import modelo.ClaseDeportiva;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -23,8 +21,6 @@ import java.time.format.DateTimeFormatter;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class VtConsActDep extends JInternalFrame{
 	private JTextField textNombre;

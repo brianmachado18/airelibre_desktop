@@ -248,7 +248,9 @@ public class VtInscClaseDep extends JInternalFrame{
 		boolean DepenClase = iControladorClase.DeportistaEstaEnClase(NomDep,NomCla);
 		int cuposdis = iControladorClase.CuposDisponiblesEnClase(NomCla);
 		int numcantidadIns = Integer.parseInt(textCantidadInscrip.getText());
-		if (cuposdis < numcantidadIns) {
+		System.out.println(cuposdis);
+		System.out.println(numcantidadIns);
+		if (cuposdis >= numcantidadIns) {
 			JOptionPane.showMessageDialog(this, "No hay tantos cupos disponibles para la clase: " + NomCla, "Error", JOptionPane.ERROR_MESSAGE);
 			return;
 		}		

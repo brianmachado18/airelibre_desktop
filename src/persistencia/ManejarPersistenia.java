@@ -439,7 +439,7 @@ public class ManejarPersistenia {
 		return ret;
 	}
 	
-	public int CuposDisponibles(String nomClase) {
+	public int CuposDisponibles(String nomClase) { //Cambiar nombre ne algun momento
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
 		EntityManager em = emf.createEntityManager();
 		int RetCupos = 0;

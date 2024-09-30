@@ -24,9 +24,7 @@ public class ControladorClaseDeportiva implements IControladorClaseDeportiva{
 		try {
 			System.out.println(nombreClaseDeportiva);
 			nuevaClaseDeportiva.setActividad(DtActividad.toObject(Act));
-			System.out.println(cupo);
 			nuevaClaseDeportiva.setCupo(cupo);
-			System.out.println("Cupo");
 			nuevaClaseDeportiva.setFecha(fecha);
 			nuevaClaseDeportiva.setFechaAlta(fAlta);
 			nuevaClaseDeportiva.setHora(hora);
@@ -34,7 +32,6 @@ public class ControladorClaseDeportiva implements IControladorClaseDeportiva{
 			nuevaClaseDeportiva.setNombre(nombreClaseDeportiva);
 			nuevaClaseDeportiva.setImagen(null);
 			nuevaClaseDeportiva.setInscripciones(null);
-			System.out.println("nulllll");
 			m.persistirClase(nuevaClaseDeportiva);
 		} catch (Exception e) {
 			throw new PersistenciaException("Error al conectarse a la base de datos");

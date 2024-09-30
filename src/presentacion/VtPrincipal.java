@@ -98,6 +98,7 @@ public class VtPrincipal extends JFrame {
                         modelSubopciones.addElement("Consulta Actividad");
                         modelSubopciones.addElement("Modificar Actividad");
                         modelSubopciones.addElement("Ranking Actividad");
+                        modelSubopciones.addElement("Aceptar Actividad");
                         break;
                     case "Clases e Inscripciones":
                         modelSubopciones.addElement("Alta Clase");
@@ -149,6 +150,11 @@ public class VtPrincipal extends JFrame {
                         	mostrarVtRankActividad(desktopPane);
                         	listaSubopciones.clearSelection();
                             break;
+                        case "Aceptar Actividad":
+                        	// Lógica para aceptar una actividad
+                        	mostrarVtAceptarActividad(desktopPane);
+                        	listaSubopciones.clearSelection();
+                        	break;
                         case "Alta Clase":
                             // Lógica para alta de clase
                         	mostrarVtAltaClase(desktopPane);
@@ -244,5 +250,10 @@ public class VtPrincipal extends JFrame {
     	VtModActividad IFModActividad = new VtModActividad(ICU, ICA, yo);
     	IFModActividad.setVisible(true);
     	panel.add(IFModActividad);
+    }
+    private void mostrarVtAceptarActividad(JDesktopPane panel) {
+    	VtAceptarActividad IFAceptarActividad = new VtAceptarActividad(ICA, yo);
+    	IFAceptarActividad.setVisible(true);
+    	panel.add(IFAceptarActividad);
     }
 }

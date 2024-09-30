@@ -155,7 +155,7 @@ public class VtAltaClaseDep extends JInternalFrame{
 			
 				Vector<String> vActividades = null;
 				try {
-					vActividades = iControladorActividad.obtenerVectorUsuarios();
+					vActividades = iControladorActividad.obtenerVectorActividadesAceptadas();
 				} catch (PersistenciaException e1) {
 					e1.printStackTrace();
 				}

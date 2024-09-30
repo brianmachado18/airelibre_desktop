@@ -40,8 +40,16 @@ public class ControladorActividad implements IControladorActividad {
 	}
 	
 	//Retorna un Vector con todos los nombres de las actividades
-	public Vector<String> obtenerVectorUsuarios() throws PersistenciaException{
+	public Vector<String> obtenerVectorActividades() throws PersistenciaException{
 		return m.obtenerVectorActividades();
+	}
+	
+	public Vector<String> obtenerVectorActividadesAceptadas() throws PersistenciaException{
+		return m.obtenerVectorActividadesAceptadas();
+	}
+	
+	public Vector<String> obtenerVectorActividadesPendientes() throws PersistenciaException{
+		return m.obtenerVectorActividadesPendientes();
 	}
 	
 	//Retorna un vector con el nombre de todas las clases de una actividad
@@ -51,6 +59,10 @@ public class ControladorActividad implements IControladorActividad {
 	
 	public void modificarActividad(String nombre, String desc, int dHoras, int costo, String lugar, LocalDate fAlta, String img,  DtEntrenador ent) {
 		m.modificarActividad(nombre, desc, dHoras, costo, lugar, fAlta, img, DtEntrenador.toObject(ent));
+	}
+	
+	public void actualizarEstado(boolean estado, String nombre) {
+		m.actualizarEstado(estado, nombre);
 	}
     
 }

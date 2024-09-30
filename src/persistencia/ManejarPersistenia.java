@@ -338,6 +338,7 @@ public class ManejarPersistenia {
 		nuevaActividad.setFechaAlta(fAlta);
 		nuevaActividad.setImagen(img);
 		nuevaActividad.setEntrenador(ent);
+		nuevaActividad.setEstado("Pendiente");
 		
 		try {
 			em.getTransaction().begin();
@@ -355,6 +356,40 @@ public class ManejarPersistenia {
 		Vector<String> vActividades = new Vector<String>();
 		try {
 			Query buscarActividades = em.createNativeQuery("SELECT NOMBRE FROM ACTIVIDAD");
+			List<String> actividades = buscarActividades.getResultList();
+			for (String ac : actividades) {
+				vActividades.add(ac);
+			}
+		} finally {
+			em.close();
+			emf.close();
+		}
+		return vActividades;
+	}
+	
+	public Vector<String> obtenerVectorActividadesAceptadas(){
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		Vector<String> vActividades = new Vector<String>();
+		try {
+			Query buscarActividades = em.createNativeQuery("SELECT NOMBRE FROM ACTIVIDAD WHERE ESTADO = 'Aceptado'");
+			List<String> actividades = buscarActividades.getResultList();
+			for (String ac : actividades) {
+				vActividades.add(ac);
+			}
+		} finally {
+			em.close();
+			emf.close();
+		}
+		return vActividades;
+	}
+	
+	public Vector<String> obtenerVectorActividadesPendientes(){
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		Vector<String> vActividades = new Vector<String>();
+		try {
+			Query buscarActividades = em.createNativeQuery("SELECT NOMBRE FROM ACTIVIDAD WHERE ESTADO = 'Pendiente'");
 			List<String> actividades = buscarActividades.getResultList();
 			for (String ac : actividades) {
 				vActividades.add(ac);
@@ -436,6 +471,32 @@ public class ManejarPersistenia {
 			emf.close();
 		}
 		return data;
+	}
+	
+	public void actualizarEstado(boolean estado, String nombre) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		
+		try {
+			em.getTransaction().begin();
+			//Obtener actividad a modificar
+			Query buscarId = em.createNativeQuery("SELECT ID FROM ACTIVIDAD WHERE NOMBRE = ?");
+			buscarId.setParameter(1, nombre);
+	        int ID = (int) buscarId.getSingleResult();
+	        Actividad actividadMod = em.find(Actividad.class, ID);
+			//estado true = aceptado
+	        if(estado) {
+	        	actividadMod.setEstado("Aceptado");
+	        }else {
+	        	actividadMod.setEstado("Rechazado");
+	        }
+			//Subir los datos modificados a la bd
+			em.merge(actividadMod);
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+			emf.close();
+		}
 	}
 	
 	public void modificarActividad(String nombre, String desc, int dHoras, int costo, String lugar, LocalDate fAlta, String img,  Entrenador ent){

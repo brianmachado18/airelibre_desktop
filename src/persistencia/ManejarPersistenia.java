@@ -22,19 +22,18 @@ public class ManejarPersistenia {
 	
 	
 	public void persistirEntrenador(Entrenador ent) throws PersistenciaException {
-		
+
 		EntityManagerFactory emf = null;
 		EntityManager em = null;
 		
 		try {
-			
+
 			emf = Persistence.createEntityManagerFactory("airelibre_desk");
 			em = emf.createEntityManager();
 
 			em.getTransaction().begin();
 			em.persist(ent);
 			em.getTransaction().commit();
-			
 		}catch (Exception e) {
 			throw new PersistenciaException("Error al persistir el usuario");
 		}finally {

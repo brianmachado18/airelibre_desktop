@@ -24,5 +24,6 @@ public class Usuario {
 	private String mail;
 	private LocalDate fechaNacimiento;
 	private String contrasena;
+	private String imagen;
 }
 

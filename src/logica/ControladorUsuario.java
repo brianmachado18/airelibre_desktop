@@ -33,7 +33,7 @@ public class ControladorUsuario implements IControladorUsuario {
 	}
 	
 	//Alta del usuario
-	public void AltaUsuario(String nickname, String contrasena, String nombre, String apellido, String email, LocalDate fechaNacimiento, String tipoUsuario, boolean esProfesional, String disciplina, String web) throws PersistenciaException{
+	public void AltaUsuario(String nickname, String contrasena, String nombre, String apellido, String email, LocalDate fechaNacimiento, String tipoUsuario, boolean esProfesional, String disciplina, String web, String imagen) throws PersistenciaException{
 		
 		try {	
 			if (tipoUsuario == "Entrenador") { // Si es entrenador
@@ -46,6 +46,7 @@ public class ControladorUsuario implements IControladorUsuario {
 				nuevoEntrenador.setFechaNacimiento(fechaNacimiento);
 				nuevoEntrenador.setDisciplina(disciplina);
 				nuevoEntrenador.setSitioWeb(web);
+				nuevoEntrenador.setImagen(imagen);
 
 				m.persistirEntrenador(nuevoEntrenador);
 
@@ -58,6 +59,7 @@ public class ControladorUsuario implements IControladorUsuario {
 				nuevoDeportista.setMail(email);
 				nuevoDeportista.setFechaNacimiento(fechaNacimiento);
 				nuevoDeportista.setEsProfesional(esProfesional);
+				nuevoDeportista.setImagen(imagen);
 				
 				m.persistirDeportista(nuevoDeportista);
 			}

@@ -23,6 +23,7 @@ public class DtEntrenador {
 	private String contrasena;
 	private String disciplina;
 	private String sitioWeb;
+	private String imagen;
 	private List<Actividad> actividades;
 	
 	public static DtEntrenador toDataType(Entrenador e) {
@@ -37,6 +38,7 @@ public class DtEntrenador {
 		ret.setDisciplina(e.getDisciplina());
 		ret.setSitioWeb(e.getSitioWeb());
 		ret.setActividades(e.getActividades());
+		ret.setImagen(e.getImagen());
 		return ret;
 	}
 	
@@ -52,6 +54,7 @@ public class DtEntrenador {
 		ret.setDisciplina(e.getDisciplina());
 		ret.setSitioWeb(e.getSitioWeb());
 		ret.setActividades(e.getActividades());
+		ret.setImagen(e.getImagen());
 		return ret;
 	}
 

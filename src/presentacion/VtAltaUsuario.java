@@ -269,7 +269,7 @@ public class VtAltaUsuario extends JInternalFrame{
 		}
 		
 		//Ingreso los datos a la db
-		iControladorUsuario.AltaUsuario(nickname, contrasena, nombre, apellido, email, fecha, tipoUsuario, esProfesional, disciplina, web);
+		iControladorUsuario.AltaUsuario(nickname, contrasena, nombre, apellido, email, fecha, tipoUsuario, esProfesional, disciplina, web, "");
 		
 		//Limmpio los campos y oculto el panel
 		yo.dispose();

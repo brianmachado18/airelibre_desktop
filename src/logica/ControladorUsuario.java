@@ -36,7 +36,7 @@ public class ControladorUsuario implements IControladorUsuario {
 	public void AltaUsuario(String nickname, String contrasena, String nombre, String apellido, String email, LocalDate fechaNacimiento, String tipoUsuario, boolean esProfesional, String disciplina, String web, String imagen) throws PersistenciaException{
 		
 		try {	
-			if (tipoUsuario == "Entrenador") { // Si es entrenador
+			if ("Entrenador".equals(tipoUsuario.trim())) { // Si es entrenador
 				Entrenador nuevoEntrenador = new Entrenador();
 				nuevoEntrenador.setNickname(nickname);
 				nuevoEntrenador.setContrasena(contrasena);

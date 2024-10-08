@@ -11,7 +11,10 @@ import excepciones.PersistenciaException;
 
 public interface IControladorUsuario {
 
-
+	public abstract String obtenerNickname(String mail) throws PersistenciaException;
+	
+	public abstract boolean traerPass(String nickname, String mail, String pass) throws PersistenciaException;
+	
 	public abstract void AltaUsuario(String nickname, String contrasena, String nombre, String apellido, String email, LocalDate fechaNacimiento, String tipoUsuario, boolean esProfesional, String disciplina, String web, String imagen)throws PersistenciaException;
 
 	public abstract Vector<String> obtenerVectorUsuarios() throws PersistenciaException;

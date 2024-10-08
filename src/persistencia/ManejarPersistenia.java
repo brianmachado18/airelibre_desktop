@@ -206,6 +206,45 @@ public class ManejarPersistenia {
 		}
 		return ret;
 	}
+	
+	public boolean traerPass(String nick, String mail, String pass) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		boolean ret;
+		
+		try {
+			if(nick != null) {
+				Query buscarUsuario = em.createNativeQuery("SELECT CONTRASENA FROM USUARIO WHERE NICKNAME = ?");
+				buscarUsuario.setParameter(1, nick);
+				ret = buscarUsuario.getSingleResult().equals(pass);
+			}else {
+				Query buscarUsuario = em.createNativeQuery("SELECT CONTRASENA FROM USUARIO WHERE MAIL = ?");
+				buscarUsuario.setParameter(1, nick);
+				ret = buscarUsuario.getSingleResult().equals(pass);
+			}
+
+		}finally {
+			em.close();
+			emf.close();
+		}
+		return ret;
+	}
+	
+	public String obtenerNickname(String mail) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		String ret = null;
+		
+		try {
+			Query buscarId = em.createNativeQuery("SELECT NICKNAME FROM USUARIO WHERE MAIL = ?");
+			buscarId.setParameter(1, mail);
+	        ret = buscarId.getSingleResult().toString();
+		}finally {
+			em.close();
+			emf.close();
+		}
+		return ret;
+	}
 
 	public Entrenador obtenerEntrenador(String nick) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");

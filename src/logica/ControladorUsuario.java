@@ -22,10 +22,19 @@ public class ControladorUsuario implements IControladorUsuario {
 		return m.obtenerVectorDeportistas();
 	}
 	
+	public boolean traerPass(String nickname, String mail, String pass) throws PersistenciaException{
+		return m.traerPass(nickname, mail, pass);
+	}
+	
 	//True si el usuario existe
 	public boolean usuarioExiste(String nickname) throws PersistenciaException{
 		return m.usuarioExiste(nickname);
 	}
+	
+	public String obtenerNickname(String mail) throws PersistenciaException{
+		return m.obtenerNickname(mail);
+	}
+	
 	
 	//True si el nickname o el email existe
 	public boolean usuarioExiste(String nickname, String email) throws PersistenciaException{

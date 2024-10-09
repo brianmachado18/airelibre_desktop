@@ -70,6 +70,12 @@ public class ControladorClaseDeportiva implements IControladorClaseDeportiva{
 		return m.CuposDisponiblesEnClase(nomClase);
 	};
 	
-
+	public Vector<String> obtenerClasesDeportista(String nickname){
+		return m.obtenerClasesDeportista(nickname);
+	}
+	
+	public Vector<String> obtenerInscrpcionesDeportista(String nickname){
+		return m.obtenerInscrpcionesDeportista(nickname);
+	}
 	
 }

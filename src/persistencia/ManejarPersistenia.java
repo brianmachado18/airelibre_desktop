@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-import datatype.DtEntrenador;
 import excepciones.*;
 import jakarta.persistence.*;
 import modelo.Actividad;
@@ -757,6 +756,72 @@ public class ManejarPersistenia {
 			em.close();
 			emf.close();
 		}
+	}
+	
+	public Vector<String> obtenerClasesDeportista(String nickname) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		Vector<String> vClas = new Vector<String>();
+		
+		try {
+			Query buscarIdUsuario = em.createNativeQuery("SELECT ID FROM USUARIO WHERE NICKNAME = ?");
+			buscarIdUsuario.setParameter(1, nickname);
+			int id = (int) buscarIdUsuario.getSingleResult();
+			
+			Query buscarClasesInscripto = em.createNativeQuery("SELECT ID_CLASEDEPORTIVA FROM INSCRIPCION WHERE ID_DEPORTISTA = ?");
+			buscarClasesInscripto.setParameter(1, id);
+			
+			List<Integer> cInsc = buscarClasesInscripto.getResultList();
+			
+			for (Integer i : cInsc) {
+				Query buscarClase = em.createNativeQuery("SELECT NOMBRE FROM CLASEDEPORTIVA WHERE ID = ?");
+				buscarClase.setParameter(1, i);
+				
+				vClas.add((String) buscarClase.getSingleResult());
+			}
+			
+		}finally {
+			em.close();
+			emf.close();
+		}
+		return vClas;
+	}
+	
+	public Vector<String> obtenerInscrpcionesDeportista(String nickname) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		Vector<String> vInsc = new Vector<String>();
+		
+		try {
+			Query buscarIdUsuario = em.createNativeQuery("SELECT ID FROM USUARIO WHERE NICKNAME = ?");
+			buscarIdUsuario.setParameter(1, nickname);
+			int id = (int) buscarIdUsuario.getSingleResult();
+			
+			Query buscarInscrips = em.createNativeQuery("SELECT ID FROM INSCRIPCION WHERE ID_DEPORTISTA = ?");
+			buscarInscrips.setParameter(1, id);
+			
+			List<Integer> insc = buscarInscrips.getResultList();
+			
+			for (Integer i : insc) {
+				Query buscarClase = em.createNativeQuery("SELECT ID_CLASEDEPORTIVA FROM INSCRIPCION WHERE ID = ?");
+				buscarClase.setParameter(1, i);
+				Query buscarNombreClase = em.createNativeQuery("SELECT NOMBRE FROM CLASEDEPORTIVA WHERE ID = ?");
+				buscarNombreClase.setParameter(1, buscarClase.getSingleResult());
+				
+				Query buscarCosto = em.createNativeQuery("SELECT COSTO FROM INSCRIPCION WHERE ID = ?");
+				buscarCosto.setParameter(1, i);
+				
+				Query buscarCantidad = em.createNativeQuery("SELECT CANTIDADDESPORTISTAS FROM INSCRIPCION WHERE ID = ?");
+				buscarCantidad.setParameter(1, i);
+				
+				vInsc.add(buscarNombreClase.getSingleResult().toString() + ": $" + buscarCosto.getSingleResult().toString() + " (" + buscarCantidad.getSingleResult().toString() + ")");
+			}
+			
+		}finally {
+			em.close();
+			emf.close();
+		}
+		return vInsc;
 	}
 	
 }

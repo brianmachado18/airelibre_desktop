@@ -33,4 +33,8 @@ public interface IControladorClaseDeportiva {
 	public abstract  void AltainscripcionAClase(String nomClase, String NomDeportista,int CantidadDesportistas,LocalDate FechaInscripcion) throws ClaseNoExisteException;
 	
 	public abstract int CuposDisponiblesEnClase(String nombre);
+	
+	public abstract Vector<String> obtenerClasesDeportista(String nickname);
+	
+	public abstract Vector<String> obtenerInscrpcionesDeportista(String nickname);
 }

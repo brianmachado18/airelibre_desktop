@@ -6,6 +6,7 @@ import java.util.Vector;
 
 import datatype.DtActividad;
 import datatype.DtClaseDeportiva;
+import datatype.DtInscripcion;
 import excepciones.ClaseNoExisteException;
 import excepciones.PersistenciaException;
 import modelo.ClaseDeportiva;
@@ -74,7 +75,7 @@ public class ControladorClaseDeportiva implements IControladorClaseDeportiva{
 		return m.obtenerClasesDeportista(nickname);
 	}
 	
-	public Vector<String> obtenerInscrpcionesDeportista(String nickname){
+	public String[][] obtenerInscrpcionesDeportista(String nickname){
 		return m.obtenerInscrpcionesDeportista(nickname);
 	}
 	

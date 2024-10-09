@@ -30,5 +30,9 @@ public interface IControladorActividad {
 	public abstract void modificarActividad(String nombre, String desc, int dHoras, int costo, String lugar, LocalDate fAlta, String img,  DtEntrenador ent);
 	
 	public abstract void actualizarEstado(boolean estado, String nombre);
+	
+	public abstract String[][] obtenerVectorActividadesAceptadasEntrenador(String nickname);
+	
+	public abstract String[][] obtenerVectorActividadesEntrenador(String nickname);
 
 }

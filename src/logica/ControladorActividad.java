@@ -64,5 +64,13 @@ public class ControladorActividad implements IControladorActividad {
 	public void actualizarEstado(boolean estado, String nombre) {
 		m.actualizarEstado(estado, nombre);
 	}
+	
+	public String[][] obtenerVectorActividadesAceptadasEntrenador(String nickname){
+		return m.obtenerVectorActividadesAceptadasEntrenador(nickname);
+	}
+	
+	public String[][] obtenerVectorActividadesEntrenador(String nickname){
+		return m.obtenerVectorActividadesEntrenador(nickname);
+	}
     
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Vector;
 
 import excepciones.*;
+import datatype.*;
 import jakarta.persistence.*;
 import modelo.Actividad;
 import modelo.ClaseDeportiva;
@@ -564,6 +565,84 @@ public class ManejarPersistenia {
 		}
 	}
 	
+	public String[][] obtenerVectorActividadesEntrenador(String nickname){
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		String[][] data = null;
+		try {
+			Query buscarId = em.createNativeQuery("SELECT ID FROM USUARIO WHERE NICKNAME = ?");
+			buscarId.setParameter(1, nickname);
+			int idEnt = (int) buscarId.getSingleResult();
+			Query buscarActividades = em.createNativeQuery("SELECT ID FROM ACTIVIDAD WHERE ID_ENTRENADOR = ?");
+			buscarActividades.setParameter(1, idEnt);
+			List<Integer> actividades = buscarActividades.getResultList();
+			
+			data = new String[actividades.size()][4];
+			
+			int cont = 0;
+			for (Integer i : actividades) {
+				Query buscarNombre = em.createNativeQuery("SELECT NOMBRE FROM ACTIVIDAD WHERE ID = ?");
+				buscarNombre.setParameter(1, i);
+				data[cont][0] = buscarNombre.getSingleResult().toString();
+				
+				Query buscarEstado = em.createNativeQuery("SELECT ESTADO FROM ACTIVIDAD WHERE ID = ?");
+				buscarEstado.setParameter(1, i);
+				data[cont][1] = buscarEstado.getSingleResult().toString();
+				
+				Query buscarLugar = em.createNativeQuery("SELECT LUGAR FROM ACTIVIDAD WHERE ID = ?");
+				buscarLugar.setParameter(1, i);
+				data[cont][2] = buscarLugar.getSingleResult().toString();
+				
+				Query buscarDuracion = em.createNativeQuery("SELECT DURACIONHORAS FROM ACTIVIDAD WHERE ID = ?");
+				buscarDuracion.setParameter(1, i);
+				data[cont][3] = buscarDuracion.getSingleResult().toString();
+				
+				cont++;
+			}
+		} finally {
+			em.close();
+			emf.close();
+		}
+		return data;
+	}
+	
+	public String[][] obtenerVectorActividadesAceptadasEntrenador(String nickname){
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		String[][] data = null;
+		try {
+			Query buscarId = em.createNativeQuery("SELECT ID FROM USUARIO WHERE NICKNAME = ?");
+			buscarId.setParameter(1, nickname);
+			int idEnt = (int) buscarId.getSingleResult();
+			Query buscarActividades = em.createNativeQuery("SELECT ID FROM ACTIVIDAD WHERE ESTADO = 'Aceptado' AND ID_ENTRENADOR = ?");
+			buscarActividades.setParameter(1, idEnt);
+			List<Integer> actividades = buscarActividades.getResultList();
+			
+			data = new String[actividades.size()][3];
+			
+			int cont = 0;
+			for (Integer i : actividades) {
+				Query buscarNombre = em.createNativeQuery("SELECT NOMBRE FROM ACTIVIDAD WHERE ID = ?");
+				buscarNombre.setParameter(1, i);
+				data[cont][0] = buscarNombre.getSingleResult().toString();
+				
+				Query buscarLugar = em.createNativeQuery("SELECT LUGAR FROM ACTIVIDAD WHERE ID = ?");
+				buscarLugar.setParameter(1, i);
+				data[cont][1] = buscarLugar.getSingleResult().toString();
+				
+				Query buscarDuracion = em.createNativeQuery("SELECT DURACIONHORAS FROM ACTIVIDAD WHERE ID = ?");
+				buscarDuracion.setParameter(1, i);
+				data[cont][2] = buscarDuracion.getSingleResult().toString();
+				
+				cont++;
+			}
+		} finally {
+			em.close();
+			emf.close();
+		}
+		return data;
+	}
+	
 	// ===== CLASE =======================================================================================
 		
 	public void persistirClase(ClaseDeportiva cd) throws PersistenciaException {
@@ -787,10 +866,10 @@ public class ManejarPersistenia {
 		return vClas;
 	}
 	
-	public Vector<String> obtenerInscrpcionesDeportista(String nickname) {
+	public String[][] obtenerInscrpcionesDeportista(String nickname) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
 		EntityManager em = emf.createEntityManager();
-		Vector<String> vInsc = new Vector<String>();
+		String[][] data = null;
 		
 		try {
 			Query buscarIdUsuario = em.createNativeQuery("SELECT ID FROM USUARIO WHERE NICKNAME = ?");
@@ -799,29 +878,33 @@ public class ManejarPersistenia {
 			
 			Query buscarInscrips = em.createNativeQuery("SELECT ID FROM INSCRIPCION WHERE ID_DEPORTISTA = ?");
 			buscarInscrips.setParameter(1, id);
-			
 			List<Integer> insc = buscarInscrips.getResultList();
+			data = new String[insc.size()][3];
 			
+			int cont = 0;
 			for (Integer i : insc) {
 				Query buscarClase = em.createNativeQuery("SELECT ID_CLASEDEPORTIVA FROM INSCRIPCION WHERE ID = ?");
 				buscarClase.setParameter(1, i);
 				Query buscarNombreClase = em.createNativeQuery("SELECT NOMBRE FROM CLASEDEPORTIVA WHERE ID = ?");
 				buscarNombreClase.setParameter(1, buscarClase.getSingleResult());
+				data[cont][0] = buscarNombreClase.getSingleResult().toString();
 				
 				Query buscarCosto = em.createNativeQuery("SELECT COSTO FROM INSCRIPCION WHERE ID = ?");
 				buscarCosto.setParameter(1, i);
+				data[cont][1] = buscarCosto.getSingleResult().toString();
 				
 				Query buscarCantidad = em.createNativeQuery("SELECT CANTIDADDESPORTISTAS FROM INSCRIPCION WHERE ID = ?");
 				buscarCantidad.setParameter(1, i);
+				data[cont][2] = buscarCantidad.getSingleResult().toString();
 				
-				vInsc.add(buscarNombreClase.getSingleResult().toString() + ": $" + buscarCosto.getSingleResult().toString() + " (" + buscarCantidad.getSingleResult().toString() + ")");
+				cont++;
 			}
 			
 		}finally {
 			em.close();
 			emf.close();
 		}
-		return vInsc;
+		return data;
 	}
 	
 }

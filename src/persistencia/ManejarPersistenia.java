@@ -281,69 +281,89 @@ public class ManejarPersistenia {
 	}
 	
 	public void modificarDeportista(String nickname, String contrasena, String nombre, String apellido, String email, LocalDate fechaNacimiento, boolean esProfesional) throws PersistenciaException {
-		EntityManagerFactory emf = null;
-		EntityManager em = null;
-		try {
-			emf = Persistence.createEntityManagerFactory("airelibre_desk");
-			em = emf.createEntityManager();
-			em.getTransaction().begin();
-			//Busca el id del usuario
-			Query buscarId = em.createNativeQuery("SELECT ID FROM USUARIO WHERE NICKNAME = ?");
-			buscarId.setParameter(1, nickname);
-	        int ID = (int) buscarId.getSingleResult();
-			//Modifica el usuario
-	        Deportista deportista = em.find(Deportista.class, ID);
-	        deportista.setNombre(nombre);
-	        deportista.setApellido(apellido);
-	        deportista.setContrasena(contrasena);
-	        deportista.setMail(email);
-	        deportista.setFechaNacimiento(fechaNacimiento);
-	        deportista.setEsProfesional(esProfesional);
-	        em.merge(deportista);
-			em.getTransaction().commit();
-		}catch (Exception e) {
-			throw new PersistenciaException("Error al modificar el usuario");
-		}finally {
-			if (em != null) {
-				em.close();
-			}
-			if (emf != null) {
-				emf.close();
-			}
-		}
-	}
+        EntityManagerFactory emf = null;
+        EntityManager em = null;
+        try {
+            emf = Persistence.createEntityManagerFactory("airelibre_desk");
+            em = emf.createEntityManager();
+            Query buscarId = em.createNativeQuery("SELECT ID FROM USUARIO WHERE NICKNAME = ?");
+            buscarId.setParameter(1, nickname);
+            int ID = (int) buscarId.getSingleResult();
+            Deportista deportista = em.find(Deportista.class, ID);
+
+            if (deportista != null) {
+                em.getTransaction().begin();
+
+                deportista.setNombre(nombre);
+                deportista.setApellido(apellido);
+                deportista.setContrasena(contrasena);
+                deportista.setMail(email);
+                deportista.setFechaNacimiento(fechaNacimiento);
+                deportista.setEsProfesional(esProfesional);
+                em.merge(deportista);
+                em.getTransaction().commit();
+            } else {
+                throw new PersistenciaException("Deportista no encontrado");
+            }
+
+        } catch (Exception e) {
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new PersistenciaException("Error al modificar el usuario: " + e.getMessage());
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+            if (emf != null) {
+                emf.close();
+            }
+        }
+    }
 	
 	public void modificarEntrenador(String nickname, String contrasena, String nombre, String apellido, String email, LocalDate fechaNacimiento, String disciplina, String web) throws PersistenciaException {
-		EntityManagerFactory emf = null;
-		EntityManager em = null;
-		try {
-			emf = Persistence.createEntityManagerFactory("airelibre_desk");
-			em = emf.createEntityManager();
-			em.getTransaction().begin();
-			//Busca el id del usuario
-			Query buscarId = em.createNativeQuery("SELECT ID FROM USUARIO WHERE NICKNAME = ?");
-			buscarId.setParameter(1, nickname);
-	        int ID = (int) buscarId.getSingleResult();
-			//Modifica el usuario
-	        Entrenador entrenador = em.find(Entrenador.class, ID);
-	        entrenador.setApellido(apellido);
-	        entrenador.setContrasena(contrasena);
-	        entrenador.setMail(email);
-	        entrenador.setFechaNacimiento(fechaNacimiento);
-	        entrenador.setDisciplina(disciplina);
-	        entrenador.setSitioWeb(web);
-			em.getTransaction().commit();
-		}catch (Exception e) {
-			throw new PersistenciaException("Error al modificar el usuario");
-		}finally {
-			if (em != null) {
-				em.close();
-			}
-			if (emf != null) {
-				emf.close();
-			}
-		}
-	}
+        EntityManagerFactory emf = null;
+        EntityManager em = null;
+        try {
+            emf = Persistence.createEntityManagerFactory("airelibre_desk");
+            em = emf.createEntityManager();
+
+            //Busca el id del usuario
+            Query buscarId = em.createNativeQuery("SELECT ID FROM USUARIO WHERE NICKNAME = ?");
+            buscarId.setParameter(1, nickname);
+            int ID = (int) buscarId.getSingleResult();
+            //Modifica el usuario
+            Entrenador entrenador = em.find(Entrenador.class, ID);
+            if(entrenador != null){
+                em.getTransaction().begin();
+
+                entrenador.setNombre(nombre);
+                entrenador.setApellido(apellido);
+                entrenador.setContrasena(contrasena);
+                entrenador.setMail(email);
+                entrenador.setFechaNacimiento(fechaNacimiento);
+                entrenador.setDisciplina(disciplina);
+                entrenador.setSitioWeb(web);
+
+                em.merge(entrenador);
+                em.getTransaction().commit();
+            }else{
+                throw new PersistenciaException("Entrenador no encontrado.");
+            }
+        }catch (Exception e) {
+             if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new PersistenciaException("Error al modificar el usuario: " + e.getMessage());
+        }finally {
+            if (em != null) {
+                em.close();
+            }
+            if (emf != null) {
+                emf.close();
+            }
+        }
+    }
 	
 	// ===== ACTIVIDAD ===================================================================================
 

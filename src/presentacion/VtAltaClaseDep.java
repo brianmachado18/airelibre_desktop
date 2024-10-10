@@ -221,7 +221,7 @@ public class VtAltaClaseDep extends JInternalFrame{
 		}
 		 
 		try {
-			iControladorClase.AltaClaseDeportiva(textNombre.getText(), fechaFor, horaFor, textLugar.getText(), cupos,LocalDate.now(), iControladorActividad.obtenerActividad((String) listActividades.getSelectedValue()));
+			iControladorClase.AltaClaseDeportiva(textNombre.getText(), fechaFor, horaFor, textLugar.getText(), cupos,LocalDate.now(), iControladorActividad.obtenerActividad((String) listActividades.getSelectedValue()), null);
 		} catch (PersistenciaException e1) {
 			e1.printStackTrace();
 		}

@@ -31,8 +31,10 @@ public interface IControladorActividad {
 	
 	public abstract void actualizarEstado(boolean estado, String nombre);
 	
-	public abstract String[][] obtenerVectorActividadesAceptadasEntrenador(String nickname);
+	public abstract String[][] obtenerArrayActividadesAceptadasEntrenador(String nickname);
 	
-	public abstract String[][] obtenerVectorActividadesEntrenador(String nickname);
+	public abstract String[][] obtenerArrayActividadesEntrenador(String nickname);
+    
+	public abstract Vector<String> obtenerVectorActividadesAceptadasEntrenador(String nickname);
 
 }

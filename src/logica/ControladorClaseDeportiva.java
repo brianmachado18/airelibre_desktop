@@ -19,7 +19,7 @@ public class ControladorClaseDeportiva implements IControladorClaseDeportiva{
 	public ControladorClaseDeportiva(){}
 
 	//Alta de una clase deportiva
-	public void AltaClaseDeportiva(String nombreClaseDeportiva, LocalDate fecha, LocalTime hora, String lugar, int cupo, LocalDate fAlta, DtActividad Act) throws PersistenciaException{
+	public void AltaClaseDeportiva(String nombreClaseDeportiva, LocalDate fecha, LocalTime hora, String lugar, int cupo, LocalDate fAlta, DtActividad Act, String imagen) throws PersistenciaException{
 		
 		ClaseDeportiva nuevaClaseDeportiva = new ClaseDeportiva();
 		try {
@@ -31,7 +31,7 @@ public class ControladorClaseDeportiva implements IControladorClaseDeportiva{
 			nuevaClaseDeportiva.setHora(hora);
 			nuevaClaseDeportiva.setLugar(lugar);
 			nuevaClaseDeportiva.setNombre(nombreClaseDeportiva);
-			nuevaClaseDeportiva.setImagen(null);
+			nuevaClaseDeportiva.setImagen(imagen);
 			nuevaClaseDeportiva.setInscripciones(null);
 			m.persistirClase(nuevaClaseDeportiva);
 		} catch (Exception e) {
@@ -43,6 +43,10 @@ public class ControladorClaseDeportiva implements IControladorClaseDeportiva{
 	//Retorna el DtClaseDeportiva de la clase con nombre 'nom'
 	public DtClaseDeportiva obtenerClase(String nom) {
 		return DtClaseDeportiva.toDataType(m.obtenerClase(nom));
+	}
+	
+	public Vector<String> obtenerVectorClases(){
+		return m.obtenerVectorClases();
 	}
 	
 	//Retorna un vector con todas las inscripciones de una clase con nombre 'nom'

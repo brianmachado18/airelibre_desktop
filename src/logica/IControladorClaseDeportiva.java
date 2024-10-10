@@ -14,6 +14,8 @@ public interface IControladorClaseDeportiva {
 	
 	public abstract DtClaseDeportiva obtenerClase(String nom);
 	
+	public abstract Vector<String> obtenerVectorClases();
+	
 	public abstract Vector<String> obtenerListaInscripciones(String nom);
 	
 	public abstract boolean claseExiste(String nombre);
@@ -25,7 +27,7 @@ public interface IControladorClaseDeportiva {
 	 * @throws PersistenciaException 
      */
 	
-	public abstract void AltaClaseDeportiva(String nombreClaseDeportiva, LocalDate fecha, LocalTime hora, String lugar, int cupo, LocalDate fAlta, DtActividad Act) throws ClaseRepetidoException, PersistenciaException;	
+	public abstract void AltaClaseDeportiva(String nombreClaseDeportiva, LocalDate fecha, LocalTime hora, String lugar, int cupo, LocalDate fAlta, DtActividad Act, String imagen) throws ClaseRepetidoException, PersistenciaException;	
 	/**
      * Lista las Clases Deportivas asociadas a una Actividad en el sistema.
      * @throws ActividadNoExisteException Si el nombre de la Actividad no se encuentra registrada en el sistema.

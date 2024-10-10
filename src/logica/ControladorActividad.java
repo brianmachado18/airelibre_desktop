@@ -65,12 +65,16 @@ public class ControladorActividad implements IControladorActividad {
 		m.actualizarEstado(estado, nombre);
 	}
 	
-	public String[][] obtenerVectorActividadesAceptadasEntrenador(String nickname){
+	public String[][] obtenerArrayActividadesAceptadasEntrenador(String nickname){
+		return m.obtenerArrayActividadesAceptadasEntrenador(nickname);
+	}
+	
+	public String[][] obtenerArrayActividadesEntrenador(String nickname){
+		return m.obtenerArrayActividadesEntrenador(nickname);
+	}
+    
+	public Vector<String> obtenerVectorActividadesAceptadasEntrenador(String nickname){
 		return m.obtenerVectorActividadesAceptadasEntrenador(nickname);
 	}
 	
-	public String[][] obtenerVectorActividadesEntrenador(String nickname){
-		return m.obtenerVectorActividadesEntrenador(nickname);
-	}
-    
 }

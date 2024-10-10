@@ -565,7 +565,7 @@ public class ManejarPersistenia {
 		}
 	}
 	
-	public String[][] obtenerVectorActividadesEntrenador(String nickname){
+	public String[][] obtenerArrayActividadesEntrenador(String nickname){
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
 		EntityManager em = emf.createEntityManager();
 		String[][] data = null;
@@ -606,7 +606,7 @@ public class ManejarPersistenia {
 		return data;
 	}
 	
-	public String[][] obtenerVectorActividadesAceptadasEntrenador(String nickname){
+	public String[][] obtenerArrayActividadesAceptadasEntrenador(String nickname){
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
 		EntityManager em = emf.createEntityManager();
 		String[][] data = null;
@@ -641,6 +641,28 @@ public class ManejarPersistenia {
 			emf.close();
 		}
 		return data;
+	}
+	
+	public Vector<String> obtenerVectorActividadesAceptadasEntrenador(String nickname){
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		Vector<String> vActividades = new Vector<String>();
+		try {
+			Query buscarId = em.createNativeQuery("SELECT ID FROM USUARIO WHERE NICKNAME = ?");
+			buscarId.setParameter(1, nickname);
+			int idEnt = (int) buscarId.getSingleResult();
+			
+			Query buscarActividades = em.createNativeQuery("SELECT NOMBRE FROM ACTIVIDAD WHERE ESTADO = 'Aceptado' AND ID_ENTRENADOR = ?");
+			buscarActividades.setParameter(1, idEnt);
+			List<String> actividades = buscarActividades.getResultList();
+			for (String ac : actividades) {
+				vActividades.add(ac);
+			}
+		} finally {
+			em.close();
+			emf.close();
+		}
+		return vActividades;
 	}
 	
 	// ===== CLASE =======================================================================================
@@ -741,6 +763,23 @@ public class ManejarPersistenia {
 			buscarId.setParameter(1, nom);
 			int id = (int) buscarId.getSingleResult();
 			ret = em.find(ClaseDeportiva.class, id);
+		}finally {
+			em.close();
+			emf.close();
+		}
+		return ret;
+	}
+	
+	public Vector<String> obtenerVectorClases(){
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		Vector<String> ret = new Vector<String>();
+		try {
+			Query buscarId = em.createNativeQuery("SELECT NOMBRE FROM CLASEDEPORTIVA");
+			List<String> listNombres = buscarId.getResultList();
+			for (String n : listNombres) {
+				ret.add(n);
+			}
 		}finally {
 			em.close();
 			emf.close();
@@ -907,7 +946,7 @@ public class ManejarPersistenia {
 			em.close();
 			emf.close();
 		}
-		return data;
+		return data; 
 	}
 	
 }

@@ -893,9 +893,12 @@ public class ManejarPersistenia {
 				buscarCosto.setParameter(1, i);
 				data[cont][1] = buscarCosto.getSingleResult().toString();
 				
+				
 				Query buscarCantidad = em.createNativeQuery("SELECT CANTIDADDESPORTISTAS FROM INSCRIPCION WHERE ID = ?");
 				buscarCantidad.setParameter(1, i);
-				data[cont][2] = buscarCantidad.getSingleResult().toString();
+				Query buscarCupos = em.createNativeQuery("SELECT CUPO FROM CLASEDEPORTIVA WHERE ID = ?");
+				buscarCupos.setParameter(1, buscarClase.getSingleResult());
+				data[cont][2] = buscarCantidad.getSingleResult().toString() + "/" + buscarCupos.getSingleResult().toString();
 				
 				cont++;
 			}

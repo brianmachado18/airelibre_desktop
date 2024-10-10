@@ -93,7 +93,7 @@ public class ControladorUsuario implements IControladorUsuario {
 	
 	public void modifiarUsuario(String nickname, String contrasena, String nombre, String apellido, String email, LocalDate fechaNacimiento, String tipoUsuario, boolean esProfesional, String disciplina, String web)throws PersistenciaException{
 		try {	
-			if (tipoUsuario.compareTo("Entrenador")==0) { // Si es entrenador
+			if ("Entrenador".equals(tipoUsuario)) { // Si es entrenador
 				m.modificarEntrenador(nickname, contrasena, nombre, apellido, email, fechaNacimiento, disciplina, web);
 			} else { // Si es deportista
 				m.modificarDeportista(nickname, contrasena, nombre, apellido, email, fechaNacimiento, esProfesional);

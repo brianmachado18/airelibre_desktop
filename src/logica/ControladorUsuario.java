@@ -1,6 +1,7 @@
 package logica;
 
 import java.time.*;
+import java.util.List;
 import java.util.Vector;
 
 import datatype.DtDeportista;
@@ -17,10 +18,23 @@ public class ControladorUsuario implements IControladorUsuario {
 	
 	public ControladorUsuario(){}
 
+	public Vector<String> obtenerVectorDeportistas() throws PersistenciaException{
+		return m.obtenerVectorDeportistas();
+	}
+	
+	public boolean traerPass(String nickname, String mail, String pass) throws PersistenciaException{
+		return m.traerPass(nickname, mail, pass);
+	}
+	
 	//True si el usuario existe
 	public boolean usuarioExiste(String nickname) throws PersistenciaException{
 		return m.usuarioExiste(nickname);
 	}
+	
+	public String obtenerNickname(String mail) throws PersistenciaException{
+		return m.obtenerNickname(mail);
+	}
+	
 	
 	//True si el nickname o el email existe
 	public boolean usuarioExiste(String nickname, String email) throws PersistenciaException{
@@ -28,10 +42,10 @@ public class ControladorUsuario implements IControladorUsuario {
 	}
 	
 	//Alta del usuario
-	public void AltaUsuario(String nickname, String contrasena, String nombre, String apellido, String email, LocalDate fechaNacimiento, String tipoUsuario, boolean esProfesional, String disciplina, String web) throws PersistenciaException{
+	public void AltaUsuario(String nickname, String contrasena, String nombre, String apellido, String email, LocalDate fechaNacimiento, String tipoUsuario, boolean esProfesional, String disciplina, String web, String imagen) throws PersistenciaException{
 		
 		try {	
-			if (tipoUsuario == "Entrenador") { // Si es entrenador
+			if ("Entrenador".equals(tipoUsuario.trim())) { // Si es entrenador
 				Entrenador nuevoEntrenador = new Entrenador();
 				nuevoEntrenador.setNickname(nickname);
 				nuevoEntrenador.setContrasena(contrasena);
@@ -41,6 +55,7 @@ public class ControladorUsuario implements IControladorUsuario {
 				nuevoEntrenador.setFechaNacimiento(fechaNacimiento);
 				nuevoEntrenador.setDisciplina(disciplina);
 				nuevoEntrenador.setSitioWeb(web);
+				nuevoEntrenador.setImagen(imagen);
 
 				m.persistirEntrenador(nuevoEntrenador);
 
@@ -53,6 +68,7 @@ public class ControladorUsuario implements IControladorUsuario {
 				nuevoDeportista.setMail(email);
 				nuevoDeportista.setFechaNacimiento(fechaNacimiento);
 				nuevoDeportista.setEsProfesional(esProfesional);
+				nuevoDeportista.setImagen(imagen);
 				
 				m.persistirDeportista(nuevoDeportista);
 			}
@@ -64,6 +80,11 @@ public class ControladorUsuario implements IControladorUsuario {
 	//Retorna un Vector con todos los nicknames de los usuarios
 	public Vector<String> obtenerVectorUsuarios() throws PersistenciaException{
 		return m.obtenerVectorUsuarios();
+	}
+	
+	//Retorn un Vector con todos los nicknames de entrenadores 
+	public List<String> obtenerListaEntrenadores() throws PersistenciaException{
+		return m.obtenerVectorEntrenadores();
 	}
 	
 	//True si es entrenador
@@ -79,6 +100,18 @@ public class ControladorUsuario implements IControladorUsuario {
 	//Retorna un objeto deportista
 	public DtDeportista obtenerDeportista(String nickname) throws PersistenciaException{
 		return DtDeportista.toDataType(m.obtenerDeportista(nickname));
+	}
+	
+	public void modifiarUsuario(String nickname, String contrasena, String nombre, String apellido, String email, LocalDate fechaNacimiento, String tipoUsuario, boolean esProfesional, String disciplina, String web)throws PersistenciaException{
+		try {	
+			if (tipoUsuario.compareTo("Entrenador")==0) { // Si es entrenador
+				m.modificarEntrenador(nickname, contrasena, nombre, apellido, email, fechaNacimiento, disciplina, web);
+			} else { // Si es deportista
+				m.modificarDeportista(nickname, contrasena, nombre, apellido, email, fechaNacimiento, esProfesional);
+			}
+		}catch (Exception e) {
+			throw new PersistenciaException("Error al modificar el usuario");
+		}
 	}
 
 }

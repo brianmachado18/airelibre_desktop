@@ -24,8 +24,6 @@ import datatype.DtDeportista;
 import datatype.DtEntrenador;
 import excepciones.PersistenciaException;
 import logica.IControladorUsuario;
-import modelo.Deportista;
-import modelo.Entrenador;
 
 import javax.swing.JList;
 import java.awt.event.MouseAdapter;
@@ -181,7 +179,7 @@ public class VtConsUsuario extends JInternalFrame{
 		//EVENTOS
 		addComponentListener(new ComponentAdapter() {
 			public void componentShown(ComponentEvent e) {
-				Vector<String> vUsuarios = null;
+				Vector<String> vUsuarios = new Vector<String>();
 				try {
 					vUsuarios = iControladorUsuario.obtenerVectorUsuarios();
 				} catch (PersistenciaException e1) {

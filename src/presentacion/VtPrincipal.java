@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.awt.*;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
-import javax.swing.JOptionPane;
 import javax.swing.*;
 
 import logica.Fabrica;
@@ -99,6 +98,7 @@ public class VtPrincipal extends JFrame {
                         modelSubopciones.addElement("Consulta Actividad");
                         modelSubopciones.addElement("Modificar Actividad");
                         modelSubopciones.addElement("Ranking Actividad");
+                        modelSubopciones.addElement("Aceptar Actividad");
                         break;
                     case "Clases e Inscripciones":
                         modelSubopciones.addElement("Alta Clase");
@@ -127,7 +127,7 @@ public class VtPrincipal extends JFrame {
                             break;
                         case "Modificar Usuario":
                             // Lógica para modificar usuario
-                        	mostrarMensaje("MODIFICAR USUARIO PENDIENTE");
+                        	mostrarVtModUsuario(desktopPane);
                         	listaSubopciones.clearSelection();
                             break;
                         case "Alta Actividad":
@@ -142,7 +142,7 @@ public class VtPrincipal extends JFrame {
                             break;
                         case "Modificar Actividad":
                             // Lógica para modificar actividad
-                        	mostrarMensaje("MODIFICAR ACTIVIDAD PENDIENTE");
+                        	mostrarVtModActividad(desktopPane);
                         	listaSubopciones.clearSelection();
                             break;
                         case "Ranking Actividad":
@@ -150,6 +150,11 @@ public class VtPrincipal extends JFrame {
                         	mostrarVtRankActividad(desktopPane);
                         	listaSubopciones.clearSelection();
                             break;
+                        case "Aceptar Actividad":
+                        	// Lógica para aceptar una actividad
+                        	mostrarVtAceptarActividad(desktopPane);
+                        	listaSubopciones.clearSelection();
+                        	break;
                         case "Alta Clase":
                             // Lógica para alta de clase
                         	mostrarVtAltaClase(desktopPane);
@@ -196,11 +201,8 @@ public class VtPrincipal extends JFrame {
     		frameActual.dispose();
     	}	
     }
-    private void mostrarMensaje(String mensaje) {
-        JOptionPane.showMessageDialog(this, mensaje);
-    }
     private void mostrarVtAltaUsuario(JDesktopPane panel) {
-        VtAltaUsuario IFAltaUsuario = new VtAltaUsuario(ICU,yo);
+        VtAltaUsuario IFAltaUsuario = new VtAltaUsuario(ICU, yo);
     	IFAltaUsuario.setVisible(true);
         panel.add(IFAltaUsuario);
     }
@@ -230,7 +232,7 @@ public class VtPrincipal extends JFrame {
     	panel.add(IFAltaClaseDep);
     }
     private void mostrarVtInscClase(JDesktopPane panel) {
-		VtInscClaseDep IFInscClaseDep = new VtInscClaseDep(ICA,ICC,yo);
+		VtInscClaseDep IFInscClaseDep = new VtInscClaseDep(ICA, ICC, ICU, yo);
     	IFInscClaseDep.setVisible(true);
     	panel.add(IFInscClaseDep);
     }
@@ -238,5 +240,20 @@ public class VtPrincipal extends JFrame {
     	VtConsInsc IFConsInsc = new VtConsInsc(ICA, ICC, yo);
     	IFConsInsc.setVisible(true);
     	panel.add(IFConsInsc);
+    }
+    private void mostrarVtModUsuario(JDesktopPane panel) {
+    	VtModUsuario IFModUsuario = new VtModUsuario(ICU, yo);
+    	IFModUsuario.setVisible(true);
+    	panel.add(IFModUsuario);
+    }
+    private void mostrarVtModActividad(JDesktopPane panel) {
+    	VtModActividad IFModActividad = new VtModActividad(ICU, ICA, yo);
+    	IFModActividad.setVisible(true);
+    	panel.add(IFModActividad);
+    }
+    private void mostrarVtAceptarActividad(JDesktopPane panel) {
+    	VtAceptarActividad IFAceptarActividad = new VtAceptarActividad(ICA, yo);
+    	IFAceptarActividad.setVisible(true);
+    	panel.add(IFAceptarActividad);
     }
 }

@@ -1,11 +1,13 @@
 package persistencia;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
 import excepciones.*;
+import datatype.*;
 import jakarta.persistence.*;
 import modelo.Actividad;
 import modelo.ClaseDeportiva;
@@ -17,20 +19,21 @@ public class ManejarPersistenia {
 
 	// ===== USURIO ======================================================================================
 	
+	
+	
 	public void persistirEntrenador(Entrenador ent) throws PersistenciaException {
-		
+
 		EntityManagerFactory emf = null;
 		EntityManager em = null;
 		
 		try {
-			
+
 			emf = Persistence.createEntityManagerFactory("airelibre_desk");
 			em = emf.createEntityManager();
 
 			em.getTransaction().begin();
 			em.persist(ent);
 			em.getTransaction().commit();
-			
 		}catch (Exception e) {
 			throw new PersistenciaException("Error al persistir el usuario");
 		}finally {
@@ -132,6 +135,27 @@ public class ManejarPersistenia {
 			}
 		}
 	}
+	
+	public Vector<String> obtenerVectorDeportistas() throws PersistenciaException{
+
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		
+		Vector<String> vDeportistas = new Vector<String>();
+	
+		try {
+			Query buscarDeportistas = em.createNativeQuery("SELECT NICKNAME FROM USUARIO WHERE DTYPE LIKE 'Deportista'");
+			List<String> deportistas = buscarDeportistas.getResultList();
+			for (String dep : deportistas) {
+				vDeportistas.addElement(dep);
+			}
+		} finally {
+			em.close();
+			emf.close();
+		}
+		return vDeportistas;
+	}
+
 
 	public Vector<String> obtenerVectorUsuarios() throws PersistenciaException{
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
@@ -152,6 +176,20 @@ public class ManejarPersistenia {
 		}
 		return vUsuarios;
 	}
+	
+	public List<String> obtenerVectorEntrenadores(){
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();	
+		List<String> entrenadores = new ArrayList<>();
+		try {
+			Query buscarEntrenadores = em.createNativeQuery("SELECT NICKNAME FROM USUARIO WHERE DTYPE LIKE 'Entrenador'");
+			entrenadores = buscarEntrenadores.getResultList();
+		} finally {
+			em.close();
+			emf.close();
+		}
+		return entrenadores;
+	}
 
 	public boolean esEntrenador(String nick) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
@@ -162,6 +200,45 @@ public class ManejarPersistenia {
 			Query buscarUsuario = em.createNativeQuery("SELECT DTYPE FROM USUARIO WHERE NICKNAME = ?");
 			buscarUsuario.setParameter(1, nick);
 			ret = buscarUsuario.getSingleResult().equals("Entrenador");
+		}finally {
+			em.close();
+			emf.close();
+		}
+		return ret;
+	}
+	
+	public boolean traerPass(String nick, String mail, String pass) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		boolean ret;
+		
+		try {
+			if(nick != null) {
+				Query buscarUsuario = em.createNativeQuery("SELECT CONTRASENA FROM USUARIO WHERE NICKNAME = ?");
+				buscarUsuario.setParameter(1, nick);
+				ret = buscarUsuario.getSingleResult().equals(pass);
+			}else {
+				Query buscarUsuario = em.createNativeQuery("SELECT CONTRASENA FROM USUARIO WHERE MAIL = ?");
+				buscarUsuario.setParameter(1, nick);
+				ret = buscarUsuario.getSingleResult().equals(pass);
+			}
+
+		}finally {
+			em.close();
+			emf.close();
+		}
+		return ret;
+	}
+	
+	public String obtenerNickname(String mail) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		String ret = null;
+		
+		try {
+			Query buscarId = em.createNativeQuery("SELECT NICKNAME FROM USUARIO WHERE MAIL = ?");
+			buscarId.setParameter(1, mail);
+	        ret = buscarId.getSingleResult().toString();
 		}finally {
 			em.close();
 			emf.close();
@@ -203,6 +280,91 @@ public class ManejarPersistenia {
 		return ret;
 	}
 	
+	public void modificarDeportista(String nickname, String contrasena, String nombre, String apellido, String email, LocalDate fechaNacimiento, boolean esProfesional) throws PersistenciaException {
+        EntityManagerFactory emf = null;
+        EntityManager em = null;
+        try {
+            emf = Persistence.createEntityManagerFactory("airelibre_desk");
+            em = emf.createEntityManager();
+            Query buscarId = em.createNativeQuery("SELECT ID FROM USUARIO WHERE NICKNAME = ?");
+            buscarId.setParameter(1, nickname);
+            int ID = (int) buscarId.getSingleResult();
+            Deportista deportista = em.find(Deportista.class, ID);
+
+            if (deportista != null) {
+                em.getTransaction().begin();
+
+                deportista.setNombre(nombre);
+                deportista.setApellido(apellido);
+                deportista.setContrasena(contrasena);
+                deportista.setMail(email);
+                deportista.setFechaNacimiento(fechaNacimiento);
+                deportista.setEsProfesional(esProfesional);
+                em.merge(deportista);
+                em.getTransaction().commit();
+            } else {
+                throw new PersistenciaException("Deportista no encontrado");
+            }
+
+        } catch (Exception e) {
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new PersistenciaException("Error al modificar el usuario: " + e.getMessage());
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+            if (emf != null) {
+                emf.close();
+            }
+        }
+    }
+	
+	public void modificarEntrenador(String nickname, String contrasena, String nombre, String apellido, String email, LocalDate fechaNacimiento, String disciplina, String web) throws PersistenciaException {
+        EntityManagerFactory emf = null;
+        EntityManager em = null;
+        try {
+            emf = Persistence.createEntityManagerFactory("airelibre_desk");
+            em = emf.createEntityManager();
+
+            //Busca el id del usuario
+            Query buscarId = em.createNativeQuery("SELECT ID FROM USUARIO WHERE NICKNAME = ?");
+            buscarId.setParameter(1, nickname);
+            int ID = (int) buscarId.getSingleResult();
+            //Modifica el usuario
+            Entrenador entrenador = em.find(Entrenador.class, ID);
+            if(entrenador != null){
+                em.getTransaction().begin();
+
+                entrenador.setNombre(nombre);
+                entrenador.setApellido(apellido);
+                entrenador.setContrasena(contrasena);
+                entrenador.setMail(email);
+                entrenador.setFechaNacimiento(fechaNacimiento);
+                entrenador.setDisciplina(disciplina);
+                entrenador.setSitioWeb(web);
+
+                em.merge(entrenador);
+                em.getTransaction().commit();
+            }else{
+                throw new PersistenciaException("Entrenador no encontrado.");
+            }
+        }catch (Exception e) {
+             if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new PersistenciaException("Error al modificar el usuario: " + e.getMessage());
+        }finally {
+            if (em != null) {
+                em.close();
+            }
+            if (emf != null) {
+                emf.close();
+            }
+        }
+    }
+	
 	// ===== ACTIVIDAD ===================================================================================
 
 	public boolean actividadExiste(String nombre){
@@ -234,6 +396,7 @@ public class ManejarPersistenia {
 		nuevaActividad.setFechaAlta(fAlta);
 		nuevaActividad.setImagen(img);
 		nuevaActividad.setEntrenador(ent);
+		nuevaActividad.setEstado("Pendiente");
 		
 		try {
 			em.getTransaction().begin();
@@ -251,6 +414,40 @@ public class ManejarPersistenia {
 		Vector<String> vActividades = new Vector<String>();
 		try {
 			Query buscarActividades = em.createNativeQuery("SELECT NOMBRE FROM ACTIVIDAD");
+			List<String> actividades = buscarActividades.getResultList();
+			for (String ac : actividades) {
+				vActividades.add(ac);
+			}
+		} finally {
+			em.close();
+			emf.close();
+		}
+		return vActividades;
+	}
+	
+	public Vector<String> obtenerVectorActividadesAceptadas(){
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		Vector<String> vActividades = new Vector<String>();
+		try {
+			Query buscarActividades = em.createNativeQuery("SELECT NOMBRE FROM ACTIVIDAD WHERE ESTADO = 'Aceptado'");
+			List<String> actividades = buscarActividades.getResultList();
+			for (String ac : actividades) {
+				vActividades.add(ac);
+			}
+		} finally {
+			em.close();
+			emf.close();
+		}
+		return vActividades;
+	}
+	
+	public Vector<String> obtenerVectorActividadesPendientes(){
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		Vector<String> vActividades = new Vector<String>();
+		try {
+			Query buscarActividades = em.createNativeQuery("SELECT NOMBRE FROM ACTIVIDAD WHERE ESTADO = 'Pendiente'");
 			List<String> actividades = buscarActividades.getResultList();
 			for (String ac : actividades) {
 				vActividades.add(ac);
@@ -332,6 +529,160 @@ public class ManejarPersistenia {
 			emf.close();
 		}
 		return data;
+	}
+	
+	public void actualizarEstado(boolean estado, String nombre) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		
+		try {
+			em.getTransaction().begin();
+			//Obtener actividad a modificar
+			Query buscarId = em.createNativeQuery("SELECT ID FROM ACTIVIDAD WHERE NOMBRE = ?");
+			buscarId.setParameter(1, nombre);
+	        int ID = (int) buscarId.getSingleResult();
+	        Actividad actividadMod = em.find(Actividad.class, ID);
+			//estado true = aceptado
+	        if(estado) {
+	        	actividadMod.setEstado("Aceptado");
+	        }else {
+	        	actividadMod.setEstado("Rechazado");
+	        }
+			//Subir los datos modificados a la bd
+			em.merge(actividadMod);
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+			emf.close();
+		}
+	}
+	
+	public void modificarActividad(String nombre, String desc, int dHoras, int costo, String lugar, LocalDate fAlta, String img,  Entrenador ent){
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		
+		try {
+			em.getTransaction().begin();
+			//Obtener actividad a modificar
+			Query buscarId = em.createNativeQuery("SELECT ID FROM ACTIVIDAD WHERE NOMBRE = ?");
+			buscarId.setParameter(1, nombre);
+	        int ID = (int) buscarId.getSingleResult();
+	        Actividad actividadMod = em.find(Actividad.class, ID);
+			//Modicar datos de la actividad	
+			actividadMod.setDescripcion(desc);
+			actividadMod.setDuracionHoras(dHoras);
+			actividadMod.setCosto(costo);
+			actividadMod.setLugar(lugar);
+			actividadMod.setFechaAlta(fAlta);
+			actividadMod.setImagen(img);
+			actividadMod.setEntrenador(ent);
+			//Subir los datos modificados a la bd
+			em.merge(actividadMod);
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+			emf.close();
+		}
+	}
+	
+	public String[][] obtenerArrayActividadesEntrenador(String nickname){
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		String[][] data = null;
+		try {
+			Query buscarId = em.createNativeQuery("SELECT ID FROM USUARIO WHERE NICKNAME = ?");
+			buscarId.setParameter(1, nickname);
+			int idEnt = (int) buscarId.getSingleResult();
+			Query buscarActividades = em.createNativeQuery("SELECT ID FROM ACTIVIDAD WHERE ID_ENTRENADOR = ?");
+			buscarActividades.setParameter(1, idEnt);
+			List<Integer> actividades = buscarActividades.getResultList();
+			
+			data = new String[actividades.size()][4];
+			
+			int cont = 0;
+			for (Integer i : actividades) {
+				Query buscarNombre = em.createNativeQuery("SELECT NOMBRE FROM ACTIVIDAD WHERE ID = ?");
+				buscarNombre.setParameter(1, i);
+				data[cont][0] = buscarNombre.getSingleResult().toString();
+				
+				Query buscarEstado = em.createNativeQuery("SELECT ESTADO FROM ACTIVIDAD WHERE ID = ?");
+				buscarEstado.setParameter(1, i);
+				data[cont][1] = buscarEstado.getSingleResult().toString();
+				
+				Query buscarLugar = em.createNativeQuery("SELECT LUGAR FROM ACTIVIDAD WHERE ID = ?");
+				buscarLugar.setParameter(1, i);
+				data[cont][2] = buscarLugar.getSingleResult().toString();
+				
+				Query buscarDuracion = em.createNativeQuery("SELECT DURACIONHORAS FROM ACTIVIDAD WHERE ID = ?");
+				buscarDuracion.setParameter(1, i);
+				data[cont][3] = buscarDuracion.getSingleResult().toString();
+				
+				cont++;
+			}
+		} finally {
+			em.close();
+			emf.close();
+		}
+		return data;
+	}
+	
+	public String[][] obtenerArrayActividadesAceptadasEntrenador(String nickname){
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		String[][] data = null;
+		try {
+			Query buscarId = em.createNativeQuery("SELECT ID FROM USUARIO WHERE NICKNAME = ?");
+			buscarId.setParameter(1, nickname);
+			int idEnt = (int) buscarId.getSingleResult();
+			Query buscarActividades = em.createNativeQuery("SELECT ID FROM ACTIVIDAD WHERE ESTADO = 'Aceptado' AND ID_ENTRENADOR = ?");
+			buscarActividades.setParameter(1, idEnt);
+			List<Integer> actividades = buscarActividades.getResultList();
+			
+			data = new String[actividades.size()][3];
+			
+			int cont = 0;
+			for (Integer i : actividades) {
+				Query buscarNombre = em.createNativeQuery("SELECT NOMBRE FROM ACTIVIDAD WHERE ID = ?");
+				buscarNombre.setParameter(1, i);
+				data[cont][0] = buscarNombre.getSingleResult().toString();
+				
+				Query buscarLugar = em.createNativeQuery("SELECT LUGAR FROM ACTIVIDAD WHERE ID = ?");
+				buscarLugar.setParameter(1, i);
+				data[cont][1] = buscarLugar.getSingleResult().toString();
+				
+				Query buscarDuracion = em.createNativeQuery("SELECT DURACIONHORAS FROM ACTIVIDAD WHERE ID = ?");
+				buscarDuracion.setParameter(1, i);
+				data[cont][2] = buscarDuracion.getSingleResult().toString();
+				
+				cont++;
+			}
+		} finally {
+			em.close();
+			emf.close();
+		}
+		return data;
+	}
+	
+	public Vector<String> obtenerVectorActividadesAceptadasEntrenador(String nickname){
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		Vector<String> vActividades = new Vector<String>();
+		try {
+			Query buscarId = em.createNativeQuery("SELECT ID FROM USUARIO WHERE NICKNAME = ?");
+			buscarId.setParameter(1, nickname);
+			int idEnt = (int) buscarId.getSingleResult();
+			
+			Query buscarActividades = em.createNativeQuery("SELECT NOMBRE FROM ACTIVIDAD WHERE ESTADO = 'Aceptado' AND ID_ENTRENADOR = ?");
+			buscarActividades.setParameter(1, idEnt);
+			List<String> actividades = buscarActividades.getResultList();
+			for (String ac : actividades) {
+				vActividades.add(ac);
+			}
+		} finally {
+			em.close();
+			emf.close();
+		}
+		return vActividades;
 	}
 	
 	// ===== CLASE =======================================================================================
@@ -439,7 +790,24 @@ public class ManejarPersistenia {
 		return ret;
 	}
 	
-	public int CuposDisponibles(String nomClase) { //Cambiar nombre ne algun momento
+	public Vector<String> obtenerVectorClases(){
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		Vector<String> ret = new Vector<String>();
+		try {
+			Query buscarId = em.createNativeQuery("SELECT NOMBRE FROM CLASEDEPORTIVA");
+			List<String> listNombres = buscarId.getResultList();
+			for (String n : listNombres) {
+				ret.add(n);
+			}
+		}finally {
+			em.close();
+			emf.close();
+		}
+		return ret;
+	}
+	
+	public int CuposDisponiblesEnClase(String nomClase) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
 		EntityManager em = emf.createEntityManager();
 		int RetCupos = 0;
@@ -447,10 +815,20 @@ public class ManejarPersistenia {
 			Query buscarId = em.createNativeQuery("SELECT ID FROM CLASEDEPORTIVA WHERE NOMBRE = ?");
 			buscarId.setParameter(1, nomClase);
 			int id = (int) buscarId.getSingleResult();
-			Query Cuposdis = em.createNativeQuery("SELECT count(*) FROM INSCRIPCION WHERE id_ClaseDeportiva = ?");
-			Cuposdis.setParameter(1, id);
-			Number NRetCupos = (Number) Cuposdis.getSingleResult();
-			RetCupos = NRetCupos.intValue(); 
+			//===============================================================
+			Query BuscarCantInscripciones = em.createNativeQuery("SELECT CANTIDADDESPORTISTAS FROM INSCRIPCION WHERE id_ClaseDeportiva = ?");
+			BuscarCantInscripciones.setParameter(1, id);
+			List<Integer> listaCantInscripciones = BuscarCantInscripciones.getResultList();
+			int cantInscripciones = 0;
+			for (int ci : listaCantInscripciones) {
+				cantInscripciones = cantInscripciones + ci;
+			}
+			//===============================================================
+			Query buscarCupos = em.createNativeQuery("SELECT CUPO FROM CLASEDEPORTIVA WHERE ID = ?");
+			buscarCupos.setParameter(1, id);
+			int cupos = (int) buscarCupos.getSingleResult();
+			//===============================================================
+			RetCupos = cupos-cantInscripciones; 
 			
 		}finally {
 			em.close();
@@ -494,26 +872,17 @@ public class ManejarPersistenia {
 		
 		try {
 			ClaseDeportiva cla = obtenerClase(nomClase);
-			int IdClase		   = cla.getId();
-			Query CantidadInscriptos = em.createNativeQuery("SELECT count(*) FROM INSCRIPCION WHERE id_ClaseDeportiva = ?");
-			CantidadInscriptos.setParameter(1, IdClase);
-			Number Numci =  (Number) CantidadInscriptos.getSingleResult();
-			int ci = Numci.intValue(); 
-			
 			Deportista dep = obtenerDeportista(NomDeportista);
 			Actividad act =  obtenerActividadByClase(nomClase);
 			
-			int costoact = act.getCosto();
-			int cupo  = cla.getCupo();
-			System.out.println(costoact);
-			System.out.println(cupo);
-			System.out.println(ci);
-			int costo = (costoact/10)*((cupo+ci)/cupo);
-			
+			float costoact = act.getCosto();
+			float cupo  = cla.getCupo();
+			float ci = cupo - CuposDisponiblesEnClase(nomClase);
+			float costo = (costoact/10)*((cupo+ci)/cupo);
 			Inscripcion nuevaInscripcion = new Inscripcion();
 			nuevaInscripcion.setCantidadDesportistas(CantidadDesportistas);
 			nuevaInscripcion.setClaseDeportiva(cla);
-			nuevaInscripcion.setCosto(costo);
+			nuevaInscripcion.setCosto((int)costo * CantidadDesportistas);
 			nuevaInscripcion.setDeportista(dep);
 			nuevaInscripcion.setFechaInscripcion(FechaInscripcion);
 			
@@ -525,8 +894,79 @@ public class ManejarPersistenia {
 			em.close();
 			emf.close();
 		}
-		
 	}
 	
+	public Vector<String> obtenerClasesDeportista(String nickname) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		Vector<String> vClas = new Vector<String>();
+		
+		try {
+			Query buscarIdUsuario = em.createNativeQuery("SELECT ID FROM USUARIO WHERE NICKNAME = ?");
+			buscarIdUsuario.setParameter(1, nickname);
+			int id = (int) buscarIdUsuario.getSingleResult();
+			
+			Query buscarClasesInscripto = em.createNativeQuery("SELECT ID_CLASEDEPORTIVA FROM INSCRIPCION WHERE ID_DEPORTISTA = ?");
+			buscarClasesInscripto.setParameter(1, id);
+			
+			List<Integer> cInsc = buscarClasesInscripto.getResultList();
+			
+			for (Integer i : cInsc) {
+				Query buscarClase = em.createNativeQuery("SELECT NOMBRE FROM CLASEDEPORTIVA WHERE ID = ?");
+				buscarClase.setParameter(1, i);
+				
+				vClas.add((String) buscarClase.getSingleResult());
+			}
+			
+		}finally {
+			em.close();
+			emf.close();
+		}
+		return vClas;
+	}
+	
+	public String[][] obtenerInscrpcionesDeportista(String nickname) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
+		EntityManager em = emf.createEntityManager();
+		String[][] data = null;
+		
+		try {
+			Query buscarIdUsuario = em.createNativeQuery("SELECT ID FROM USUARIO WHERE NICKNAME = ?");
+			buscarIdUsuario.setParameter(1, nickname);
+			int id = (int) buscarIdUsuario.getSingleResult();
+			
+			Query buscarInscrips = em.createNativeQuery("SELECT ID FROM INSCRIPCION WHERE ID_DEPORTISTA = ?");
+			buscarInscrips.setParameter(1, id);
+			List<Integer> insc = buscarInscrips.getResultList();
+			data = new String[insc.size()][3];
+			
+			int cont = 0;
+			for (Integer i : insc) {
+				Query buscarClase = em.createNativeQuery("SELECT ID_CLASEDEPORTIVA FROM INSCRIPCION WHERE ID = ?");
+				buscarClase.setParameter(1, i);
+				Query buscarNombreClase = em.createNativeQuery("SELECT NOMBRE FROM CLASEDEPORTIVA WHERE ID = ?");
+				buscarNombreClase.setParameter(1, buscarClase.getSingleResult());
+				data[cont][0] = buscarNombreClase.getSingleResult().toString();
+				
+				Query buscarCosto = em.createNativeQuery("SELECT COSTO FROM INSCRIPCION WHERE ID = ?");
+				buscarCosto.setParameter(1, i);
+				data[cont][1] = buscarCosto.getSingleResult().toString();
+				
+				
+				Query buscarCantidad = em.createNativeQuery("SELECT CANTIDADDESPORTISTAS FROM INSCRIPCION WHERE ID = ?");
+				buscarCantidad.setParameter(1, i);
+				Query buscarCupos = em.createNativeQuery("SELECT CUPO FROM CLASEDEPORTIVA WHERE ID = ?");
+				buscarCupos.setParameter(1, buscarClase.getSingleResult());
+				data[cont][2] = buscarCantidad.getSingleResult().toString() + "/" + buscarCupos.getSingleResult().toString();
+				
+				cont++;
+			}
+			
+		}finally {
+			em.close();
+			emf.close();
+		}
+		return data; 
+	}
 	
 }

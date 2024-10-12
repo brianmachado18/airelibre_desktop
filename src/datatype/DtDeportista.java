@@ -21,6 +21,7 @@ public class DtDeportista {
 	private String mail;
 	private LocalDate fechaNacimiento;
 	private String contrasena;
+	private String imagen;
 	private boolean esProfesional;
 	private List<Inscripcion> inscripciones;
 	
@@ -35,6 +36,7 @@ public class DtDeportista {
 		ret.setContrasena(d.getContrasena());
 		ret.setEsProfesional(d.isEsProfesional());
 		ret.setInscripciones(d.getInscripciones());
+		ret.setImagen(d.getImagen());
 		return ret;
 	}
 	
@@ -49,6 +51,7 @@ public class DtDeportista {
 		ret.setContrasena(d.getContrasena());
 		ret.setEsProfesional(d.isEsProfesional());
 		ret.setInscripciones(d.getInscripciones());
+		ret.setImagen(d.getImagen());
 		return ret;
 	}
 

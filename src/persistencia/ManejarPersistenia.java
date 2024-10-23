@@ -219,7 +219,7 @@ public class ManejarPersistenia {
 				ret = buscarUsuario.getSingleResult().equals(pass);
 			}else {
 				Query buscarUsuario = em.createNativeQuery("SELECT CONTRASENA FROM USUARIO WHERE MAIL = ?");
-				buscarUsuario.setParameter(1, nick);
+				buscarUsuario.setParameter(1, mail);
 				ret = buscarUsuario.getSingleResult().equals(pass);
 			}
 

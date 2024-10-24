@@ -37,4 +37,5 @@ public interface IControladorActividad {
     
 	public abstract Vector<String> obtenerVectorActividadesAceptadasEntrenador(String nickname);
 
+	
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
+import java.util.regex.Pattern;
 
 import excepciones.*;
 import datatype.*;
@@ -114,15 +115,25 @@ public class ManejarPersistenia {
 		EntityManager em = null;
 
 		try {
+			
 			emf = Persistence.createEntityManagerFactory("airelibre_desk");
 			em = emf.createEntityManager();
 			
-	        // Consulto si existe el ususario
-	        Query buscarNombre = em.createNativeQuery("SELECT COUNT(*) FROM USUARIO WHERE NICKNAME = ?");
-	        buscarNombre.setParameter(1, nick);
-	        Number countNick = (Number) buscarNombre.getSingleResult();
+			if(!Pattern.compile("^[a-zA-Z0-9._]+@[a-zA-Z0-9]+\\.[a-zA-Z]{2,}$").matcher(nick).matches()){
+				
+		        Query buscarNombre = em.createNativeQuery("SELECT COUNT(*) FROM USUARIO WHERE NICKNAME = ?");
+		        buscarNombre.setParameter(1, nick);
+		        Number countNick = (Number) buscarNombre.getSingleResult();
 
-	        return countNick.intValue() > 0;
+		        return countNick.intValue() > 0;	
+			}else {
+				
+				 Query buscarMail = em.createNativeQuery("SELECT COUNT(*) FROM USUARIO WHERE MAIL = ?");
+			        buscarMail.setParameter(1, nick);
+			        Number countMail = (Number) buscarMail.getSingleResult();
+
+			        return  countMail.intValue() > 0;
+			}
 	        
 		}catch (Exception e) {
 			throw new PersistenciaException("Error al conectarse a la base de datos");
@@ -219,7 +230,7 @@ public class ManejarPersistenia {
 				ret = buscarUsuario.getSingleResult().equals(pass);
 			}else {
 				Query buscarUsuario = em.createNativeQuery("SELECT CONTRASENA FROM USUARIO WHERE MAIL = ?");
-				buscarUsuario.setParameter(1, nick);
+				buscarUsuario.setParameter(1, mail);
 				ret = buscarUsuario.getSingleResult().equals(pass);
 			}
 

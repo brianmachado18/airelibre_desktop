@@ -1,6 +1,8 @@
 package logica;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import datatype.DtActividad;
@@ -31,9 +33,9 @@ public interface IControladorActividad {
 	
 	public abstract void actualizarEstado(boolean estado, String nombre);
 	
-	public abstract String[][] obtenerArrayActividadesAceptadasEntrenador(String nickname);
+	public abstract ArrayList<ArrayList<String>> obtenerArrayActividadesAceptadasEntrenador(String nickname);
 	
-	public abstract String[][] obtenerArrayActividadesEntrenador(String nickname);
+	public String[][] obtenerArrayActividadesEntrenador(String nickname);
     
 	public abstract Vector<String> obtenerVectorActividadesAceptadasEntrenador(String nickname);
 

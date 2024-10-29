@@ -3,6 +3,8 @@ package datatype;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,8 +14,8 @@ import modelo.Entrenador;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@XmlRootElement
 public class DtEntrenador {
-
 	private int id;
 	private String nickname;
 	private String nombre;
@@ -24,7 +26,6 @@ public class DtEntrenador {
 	private String disciplina;
 	private String sitioWeb;
 	private String imagen;
-	private List<Actividad> actividades;
 	
 	public static DtEntrenador toDataType(Entrenador e) {
 		DtEntrenador ret = new DtEntrenador();
@@ -37,7 +38,6 @@ public class DtEntrenador {
 		ret.setContrasena(e.getContrasena());
 		ret.setDisciplina(e.getDisciplina());
 		ret.setSitioWeb(e.getSitioWeb());
-		ret.setActividades(e.getActividades());
 		ret.setImagen(e.getImagen());
 		return ret;
 	}
@@ -53,7 +53,6 @@ public class DtEntrenador {
 		ret.setContrasena(e.getContrasena());
 		ret.setDisciplina(e.getDisciplina());
 		ret.setSitioWeb(e.getSitioWeb());
-		ret.setActividades(e.getActividades());
 		ret.setImagen(e.getImagen());
 		return ret;
 	}

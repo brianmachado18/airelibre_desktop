@@ -1,6 +1,8 @@
 package logica;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import datatype.DtActividad;
@@ -65,7 +67,7 @@ public class ControladorActividad implements IControladorActividad {
 		m.actualizarEstado(estado, nombre);
 	}
 	
-	public String[][] obtenerArrayActividadesAceptadasEntrenador(String nickname){
+	public ArrayList<ArrayList<String>> obtenerArrayActividadesAceptadasEntrenador(String nickname){
 		return m.obtenerArrayActividadesAceptadasEntrenador(nickname);
 	}
 	

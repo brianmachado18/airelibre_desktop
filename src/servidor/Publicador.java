@@ -2,6 +2,7 @@ package servidor;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -32,7 +33,7 @@ public class Publicador {
 	    //Constructor
 	    public Publicador(){}
 
-	    //Operaciones las cuales quiero publicar
+	    //OPERACIONES DE ICU
 
 	    @WebMethod(exclude = true)
 	    public void publicar(){
@@ -82,4 +83,33 @@ public class Publicador {
 	    	 ICU.modifiarUsuario(nickname, contrasena, nombre, apellido, email, fechaNacimiento, tipoUsuario, esProfesional, disciplina, web);
 	    }
 
+	    //VECTORES
+	    
+	    @WebMethod
+		public  Vector<String> obtenerVectorUsuarios() throws PersistenciaException{
+			return ICU.obtenerVectorUsuarios();
+		}
+		
+	    // OPERACIONES DE ICA
+	    @WebMethod
+	    public String[][] obtenerArrayActividadesEntrenador(String nickname){
+	    	return ICA.obtenerArrayActividadesEntrenador(nickname);
+	    }
+	    
+	    @WebMethod
+	    public ArrayList<ArrayList<String>> obtenerArrayActividadesAceptadasEntrenador(String nickname){
+			return ICA.obtenerArrayActividadesAceptadasEntrenador(nickname);
+		}
+		
+		//OPERACIONES DE ICC
+		
+	    @WebMethod
+		public  Vector<String> obtenerClasesDeportista(String nickname){
+			return ICC.obtenerClasesDeportista(nickname);
+		}
+	    @WebMethod
+		public  String[][] obtenerInscrpcionesDeportista(String nickname){
+			return ICC.obtenerInscrpcionesDeportista(nickname);
+		}
+		
 }

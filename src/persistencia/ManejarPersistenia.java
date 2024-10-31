@@ -596,10 +596,10 @@ public class ManejarPersistenia {
 		}
 	}
 
-	public String[][] obtenerArrayActividadesEntrenador(String nickname){
+	public Vector<String> obtenerArrayActividadesEntrenador(String nickname){
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
 		EntityManager em = emf.createEntityManager();
-		String[][] data = null;
+		Vector<String> data = null;
 		try {
 			Query buscarId = em.createNativeQuery("SELECT ID FROM USUARIO WHERE NICKNAME = ?");
 			buscarId.setParameter(1, nickname);
@@ -608,25 +608,25 @@ public class ManejarPersistenia {
 			buscarActividades.setParameter(1, idEnt);
 			List<Integer> actividades = buscarActividades.getResultList();
 
-			data = new String[actividades.size()][4];
+			data = new Vector<String>();
 
 			int cont = 0;
 			for (Integer i : actividades) {
 				Query buscarNombre = em.createNativeQuery("SELECT NOMBRE FROM ACTIVIDAD WHERE ID = ?");
 				buscarNombre.setParameter(1, i);
-				data[cont][0] = buscarNombre.getSingleResult().toString();
+				data.add(buscarNombre.getSingleResult().toString());
 
 				Query buscarEstado = em.createNativeQuery("SELECT ESTADO FROM ACTIVIDAD WHERE ID = ?");
 				buscarEstado.setParameter(1, i);
-				data[cont][1] = buscarEstado.getSingleResult().toString();
+				data.add(buscarEstado.getSingleResult().toString());
 
 				Query buscarLugar = em.createNativeQuery("SELECT LUGAR FROM ACTIVIDAD WHERE ID = ?");
 				buscarLugar.setParameter(1, i);
-				data[cont][2] = buscarLugar.getSingleResult().toString();
+				data.add(buscarLugar.getSingleResult().toString());
 
 				Query buscarDuracion = em.createNativeQuery("SELECT DURACIONHORAS FROM ACTIVIDAD WHERE ID = ?");
 				buscarDuracion.setParameter(1, i);
-				data[cont][3] = buscarDuracion.getSingleResult().toString();
+				data.add(buscarDuracion.getSingleResult().toString());
 
 				cont++;
 			}
@@ -637,10 +637,10 @@ public class ManejarPersistenia {
 		return data;
 	}
 
-	public ArrayList<ArrayList<String>> obtenerArrayActividadesAceptadasEntrenador(String nickname){
+	public Vector<String> obtenerArrayActividadesAceptadasEntrenador(String nickname){
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
 		EntityManager em = emf.createEntityManager();
-		ArrayList<ArrayList<String>> data = null;
+		Vector <String> data = null;
 		try {
 			Query buscarId = em.createNativeQuery("SELECT ID FROM USUARIO WHERE NICKNAME = ?");
 			buscarId.setParameter(1, nickname);
@@ -649,28 +649,25 @@ public class ManejarPersistenia {
 			buscarActividades.setParameter(1, idEnt);
 			List<Integer> actividades = buscarActividades.getResultList();
 
-			data = new ArrayList<ArrayList<String>>();
+			data = new Vector<String>();
 
 			int cont = 0;
 			for (Integer i : actividades) {
-				ArrayList<String> fila = new ArrayList<String>();
 
 				Query buscarNombre = em.createNativeQuery("SELECT NOMBRE FROM ACTIVIDAD WHERE ID = ?");
 				buscarNombre.setParameter(1, i);
 				//data[cont][0] = buscarNombre.getSingleResult().toString();
-				fila.add(buscarNombre.getSingleResult().toString());
+				data.add(buscarNombre.getSingleResult().toString());
 
 				Query buscarLugar = em.createNativeQuery("SELECT LUGAR FROM ACTIVIDAD WHERE ID = ?");
 				buscarLugar.setParameter(1, i);
 				//data[cont][1] = buscarLugar.getSingleResult().toString();
-				fila.add(buscarLugar.getSingleResult().toString());
+				data.add(buscarLugar.getSingleResult().toString());
 
 				Query buscarDuracion = em.createNativeQuery("SELECT DURACIONHORAS FROM ACTIVIDAD WHERE ID = ?");
 				buscarDuracion.setParameter(1, i);
 				//data[cont][2] = buscarDuracion.getSingleResult().toString();
-				fila.add(buscarDuracion.getSingleResult().toString());
-
-				data.add(fila);
+				data.add(buscarDuracion.getSingleResult().toString());
 
 				cont++;
 			}

@@ -92,13 +92,15 @@ public class Publicador {
 		
 	    // OPERACIONES DE ICA
 	    @WebMethod
-	    public String[][] obtenerArrayActividadesEntrenador(String nickname){
+	    public Vector<String> obtenerArrayActividadesEntrenador(String nickname){
 	    	return ICA.obtenerArrayActividadesEntrenador(nickname);
 	    }
 	    
 	    @WebMethod
-	    public ArrayList<ArrayList<String>> obtenerArrayActividadesAceptadasEntrenador(String nickname){
+	    public  Vector<String> obtenerArrayActividadesAceptadasEntrenador(String nickname){
+	    	//System.out.println("ACT: " + ICA.obtenerArrayActividadesAceptadasEntrenador(nickname).get(0).get(0));
 			return ICA.obtenerArrayActividadesAceptadasEntrenador(nickname);
+			
 		}
 		
 		//OPERACIONES DE ICC

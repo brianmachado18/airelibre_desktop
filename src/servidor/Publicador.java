@@ -102,7 +102,20 @@ public class Publicador {
 			return ICA.obtenerArrayActividadesAceptadasEntrenador(nickname);
 			
 		}
-		
+	    
+	    @WebMethod
+	    public boolean actividadExiste(String nom){
+			return ICA.actividadExiste(nom);
+		}
+	    
+	    @WebMethod
+	    public void AltaActividad(String nombre, String desc, int dHoras, int costo, String lugar, String fAlta, String img, DtEntrenador ent){
+	    	
+	    	 DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	           LocalDate fecha = LocalDate.parse(fAlta, formatoFecha);
+	           
+			ICA.AltaActividad(nombre, desc, dHoras, costo, lugar, fecha, img, ent);
+		}
 		//OPERACIONES DE ICC
 		
 	    @WebMethod

@@ -39,5 +39,5 @@ public interface IControladorClaseDeportiva {
 	
 	public abstract Vector<String> obtenerClasesDeportista(String nickname);
 	
-	public abstract String[][] obtenerInscrpcionesDeportista(String nickname);
+	public abstract Vector<String> obtenerInscrpcionesDeportista(String nickname);
 }

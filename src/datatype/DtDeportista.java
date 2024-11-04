@@ -35,7 +35,7 @@ public class DtDeportista {
 		ret.setFechaNacimiento(d.getFechaNacimiento());
 		ret.setContrasena(d.getContrasena());
 		ret.setEsProfesional(d.isEsProfesional());
-		ret.setInscripciones(d.getInscripciones());
+		//ret.setInscripciones(d.getInscripciones());
 		ret.setImagen(d.getImagen());
 		return ret;
 	}
@@ -50,7 +50,7 @@ public class DtDeportista {
 		ret.setFechaNacimiento(d.getFechaNacimiento());
 		ret.setContrasena(d.getContrasena());
 		ret.setEsProfesional(d.isEsProfesional());
-		ret.setInscripciones(d.getInscripciones());
+		//ret.setInscripciones(d.getInscripciones());
 		ret.setImagen(d.getImagen());
 		return ret;
 	}

@@ -123,7 +123,7 @@ public class Publicador {
 			return ICC.obtenerClasesDeportista(nickname);
 		}
 	    @WebMethod
-		public  String[][] obtenerInscrpcionesDeportista(String nickname){
+		public  Vector<String> obtenerInscrpcionesDeportista(String nickname){
 			return ICC.obtenerInscrpcionesDeportista(nickname);
 		}
 		

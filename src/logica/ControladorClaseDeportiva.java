@@ -79,7 +79,7 @@ public class ControladorClaseDeportiva implements IControladorClaseDeportiva{
 		return m.obtenerClasesDeportista(nickname);
 	}
 	
-	public String[][] obtenerInscrpcionesDeportista(String nickname){
+	public Vector<String> obtenerInscrpcionesDeportista(String nickname){
 		return m.obtenerInscrpcionesDeportista(nickname);
 	}
 	

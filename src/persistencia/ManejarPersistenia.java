@@ -936,10 +936,10 @@ public class ManejarPersistenia {
 		return vClas;
 	}
 	
-	public String[][] obtenerInscrpcionesDeportista(String nickname) {
+	public Vector<String> obtenerInscrpcionesDeportista(String nickname) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("airelibre_desk");
 		EntityManager em = emf.createEntityManager();
-		String[][] data = null;
+		Vector<String> data = null;
 		
 		try {
 			Query buscarIdUsuario = em.createNativeQuery("SELECT ID FROM USUARIO WHERE NICKNAME = ?");
@@ -949,7 +949,7 @@ public class ManejarPersistenia {
 			Query buscarInscrips = em.createNativeQuery("SELECT ID FROM INSCRIPCION WHERE ID_DEPORTISTA = ?");
 			buscarInscrips.setParameter(1, id);
 			List<Integer> insc = buscarInscrips.getResultList();
-			data = new String[insc.size()][3];
+			data = new Vector<String>(); //3
 			
 			int cont = 0;
 			for (Integer i : insc) {
@@ -957,18 +957,18 @@ public class ManejarPersistenia {
 				buscarClase.setParameter(1, i);
 				Query buscarNombreClase = em.createNativeQuery("SELECT NOMBRE FROM CLASEDEPORTIVA WHERE ID = ?");
 				buscarNombreClase.setParameter(1, buscarClase.getSingleResult());
-				data[cont][0] = buscarNombreClase.getSingleResult().toString();
+				data.add(buscarNombreClase.getSingleResult().toString());
 				
 				Query buscarCosto = em.createNativeQuery("SELECT COSTO FROM INSCRIPCION WHERE ID = ?");
 				buscarCosto.setParameter(1, i);
-				data[cont][1] = buscarCosto.getSingleResult().toString();
+				data.add(buscarCosto.getSingleResult().toString());
 				
 				
 				Query buscarCantidad = em.createNativeQuery("SELECT CANTIDADDESPORTISTAS FROM INSCRIPCION WHERE ID = ?");
 				buscarCantidad.setParameter(1, i);
 				Query buscarCupos = em.createNativeQuery("SELECT CUPO FROM CLASEDEPORTIVA WHERE ID = ?");
 				buscarCupos.setParameter(1, buscarClase.getSingleResult());
-				data[cont][2] = buscarCantidad.getSingleResult().toString() + "/" + buscarCupos.getSingleResult().toString();
+				data.add(buscarCantidad.getSingleResult().toString() + "/" + buscarCupos.getSingleResult().toString());
 				
 				cont++;
 			}

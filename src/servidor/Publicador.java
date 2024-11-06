@@ -109,11 +109,12 @@ public class Publicador {
 		}
 	    
 	    @WebMethod
-	    public void AltaActividad(String nombre, String desc, int dHoras, int costo, String lugar, String fAlta, String img, DtEntrenador ent){
-	    	
-	    	 DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-	           LocalDate fecha = LocalDate.parse(fAlta, formatoFecha);
-	           
+	    public void AltaActividad(String nombre, String desc, int dHoras, int costo, String lugar, String fAlta, String img, String nick) throws PersistenciaException{
+	    	DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	        LocalDate fecha = LocalDate.parse(fAlta, formatoFecha);
+	        
+	        DtEntrenador ent = ICU.obtenerEntrenador(nick);
+	        
 			ICA.AltaActividad(nombre, desc, dHoras, costo, lugar, fecha, img, ent);
 		}
 		//OPERACIONES DE ICC

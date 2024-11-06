@@ -3,6 +3,7 @@ package datatype;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,7 @@ import modelo.Entrenador;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@XmlRootElement
 public class DtActividad {
 
 	private int id;

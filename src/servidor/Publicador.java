@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import datatype.DtActividad;
 import datatype.DtDeportista;
 import datatype.DtEntrenador;
 import excepciones.PersistenciaException;
@@ -79,10 +80,12 @@ public class Publicador {
 	    }
 
 	    @WebMethod
-		public  void modifiarUsuario(String nickname, String contrasena, String nombre, String apellido, String email, LocalDate fechaNacimiento, String tipoUsuario, boolean esProfesional, String disciplina, String web)throws PersistenciaException{
-	    	 ICU.modifiarUsuario(nickname, contrasena, nombre, apellido, email, fechaNacimiento, tipoUsuario, esProfesional, disciplina, web);
+		public  void modifiarUsuario(String nickname, String contrasena, String nombre, String apellido, String email, String fechaNacimiento, String tipoUsuario, boolean esProfesional, String disciplina, String web)throws PersistenciaException{
+	    	DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	        LocalDate fecha = LocalDate.parse(fechaNacimiento, formatoFecha);
+	    	ICU.modifiarUsuario(nickname, contrasena, nombre, apellido, email, fecha, tipoUsuario, esProfesional, disciplina, web);
 	    }
-
+	    
 	    //VECTORES
 	    
 	    @WebMethod
@@ -117,6 +120,25 @@ public class Publicador {
 	        
 			ICA.AltaActividad(nombre, desc, dHoras, costo, lugar, fecha, img, ent);
 		}
+	    
+	    @WebMethod
+		public Vector<String> obtenerVectorActividad() throws PersistenciaException{
+			return ICA.obtenerVectorActividades();
+		}
+	    
+	    @WebMethod
+		public DtActividad obtenerActividad(String nom) {
+	    	 DtActividad aux = ICA.obtenerActividad(nom);
+	    	 aux.setClasesDeportivas(null);
+	    	 aux.setEntrenador(null);
+	    	 return aux;
+		}
+	    
+	    @WebMethod
+		public Vector<String> obtenerVectorClasesActividad(String nom){
+			return ICA.obtenerVectorClasesActividad(nom);
+		}
+	    
 		//OPERACIONES DE ICC
 		
 	    @WebMethod

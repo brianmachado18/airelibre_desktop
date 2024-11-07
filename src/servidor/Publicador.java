@@ -1,6 +1,7 @@
 package servidor;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Vector;
 import datatype.DtActividad;
 import datatype.DtDeportista;
 import datatype.DtEntrenador;
+import excepciones.ClaseRepetidoException;
 import excepciones.PersistenciaException;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebService;
@@ -139,15 +141,68 @@ public class Publicador {
 			return ICA.obtenerVectorClasesActividad(nom);
 		}
 	    
+	    @WebMethod
+		public Vector<String> obtenerVectorActividadesAceptadasEntrenador(String nickname){
+			return ICA.obtenerVectorActividadesAceptadasEntrenador(nickname);
+		}
+	    
 		//OPERACIONES DE ICC
 		
 	    @WebMethod
 		public  Vector<String> obtenerClasesDeportista(String nickname){
 			return ICC.obtenerClasesDeportista(nickname);
 		}
+	    
 	    @WebMethod
 		public  Vector<String> obtenerInscrpcionesDeportista(String nickname){
 			return ICC.obtenerInscrpcionesDeportista(nickname);
 		}
-		
+	    
+	    @WebMethod
+		public boolean claseExiste(String nombre){
+			return ICC.claseExiste(nombre);
+		}
+	    
+	    @WebMethod
+	    public void AltaClaseDeportiva(String nombreClaseDeportiva, String fecha, String hora, String lugar, int cupo, String Act, String imagen) throws PersistenciaException, ClaseRepetidoException{
+	    	
+	    	DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	    	DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm");
+	        LocalDate fechaClase = LocalDate.parse(fecha, formatoFecha);
+	        LocalTime horaClase = LocalTime.parse(hora, formatoHora);
+	        
+	    	DtActividad actividadClase = ICA.obtenerActividad(Act);
+	        
+	    	ICC.AltaClaseDeportiva(nombreClaseDeportiva, fechaClase, horaClase, lugar, cupo, LocalDate.now(), actividadClase, imagen);
+	    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -65,12 +65,10 @@ public class Publicador {
 
 	@WebMethod
 	public void AltaUsuario(String nickname, String contrasena, String nombre, String apellido, String email,String fechaNacimiento, String tipoUsuario, boolean esProfesional, String disciplina, String web,String imagen) throws PersistenciaException {
-		
 		DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate fecha = LocalDate.parse(fechaNacimiento, formatoFecha);
 
-		ICU.AltaUsuario(nickname, contrasena, nombre, apellido, email, fecha, tipoUsuario, esProfesional, disciplina,
-				web, imagen);
+		ICU.AltaUsuario(nickname, contrasena, nombre, apellido, email, fecha, tipoUsuario, esProfesional, disciplina, web, imagen);
 	}
 
 	@WebMethod
@@ -85,30 +83,30 @@ public class Publicador {
 
 	@WebMethod
 	public DtEntrenador obtenerEntrenador(String nickname) throws PersistenciaException {
-		return ICU.obtenerEntrenador(nickname);
+		DtEntrenador ent = ICU.obtenerEntrenador(nickname);
+		ent.fechasToString();
+		return ent;
 	}
 
 	@WebMethod
 	public DtDeportista obtenerDeportista(String nickname) throws PersistenciaException {
-		return ICU.obtenerDeportista(nickname);
+		DtDeportista dep = ICU.obtenerDeportista(nickname);
+		dep.fechasToString();
+		return dep;
 	}
 
 	@WebMethod
 	public void modifiarUsuario(String nickname, String contrasena, String nombre, String apellido, String email,String fechaNacimiento, String tipoUsuario, boolean esProfesional, String disciplina, String web) throws PersistenciaException {
 		DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate fecha = LocalDate.parse(fechaNacimiento, formatoFecha);
-		ICU.modifiarUsuario(nickname, contrasena, nombre, apellido, email, fecha, tipoUsuario, esProfesional,
-				disciplina, web);
+		ICU.modifiarUsuario(nickname, contrasena, nombre, apellido, email, fecha, tipoUsuario, esProfesional, disciplina, web);
 	}
-
-	// VECTORES
 
 	@WebMethod
 	public Vector<String> obtenerVectorUsuarios() throws PersistenciaException {
 		return ICU.obtenerVectorUsuarios();
 	}
 
-	// OPERACIONES DE ICA
 	@WebMethod
 	public Vector<String> obtenerArrayActividadesEntrenador(String nickname) {
 		return ICA.obtenerArrayActividadesEntrenador(nickname);
@@ -116,10 +114,7 @@ public class Publicador {
 
 	@WebMethod
 	public Vector<String> obtenerArrayActividadesAceptadasEntrenador(String nickname) {
-		// System.out.println("ACT: " +
-		// ICA.obtenerArrayActividadesAceptadasEntrenador(nickname).get(0).get(0));
 		return ICA.obtenerArrayActividadesAceptadasEntrenador(nickname);
-
 	}
 
 	@WebMethod
@@ -129,10 +124,9 @@ public class Publicador {
 
 	@WebMethod
 	public void AltaActividad(String nombre, String desc, int dHoras, int costo, String lugar, String fAlta, String img, String nick) throws PersistenciaException {
-		
 		DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate fecha = LocalDate.parse(fAlta, formatoFecha);
-
+		
 		DtEntrenador ent = ICU.obtenerEntrenador(nick);
 
 		ICA.AltaActividad(nombre, desc, dHoras, costo, lugar, fecha, img, ent);
@@ -145,10 +139,11 @@ public class Publicador {
 
 	@WebMethod
 	public DtActividad obtenerActividad(String nom) {
-		DtActividad aux = ICA.obtenerActividad(nom);
-		aux.setClasesDeportivas(null);
-		aux.setEntrenador(null);
-		return aux;
+		DtActividad act = ICA.obtenerActividad(nom);
+		act.fechasToString();
+		act.setClasesDeportivas(null);
+		act.setEntrenador(null);
+		return act;
 	}
 
 	@WebMethod
@@ -165,8 +160,6 @@ public class Publicador {
 	public Vector<String> obtenerVectorActividadesAceptadas() throws PersistenciaException{
 		return ICA.obtenerVectorActividadesAceptadas();
 	}
-
-	// OPERACIONES DE ICC
 
 	@WebMethod
 	public Vector<String> obtenerClasesDeportista(String nickname) {
@@ -185,26 +178,24 @@ public class Publicador {
 
 	@WebMethod
 	public void AltaClaseDeportiva(String nombreClaseDeportiva, String fecha, String hora, String lugar, int cupo, String Act, String imagen) throws PersistenciaException, ClaseRepetidoException {
-
 		DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm");
 		LocalDate fechaClase = LocalDate.parse(fecha, formatoFecha);
+
+		DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm");
 		LocalTime horaClase = LocalTime.parse(hora, formatoHora);
 
 		DtActividad actividadClase = ICA.obtenerActividad(Act);
 
-		ICC.AltaClaseDeportiva(nombreClaseDeportiva, fechaClase, horaClase, lugar, cupo, LocalDate.now(),
-				actividadClase, imagen);
+		ICC.AltaClaseDeportiva(nombreClaseDeportiva, fechaClase, horaClase, lugar, cupo, LocalDate.now(), actividadClase, imagen);
 	}
 
 	@WebMethod
 	public DtClaseDeportiva obtenerClase(String nom) {
-
-		DtClaseDeportiva claseDep = ICC.obtenerClase(nom);
-		claseDep.setActividad(null);
-		claseDep.setInscripciones(null);
-
-		return claseDep;
+		DtClaseDeportiva cla = ICC.obtenerClase(nom);
+		cla.fechasToString();
+		cla.setActividad(null);
+		cla.setInscripciones(null);
+		return cla;
 	}
 
 	@WebMethod
@@ -225,11 +216,11 @@ public class Publicador {
 	@WebMethod
 	public boolean DeportistaEstaEnClase(String nombreDep, String NombreCla) {
 		return ICC.DeportistaEstaEnClase(nombreDep, NombreCla);
-	};
+	}
 
 	@WebMethod
 	public int CuposDisponiblesEnClase(String nomClase) {
 		return ICC.CuposDisponiblesEnClase(nomClase);
-	};
+	}
 
 }

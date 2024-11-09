@@ -19,10 +19,13 @@ public class DtClaseDeportiva {
 	private int id;
 	private String nombre;
 	private LocalDate fecha;
+	private String fechaString;
 	private LocalTime hora;
+	private String horaString;
 	private String lugar;
 	private String imagen;
 	private LocalDate fechaAlta;
+	private String fechaAltaString;
 	private int cupo;
 	private Actividad actividad;
 	private List<Inscripcion> inscripciones;
@@ -55,6 +58,15 @@ public class DtClaseDeportiva {
 		ret.setActividad(c.getActividad());
 		ret.setInscripciones(c.getInscripciones());
 		return ret;
+	}
+	
+	public void fechasToString() {
+		this.fechaString = this.fecha.toString();
+		this.fecha = null;
+		this.horaString = this.hora.toString();
+		this.hora = null;
+		this.fechaAltaString = this.fechaAlta.toString();
+		this.fechaAlta = null;
 	}
 	
 }

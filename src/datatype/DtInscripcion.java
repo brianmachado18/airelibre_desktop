@@ -16,6 +16,7 @@ public class DtInscripcion {
 
 	private int id;
 	private LocalDate fechaInscripcion;
+	private String fechaInscripcionString;
 	private int cantidadDesportistas;
 	private int costo;
 	private Deportista deportista;
@@ -41,6 +42,11 @@ public class DtInscripcion {
 		ret.setDeportista(i.getDeportista());
 		ret.setClaseDeportiva(i.getClaseDeportiva());
 		return ret;
+	}
+	
+	public void fechasToString() {
+		this.fechaInscripcionString = this.fechaInscripcion.toString();
+		this.fechaInscripcion = null;
 	}
 	
 }

@@ -24,6 +24,7 @@ public class DtActividad {
 	private int costo;
 	private String lugar;
 	private LocalDate fechaAlta;
+	private String fechaAltaString;
 	private String estado;
 	private String imagen;
 	private Entrenador entrenador;
@@ -59,6 +60,11 @@ public class DtActividad {
 		ret.setEntrenador(a.getEntrenador());
 		ret.setClasesDeportivas(a.getClasesDeportivas());
 		return ret;
+	}
+	
+	public void fechasToString() {
+		this.fechaAltaString = this.fechaAlta.toString();
+		this.fechaAlta = null;
 	}
 	
 }

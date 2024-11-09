@@ -20,6 +20,7 @@ public class DtDeportista {
 	private String apellido;
 	private String mail;
 	private LocalDate fechaNacimiento;
+	private String fechaNacimientoString;
 	private String contrasena;
 	private String imagen;
 	private boolean esProfesional;
@@ -53,6 +54,11 @@ public class DtDeportista {
 		//ret.setInscripciones(d.getInscripciones());
 		ret.setImagen(d.getImagen());
 		return ret;
+	}
+	
+	public void fechasToString() {
+		this.fechaNacimientoString = this.fechaNacimiento.toString();
+		this.fechaNacimiento = null;
 	}
 
 }
